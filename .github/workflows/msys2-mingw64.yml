@@ -13,6 +13,11 @@ jobs:
         with:
           msystem: MINGW64
           update: true
+# This is for debugging only and helps developing the workflow.
+      - name: show filesystem before build
+        run: |
+          find .
+
       - name: CI-Build
         run: |
           echo 'Running in MSYS2!'
