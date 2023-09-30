@@ -22,4 +22,4 @@ jobs:
       - name: CI-Build
         run: |
           echo 'Running in MSYS2!'
-          bash ./oolite-from-fresh-msys2-ming64.sh
+          bash ./oolite-from-fresh-msys2-mingw64.sh
