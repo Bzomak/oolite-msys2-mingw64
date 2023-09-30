@@ -2,7 +2,7 @@ name: MSYS2-MINGW64
 on: workflow_dispatch
 
 jobs:
-  msys2-ucrt64:
+  msys2-mingw64:
     runs-on: windows-latest
     defaults:
       run:
@@ -16,4 +16,4 @@ jobs:
       - name: CI-Build
         run: |
           echo 'Running in MSYS2!'
-          ./oolite-from-fresh-msys2-ming64.sh
+          bash ${GITHUB_WORKSPACE}/oolite-from-fresh-msys2-ming64.sh
