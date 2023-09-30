@@ -13,12 +13,12 @@ jobs:
         with:
           msystem: MINGW64
           update: true
-      - name: Check out the repository to the runner
-        uses: actions/checkout@v4
+#      - name: Check out the repository to the runner
+#        uses: actions/checkout@v4
 # This is for debugging only and helps developing the workflow.
-      - name: show filesystem before build
-        run: |
-          find .
+#      - name: show filesystem before build
+#        run: |
+#          find .
       - name: CI-Build
         run: |
           echo 'Running in MSYS2!'
