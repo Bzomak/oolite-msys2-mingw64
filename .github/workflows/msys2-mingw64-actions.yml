@@ -1,0 +1,51 @@
+name: MSYS2-MINGW64-ACTIONS
+on: workflow_dispatch
+
+jobs:
+  msys2-mingw64:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Set up msys2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: |
+            # Build tools
+            base-devel git mingw-w64-x86_64-gcc-objc
+            # libs-base dependencies
+            mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
+
+      - name: "Checkout tools-make"
+        uses: actions/checkout@v4
+        with:
+          repository: gnustep/tools-make
+          ref: make-2_4_0
+
+      - name: "Make and install tools-make"
+        run: |
+          cd tools-make
+          ./configure
+          make
+          make install
+          . /mingw64/System/Library/Makefiles/GNUstep.sh
+
+#      - name: "Install libs-base"
+#
+#
+#
+#
+ #     - name: "Install SDL"
+#
+#
+ #     - name: "Oolite"
+#
+#
+ #     - name: CI-Build
+  #      uses: actions/checkout@v4
+   #     run: |
+    #      echo 'Running in MSYS2!'
+     #     bash ./oolite-from-fresh-msys2-mingw64.sh
