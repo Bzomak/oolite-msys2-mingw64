@@ -16,4 +16,4 @@ jobs:
       - name: CI-Build
         run: |
           echo 'Running in MSYS2!'
-          bash ${GITHUB_WORKSPACE}/oolite-from-fresh-msys2-ming64.sh
+          bash ${PWD}/oolite-from-fresh-msys2-ming64.sh
