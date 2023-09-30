@@ -14,9 +14,9 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            # Build tools
+            : # Build tools
             base-devel git mingw-w64-x86_64-gcc-objc
-            # libs-base dependencies
+            : # libs-base dependencies
             mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
 
       - name: "Checkout tools-make"
