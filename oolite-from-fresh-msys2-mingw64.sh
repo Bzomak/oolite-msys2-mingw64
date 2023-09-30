@@ -9,15 +9,15 @@
 
 # Open msys2 mingw64
 
-# Update msys2 (May need to run twice.)
-pacman -Syu
+# Update msys2 (May need to run twice. Not needed when using msys2/setup-msys2@v2 GitHub Action)
+# pacman -Syu
 
 ###############################
 
 # Install useful tools for building
-pacman -S base-devel
-pacman -S git
-pacman -S mingw-w64-x86_64-gcc-objc
+pacman -S --noconfirm base-devel
+pacman -S --noconfirm git
+pacman -S --noconfirm mingw-w64-x86_64-gcc-objc
 
 ###############################
 
@@ -35,10 +35,10 @@ cd ..
 ###############################
 
 # Install build dependencies for GNUstep libs-base
-pacman -S mingw-w64-x86_64-libffi
-pacman -S mingw-w64-x86_64-libxml2
-pacman -S mingw-w64-x86_64-gnutls
-pacman -S mingw-w64-x86_64-icu
+pacman -S --noconfirm mingw-w64-x86_64-libffi
+pacman -S --noconfirm mingw-w64-x86_64-libxml2
+pacman -S --noconfirm mingw-w64-x86_64-gnutls
+pacman -S --noconfirm mingw-w64-x86_64-icu
 
 # Clone libs-base repo
 git clone https://github.com/gnustep/libs-base.git
@@ -67,7 +67,7 @@ tar -xf SDL-1.2.13.tar.gz
 patch -s -d SDL-1.2.13 -p1 < oolite/deps/Windows-deps/OOSDLWin32Patch/OOSDLdll_x64.patch
 
 # Install autoconf
-pacman -S autoconf
+pacman -S --noconfirm autoconf
 
 # Configure to hopefully find everything
 cd SDL-1.2.13
