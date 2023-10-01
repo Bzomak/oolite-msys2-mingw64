@@ -34,7 +34,19 @@ jobs:
           make install
           . /mingw64/System/Library/Makefiles/GNUstep.sh
 
-#      - name: "Install libs-base"
+      - name: "Checkout libs-base"
+        uses: actions/checkout@v4
+        with:
+          repository: gnustep/libs-base
+          path: libs-base
+
+      - name: "Make and install libs-base"
+        run: |
+          cd libs-base
+          ./configure
+          make
+          make install
+
 #
 #
 #
