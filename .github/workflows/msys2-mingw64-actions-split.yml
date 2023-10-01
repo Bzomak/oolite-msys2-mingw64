@@ -8,7 +8,7 @@ on: workflow_dispatch
 jobs:
   build-oolite:
     runs-on: windows-latest
-    needs: [build-tools-make, build-sdl]
+    needs: [build-tools-make, build-libs-base, build-sdl]
     defaults:
       run:
         shell: msys2 {0}
