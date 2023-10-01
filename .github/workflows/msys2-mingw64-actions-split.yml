@@ -17,7 +17,7 @@ jobs:
 # Install Build tools
 # Install libs-base dependencies
           install: |
-            base-devel git mingw-w64-x86_64-gcc-objc
+            base-devel mingw-w64-x86_64-gcc-objc
             mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
 
       - name: "Checkout tools-make"
@@ -76,7 +76,7 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            base-devel autoconf
+            base-devel autoconf mingw-w64-x86_64-gcc
 
       - name: "Download oolite-win-deps for patch"
         uses: actions/checkout@v4
