@@ -48,6 +48,17 @@ jobs:
           make
           make install
 
+      - name: "Download SDL build artifacts"
+        uses: actions/download-artifact@v3
+        with:
+          name: sdl-build
+          path: SDL-1.2.13
+
+      - name: "Install SDL"
+        run: |
+          cd SDL-1.2.13
+          make install
+
       - name: "Checkout oolite"
         uses: actions/checkout@v4
         with:
@@ -100,4 +111,10 @@ jobs:
           ./configure
           sed -i '/^EXTRA_LDFLAGS/ s/$/ -ldxerr8 -ldinput8 -lole32/' Makefile
           make
-          make install
+
+      - name: "Upload SDL build artifacts"
+        uses: actions/upload-artifact@v3
+        with:
+          name: sdl-build
+          path: SDL-1.2.13/*
+          if-no-files-found: error
