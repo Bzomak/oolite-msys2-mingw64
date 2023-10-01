@@ -19,7 +19,7 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            base-devel git mingw-w64-x86_64-gcc-objc
+            base-devel git mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
 
       - name: "Download tools-make build artifacts"
         uses: actions/download-artifact@v3
