@@ -24,6 +24,7 @@ jobs:
         with:
           repository: gnustep/tools-make
           ref: make-2_4_0
+          path: tools-make
 
       - name: "Make and install tools-make"
         run: |
