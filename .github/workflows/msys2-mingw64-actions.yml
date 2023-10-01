@@ -47,18 +47,10 @@ jobs:
           make
           make install
 
-#
-#
-#
-#
- #     - name: "Install SDL"
-#
-#
- #     - name: "Oolite"
-#
-#
- #     - name: CI-Build
-  #      uses: actions/checkout@v4
-   #     run: |
-    #      echo 'Running in MSYS2!'
-     #     bash ./oolite-from-fresh-msys2-mingw64.sh
+      - name: "Checkout oolite"
+        uses: actions/checkout@v4
+        with:
+          repository: OOliteProject/oolite
+          path: oolite
+          submodules: recursive
+
