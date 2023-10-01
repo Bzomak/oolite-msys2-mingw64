@@ -1,10 +1,14 @@
+# Workflow to compile Oolite and necessary dependencies
+
 name: MSYS2-MINGW64-ACTIONS-SPLIT
 on: workflow_dispatch
+
+########################################
 
 jobs:
   build-oolite:
     runs-on: windows-latest
-    needs: [build-sdl]
+    needs: [build-tools-make, build-sdl]
     defaults:
       run:
         shell: msys2 {0}
@@ -14,38 +18,30 @@ jobs:
         with:
           msystem: MINGW64
           update: true
-# Install Build tools
-# Install libs-base dependencies
           install: |
-            base-devel mingw-w64-x86_64-gcc-objc
-            mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
+            base-devel git mingw-w64-x86_64-gcc-objc
 
-      - name: "Checkout tools-make"
-        uses: actions/checkout@v4
+      - name: "Download tools-make build artifacts"
+        uses: actions/download-artifact@v3
         with:
-          repository: gnustep/tools-make
-          ref: make-2_4_0
+          name: tools-make
           path: tools-make
 
-      - name: "Make and install tools-make"
+      - name: "Install tools-make"
         run: |
           cd tools-make
-          ./configure
-          make
           make install
 
-      - name: "Checkout libs-base"
-        uses: actions/checkout@v4
+      - name: "Download libs-base build artifacts"
+        uses: actions/download-artifact@v3
         with:
-          repository: gnustep/libs-base
+          name: libs-base
           path: libs-base
 
-      - name: "Make and install libs-base"
+      - name: "Install libs-base"
         run: |
-          . /mingw64/System/Library/Makefiles/GNUstep.sh
           cd libs-base
-          ./configure
-          make
+          . /mingw64/System/Library/Makefiles/GNUstep.sh
           make install
 
       - name: "Download SDL build artifacts"
@@ -75,6 +71,92 @@ jobs:
           . /mingw64/System/Library/Makefiles/GNUstep.sh
           make -f Makefile release
 
+########################################
+
+  build-tools-make:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Set up msys2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: |
+            base-devel mingw-w64-x86_64-gcc-objc
+
+      - name: "Checkout tools-make"
+        uses: actions/checkout@v4
+        with:
+          repository: gnustep/tools-make
+          ref: make-2_4_0
+          path: tools-make
+
+      - name: "Make and install tools-make"
+        run: |
+          cd tools-make
+          ./configure
+          make
+
+      - name: "Upload tools-make build artifacts"
+        uses: actions/upload-artifact@v3
+        with:
+          name: tools-make
+          path: tools-make/*
+          if-no-files-found: error
+
+########################################
+
+  build-libs-base:
+    runs-on: windows-latest
+    needs: [build-tools-make]
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Set up msys2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: |
+            base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
+
+      - name: "Download tools-make build artifacts"
+        uses: actions/download-artifact@v3
+        with:
+          name: tools-make
+          path: tools-make
+
+      - name: "Install tools-make"
+        run: |
+          cd tools-make
+          make install
+
+      - name: "Checkout libs-base"
+        uses: actions/checkout@v4
+        with:
+          repository: gnustep/libs-base
+          path: libs-base
+
+      - name: "Make and install libs-base"
+        run: |
+          . /mingw64/System/Library/Makefiles/GNUstep.sh
+          cd libs-base
+          ./configure
+          make
+
+      - name: "Upload libs-base build artifacts"
+        uses: actions/upload-artifact@v3
+        with:
+          name: libs-base
+          path: libs-base/*
+          if-no-files-found: error
+
+########################################
+
   build-sdl:
     runs-on: windows-latest
     defaults:
@@ -99,7 +181,7 @@ jobs:
         run: |
           wget https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
           tar -xf SDL-1.2.13.tar.gz
-    
+
       - name: "Apply Oolte patch to SDL"
         run: |
           patch -s -d SDL-1.2.13 -p1 < Windows-deps/OOSDLWin32Patch/OOSDLdll_x64.patch
