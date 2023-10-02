@@ -23,6 +23,20 @@ jobs:
             mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
             autoconf
 
+      - name: "Download and build SDL"
+        uses: Bzomak/oolite-msys2-mingw64/.github/workflows/build-sdl.yml
+
+      - name: "Download SDL build artifacts"
+        uses: actions/download-artifact@v3
+        with:
+            name: sdl-build
+            path: SDL-1.2.13
+            
+      - name: "Install SDL"
+        run: |
+            cd SDL-1.2.13
+            make install
+
       - name: "Checkout tools-make"
         uses: actions/checkout@v4
         with:
@@ -57,23 +71,6 @@ jobs:
           repository: OOliteProject/oolite
           path: oolite
           submodules: recursive
-
-      - name: "Checkout local repository"
-        uses: actions/checkout@v4
-
-      - name: "Download and build SDL"
-        uses: ./.github/workflows/build-sdl.yml
-
-      - name: "Download SDL build artifacts"
-        uses: actions/download-artifact@v3
-        with:
-          name: sdl-build
-          path: SDL-1.2.13
-          
-      - name: "Install SDL"
-        run: |
-          cd SDL-1.2.13
-          make install
 
       - name: "Configure and build Oolite"
         run: |
