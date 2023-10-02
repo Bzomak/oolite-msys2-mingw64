@@ -1,0 +1,83 @@
+# Workflow to compile Oolite
+
+name: BUILD-OOLITE
+on: [workflow_dispatch, workflow_call]
+
+jobs:
+  build-oolite:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Set up msys2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+# Install Build tools
+# Install libs-base dependencies
+# Install build dep for SDL
+          install: |
+            base-devel git mingw-w64-x86_64-gcc-objc
+            mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
+            autoconf
+
+      - name: "Checkout tools-make"
+        uses: actions/checkout@v4
+        with:
+          repository: gnustep/tools-make
+          ref: make-2_4_0
+          path: tools-make
+
+      - name: "Make and install tools-make"
+        run: |
+          cd tools-make
+          ./configure
+          make
+          make install
+
+      - name: "Checkout libs-base"
+        uses: actions/checkout@v4
+        with:
+          repository: gnustep/libs-base
+          path: libs-base
+
+      - name: "Make and install libs-base"
+        run: |
+          . /mingw64/System/Library/Makefiles/GNUstep.sh
+          cd libs-base
+          ./configure
+          make
+          make install
+
+      - name: "Checkout oolite"
+        uses: actions/checkout@v4
+        with:
+          repository: OOliteProject/oolite
+          path: oolite
+          submodules: recursive
+
+      - name: "Download and build SDL"
+        uses: ./.github/workflows/build-sdl.yml
+
+      - name: "Download SDL build artifacts"
+        uses: actions/download-artifact@v3
+        with:
+          name: sdl-build
+          path: SDL-1.2.13
+          
+      - name: "Install SDL"
+        run: |
+          cd SDL-1.2.13
+          make install
+
+      - name: "Configure and build Oolite"
+        run: |
+          cd oolite
+          sed -i '36 s/$/ -fobjc-exceptions -fcommon/' GNUMakefile
+          sed -i '25 s/^#//' GNUMakefile
+          sed -i '33 s/-l$(JS_IMPORT_LIBRARY) /-L$(JS_LIB_DIR) &/' GNUMakefile
+          . /mingw64/System/Library/Makefiles/GNUstep.sh
+          make -f Makefile release
+    
