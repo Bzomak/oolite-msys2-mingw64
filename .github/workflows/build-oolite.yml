@@ -24,7 +24,7 @@ jobs:
             autoconf
 
       - name: "Download and build SDL"
-        uses: Bzomak/oolite-msys2-mingw64/.github/workflows/build-sdl.yml
+        uses: Bzomak/oolite-msys2-mingw64/.github/workflows/build-sdl.yml@main
 
       - name: "Download SDL build artifacts"
         uses: actions/download-artifact@v3
