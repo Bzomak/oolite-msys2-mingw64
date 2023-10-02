@@ -58,6 +58,9 @@ jobs:
           path: oolite
           submodules: recursive
 
+      - name: "Checkout local repository"
+        uses: actions/checkout@v4
+
       - name: "Download and build SDL"
         uses: ./.github/workflows/build-sdl.yml
 
