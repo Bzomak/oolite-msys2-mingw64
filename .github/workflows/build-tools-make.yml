@@ -31,13 +31,6 @@ jobs:
           ./configure
           make
 
-#      - name: "Upload tools-make build artifacts"
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: tools-make
-#          path: tools-make/*
-#          if-no-files-found: error
-
       - name: "Cache tools-make build"
         uses: actions/cache@v3
         with:

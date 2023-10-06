@@ -21,22 +21,24 @@ jobs:
           install: |
             base-devel git mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
 
-      - name: "Download tools-make build artifacts"
-        uses: actions/download-artifact@v3
+      - name: "Retrieve tools-make cache"
+        uses: actions/cache@v3
         with:
-          name: tools-make
           path: tools-make
+          key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
 
       - name: "Install tools-make"
         run: |
           cd tools-make
           make install
 
-      - name: "Download libs-base build artifacts"
-        uses: actions/download-artifact@v3
+      - name: "Retrieve libs-base cache"
+        uses: actions/cache@v3
         with:
-          name: libs-base
           path: libs-base
+          key: cache-libs-base-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
 
       - name: "Install libs-base"
         run: |
@@ -44,11 +46,12 @@ jobs:
           . /mingw64/System/Library/Makefiles/GNUstep.sh
           make install
 
-      - name: "Download SDL build artifacts"
-        uses: actions/download-artifact@v3
+      - name: "Retrieve SDL cache"
+        uses: actions/cache@v3
         with:
-          name: sdl-build
           path: SDL-1.2.13
+          key: cache-sdl-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
 
       - name: "Install SDL"
         run: |
@@ -100,13 +103,12 @@ jobs:
           ./configure
           make
 
-      - name: "Upload tools-make build artifacts"
-        uses: actions/upload-artifact@v3
+      - name: "Cache tools-make build"
+        uses: actions/cache@v3
         with:
-          name: tools-make
-          path: tools-make/*
-          if-no-files-found: error
-
+          path: tools-make
+          key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
+  
 ########################################
 
   build-libs-base:
@@ -124,12 +126,13 @@ jobs:
           install: |
             base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
 
-      - name: "Download tools-make build artifacts"
-        uses: actions/download-artifact@v3
+      - name: "Retrieve tools-make cache"
+        uses: actions/cache@v3
         with:
-          name: tools-make
           path: tools-make
-
+          key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
+    
       - name: "Install tools-make"
         run: |
           cd tools-make
@@ -148,13 +151,12 @@ jobs:
           ./configure
           make
 
-      - name: "Upload libs-base build artifacts"
-        uses: actions/upload-artifact@v3
+      - name: "Cache libs-base build"
+        uses: actions/cache@v3
         with:
-          name: libs-base
-          path: libs-base/*
-          if-no-files-found: error
-
+          path: libs-base
+          key: cache-libs-base-${{ github.run_id }}-${{ github.run_attempt }}
+  
 ########################################
 
   build-sdl:
@@ -194,9 +196,8 @@ jobs:
           sed -i '/^EXTRA_LDFLAGS/ s/$/ -ldxerr8 -ldinput8 -lole32/' Makefile
           make
 
-      - name: "Upload SDL build artifacts"
-        uses: actions/upload-artifact@v3
+      - name: "Cache SDL build"
+        uses: actions/cache@v3
         with:
-          name: sdl-build
-          path: SDL-1.2.13/*
-          if-no-files-found: error
+          path: SDL-1.2.13
+          key: cache-sdl-${{ github.run_id }}-${{ github.run_attempt }}

@@ -19,12 +19,6 @@ jobs:
           install: |
             base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
 
-#      - name: "Download tools-make build artifacts"
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: tools-make
-#          path: tools-make
-
       - name: "Retrieve tools-make cache"
         uses: actions/cache@v3
         with:
@@ -49,13 +43,6 @@ jobs:
           cd libs-base
           ./configure
           make
-
-#      - name: "Upload libs-base build artifacts"
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: libs-base
-#          path: libs-base/*
-#          if-no-files-found: error
 
       - name: "Cache libs-base build"
         uses: actions/cache@v3
