@@ -26,7 +26,7 @@ jobs:
 #          path: tools-make
 
       - name: "Retrieve tools-make cache"
-        uses: actions/cache:v3
+        uses: actions/cache@v3
         with:
           path: tools-make
           key: cache-${{ github.run_id }}-${{ github.run_attempt }}
