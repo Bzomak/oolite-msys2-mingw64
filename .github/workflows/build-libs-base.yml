@@ -19,11 +19,18 @@ jobs:
           install: |
             base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
 
-      - name: "Download tools-make build artifacts"
-        uses: actions/download-artifact@v3
+#      - name: "Download tools-make build artifacts"
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: tools-make
+#          path: tools-make
+
+      - name: "Retrieve tools-make cache"
+        uses: actions/cache:v3
         with:
-          name: tools-make
           path: tools-make
+          key: cache-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
 
       - name: "Install tools-make"
         run: |
