@@ -94,7 +94,7 @@ jobs:
           ref: make-2_4_0
           path: tools-make
 
-      - name: "Make and install tools-make"
+      - name: "Configure and build tools-make"
         run: |
           cd tools-make
           ./configure
@@ -141,7 +141,7 @@ jobs:
           repository: gnustep/libs-base
           path: libs-base
 
-      - name: "Make and install libs-base"
+      - name: "Configure and build libs-base"
         run: |
           . /mingw64/System/Library/Makefiles/GNUstep.sh
           cd libs-base

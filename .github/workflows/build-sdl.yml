@@ -24,17 +24,10 @@ jobs:
           repository: OoliteProject/oolite-windows-dependencies
           path: Windows-deps
 
-#      - name: "Download and extract SDL"
-#        run: |
-#          wget https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
-#          tar -xf SDL-1.2.13.tar.gz
-
-      - name: "Checkout SDL"
-        uses: actions/checkout@v4
-        with:
-          repository: libsdl-org/SDL-1.2
-          ref: release-1.2.13
-          path: SDL-1.2.13
+      - name: "Download and extract SDL"
+        run: |
+          wget https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
+          tar -xf SDL-1.2.13.tar.gz
 
       - name: "Apply Oolte patch to SDL"
         run: |

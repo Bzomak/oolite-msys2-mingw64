@@ -28,7 +28,7 @@ jobs:
           ref: make-2_4_0
           path: tools-make
 
-      - name: "Make and install tools-make"
+      - name: "Configure, build and install tools-make"
         run: |
           cd tools-make
           ./configure
@@ -41,7 +41,7 @@ jobs:
           repository: gnustep/libs-base
           path: libs-base
 
-      - name: "Make and install libs-base"
+      - name: "Configure, build and install libs-base"
         run: |
           . /mingw64/System/Library/Makefiles/GNUstep.sh
           cd libs-base
@@ -52,7 +52,7 @@ jobs:
       - name: "Checkout oolite"
         uses: actions/checkout@v4
         with:
-          repository: OOliteProject/oolite
+          repository: OoliteProject/oolite
           path: oolite
           submodules: recursive
 
@@ -65,7 +65,7 @@ jobs:
         run: |
           patch -s -d SDL-1.2.13 -p1 < oolite/deps/Windows-deps/OOSDLWin32Patch/OOSDLdll_x64.patch
 
-      - name: "Configure and build SDL"
+      - name: "Configure, build and install SDL"
         run: |
           cd SDL-1.2.13
           ./autogen.sh
