@@ -158,4 +158,4 @@ jobs:
 ########################################
 
   build-sdl:
-    uses: Bzomak/oolite-msys2-mingw64/.github/workflows/build-sdl.yml@main
+    uses: ./.github/workflows/build-sdl.yml
