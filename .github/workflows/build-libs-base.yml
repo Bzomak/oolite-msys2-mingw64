@@ -29,7 +29,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: tools-make
-          key: cache-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
           fail-on-cache-miss: true
 
       - name: "Install tools-make"
@@ -50,12 +50,19 @@ jobs:
           ./configure
           make
 
-      - name: "Upload libs-base build artifacts"
-        uses: actions/upload-artifact@v3
+#      - name: "Upload libs-base build artifacts"
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: libs-base
+#          path: libs-base/*
+#          if-no-files-found: error
+
+      - name: "Cache libs-base build"
+        uses: actions/cache@v3
         with:
-          name: libs-base
-          path: libs-base/*
-          if-no-files-found: error
+          path: libs-base
+          key: cache-libs-base-${{ github.run_id }}-${{ github.run_attempt }}
+
 
 ########################################
 

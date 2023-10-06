@@ -21,22 +21,36 @@ jobs:
           install: |
             base-devel git mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
 
-      - name: "Download tools-make build artifacts"
-        uses: actions/download-artifact@v3
+#      - name: "Download tools-make build artifacts"
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: tools-make
+#          path: tools-make
+
+      - name: "Retrieve tools-make cache"
+        uses: actions/cache@v3
         with:
-          name: tools-make
           path: tools-make
+          key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
 
       - name: "Install tools-make"
         run: |
           cd tools-make
           make install
 
-      - name: "Download libs-base build artifacts"
-        uses: actions/download-artifact@v3
+#      - name: "Download libs-base build artifacts"
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: libs-base
+#          path: libs-base
+
+      - name: "Retrieve libs-base cache"
+        uses: actions/cache@v3
         with:
-          name: libs-base
           path: libs-base
+          key: cache-libs-base-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
 
       - name: "Install libs-base"
         run: |
@@ -44,11 +58,18 @@ jobs:
           . /mingw64/System/Library/Makefiles/GNUstep.sh
           make install
 
-      - name: "Download SDL build artifacts"
-        uses: actions/download-artifact@v3
+#      - name: "Download SDL build artifacts"
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: sdl-build
+#          path: SDL-1.2.13
+
+      - name: "Retrieve SDL cache"
+        uses: actions/cache@v3
         with:
-          name: sdl-build
           path: SDL-1.2.13
+          key: cache-sdl-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
 
       - name: "Install SDL"
         run: |
