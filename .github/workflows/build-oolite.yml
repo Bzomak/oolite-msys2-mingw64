@@ -74,86 +74,12 @@ jobs:
 ########################################
 
   build-tools-make:
-    runs-on: windows-latest
-    defaults:
-      run:
-        shell: msys2 {0}
-    steps:
-      - name: "Set up msys2"
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: MINGW64
-          update: true
-          install: |
-            base-devel mingw-w64-x86_64-gcc-objc
-
-      - name: "Checkout tools-make"
-        uses: actions/checkout@v4
-        with:
-          repository: gnustep/tools-make
-          ref: make-2_4_0
-          path: tools-make
-
-      - name: "Configure and build tools-make"
-        run: |
-          cd tools-make
-          ./configure
-          make
-
-      - name: "Upload tools-make build artifacts"
-        uses: actions/upload-artifact@v3
-        with:
-          name: tools-make
-          path: tools-make/*
-          if-no-files-found: error
+    uses: ./.github/workflows/build-tools-make.yml
 
 ########################################
 
   build-libs-base:
-    runs-on: windows-latest
-    needs: [build-tools-make]
-    defaults:
-      run:
-        shell: msys2 {0}
-    steps:
-      - name: "Set up msys2"
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: MINGW64
-          update: true
-          install: |
-            base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
-
-      - name: "Download tools-make build artifacts"
-        uses: actions/download-artifact@v3
-        with:
-          name: tools-make
-          path: tools-make
-
-      - name: "Install tools-make"
-        run: |
-          cd tools-make
-          make install
-
-      - name: "Checkout libs-base"
-        uses: actions/checkout@v4
-        with:
-          repository: gnustep/libs-base
-          path: libs-base
-
-      - name: "Configure and build libs-base"
-        run: |
-          . /mingw64/System/Library/Makefiles/GNUstep.sh
-          cd libs-base
-          ./configure
-          make
-
-      - name: "Upload libs-base build artifacts"
-        uses: actions/upload-artifact@v3
-        with:
-          name: libs-base
-          path: libs-base/*
-          if-no-files-found: error
+    uses: ./.github/workflows/build-libs-base.yml
 
 ########################################
 
