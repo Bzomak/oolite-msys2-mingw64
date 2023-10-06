@@ -28,6 +28,7 @@ jobs:
       - name: "Configure and build tools-make"
         run: |
             cd tools-make
+            sed -i 's/ --recheck//' GNUMakefile.in
             ./configure
             make
 
