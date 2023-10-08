@@ -27,8 +27,8 @@ git clone https://github.com/gnustep/tools-make.git  --branch=make-2_4_0
 # Make and Install gnumake
 cd tools-make
 ./configure
-make
-make install
+make -j $(nproc)
+make -j $(nproc) install
 . /mingw64/System/Library/Makefiles/GNUstep.sh
 cd ..
 
@@ -46,8 +46,8 @@ git clone https://github.com/gnustep/libs-base.git
 # Make and install libs-base
 cd libs-base
 ./configure
-make
-make install
+make -j $(nproc)
+make -j $(nproc) install
 cd ..
 
 ###############################
@@ -78,8 +78,8 @@ cd SDL-1.2.13
 sed -i '/^EXTRA_LDFLAGS/ s/$/ -ldxerr8 -ldinput8 -lole32/' Makefile
 
 # Make
-make
-make install
+make -j $(nproc)
+make -j $(nproc) install
 cd ..
 
 ###############################
@@ -101,7 +101,7 @@ sed -i '25 s/^#//' GNUMakefile
 sed -i '33 s/-l$(JS_IMPORT_LIBRARY) /-L$(JS_LIB_DIR) &/' GNUMakefile
 
 # Try to build
-make -f Makefile release
+make -j $(nproc) -f Makefile release
 
 ###############################
 ###############################
