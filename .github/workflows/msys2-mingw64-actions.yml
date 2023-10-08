@@ -32,8 +32,8 @@ jobs:
         run: |
           cd tools-make
           ./configure
-          make
-          make install
+          make -j $(nproc)
+          make -j $(nproc) install
 
       - name: "Checkout libs-base"
         uses: actions/checkout@v4
@@ -46,8 +46,8 @@ jobs:
           . /mingw64/System/Library/Makefiles/GNUstep.sh
           cd libs-base
           ./configure
-          make
-          make install
+          make -j $(nproc)
+          make -j $(nproc) install
 
       - name: "Checkout oolite"
         uses: actions/checkout@v4
@@ -71,8 +71,8 @@ jobs:
           ./autogen.sh
           ./configure
           sed -i '/^EXTRA_LDFLAGS/ s/$/ -ldxerr8 -ldinput8 -lole32/' Makefile
-          make
-          make install
+          make -j $(nproc)
+          make -j $(nproc) install
 
       - name: "Configure and build Oolite"
         run: |
@@ -81,4 +81,4 @@ jobs:
           sed -i '25 s/^#//' GNUMakefile
           sed -i '33 s/-l$(JS_IMPORT_LIBRARY) /-L$(JS_LIB_DIR) &/' GNUMakefile
           . /mingw64/System/Library/Makefiles/GNUstep.sh
-          make -f Makefile release
+          make -j $(nproc) -f Makefile release

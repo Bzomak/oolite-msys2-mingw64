@@ -39,7 +39,7 @@ jobs:
           ./autogen.sh
           ./configure
           sed -i '/^EXTRA_LDFLAGS/ s/$/ -ldxerr8 -ldinput8 -lole32/' Makefile
-          make
+          make -j $(nproc)
 
       - name: "Cache SDL build"
         uses: actions/cache@v3

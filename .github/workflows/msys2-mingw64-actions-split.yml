@@ -31,7 +31,7 @@ jobs:
       - name: "Install tools-make"
         run: |
           cd tools-make
-          make install
+          make -j $(nproc) install
 
       - name: "Retrieve libs-base cache"
         uses: actions/cache@v3
@@ -44,7 +44,7 @@ jobs:
         run: |
           cd libs-base
           . /mingw64/System/Library/Makefiles/GNUstep.sh
-          make install
+          make -j $(nproc) install
 
       - name: "Retrieve SDL cache"
         uses: actions/cache@v3
@@ -56,7 +56,7 @@ jobs:
       - name: "Install SDL"
         run: |
           cd SDL-1.2.13
-          make install
+          make -j $(nproc) install
 
       - name: "Checkout oolite"
         uses: actions/checkout@v4
@@ -72,7 +72,7 @@ jobs:
           sed -i '25 s/^#//' GNUMakefile
           sed -i '33 s/-l$(JS_IMPORT_LIBRARY) /-L$(JS_LIB_DIR) &/' GNUMakefile
           . /mingw64/System/Library/Makefiles/GNUstep.sh
-          make -f Makefile release
+          make -j $(nproc) -f Makefile release
 
 ########################################
 
@@ -101,7 +101,7 @@ jobs:
         run: |
           cd tools-make
           ./configure
-          make
+          make -j $(nproc)
 
       - name: "Cache tools-make build"
         uses: actions/cache@v3
@@ -136,7 +136,7 @@ jobs:
       - name: "Install tools-make"
         run: |
           cd tools-make
-          make install
+          make -j $(nproc) install
 
       - name: "Checkout libs-base"
         uses: actions/checkout@v4
@@ -149,7 +149,7 @@ jobs:
           . /mingw64/System/Library/Makefiles/GNUstep.sh
           cd libs-base
           ./configure
-          make
+          make -j $(nproc)
 
       - name: "Cache libs-base build"
         uses: actions/cache@v3
@@ -194,7 +194,7 @@ jobs:
           ./autogen.sh
           ./configure
           sed -i '/^EXTRA_LDFLAGS/ s/$/ -ldxerr8 -ldinput8 -lole32/' Makefile
-          make
+          make -j $(nproc)
 
       - name: "Cache SDL build"
         uses: actions/cache@v3
