@@ -5,6 +5,7 @@ on: [workflow_dispatch, workflow_call]
 
 jobs:
   build-libs-base:
+    name: Build libs-base
     runs-on: windows-latest
     needs: [build-tools-make]
     defaults:

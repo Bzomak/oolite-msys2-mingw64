@@ -5,6 +5,7 @@ on: [workflow_dispatch, workflow_call]
 
 jobs:
   build-sdl:
+    name: Build SDL
     runs-on: windows-latest
     defaults:
       run:

@@ -5,6 +5,7 @@ on: [workflow_dispatch, workflow_call]
 
 jobs:
   build-tools-make:
+    name: Build tools-make
     runs-on: windows-latest
     defaults:
       run:
