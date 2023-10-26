@@ -5,7 +5,7 @@ on: [workflow_dispatch, workflow_call]
 
 jobs:
   build-sdl:
-    name: Build SDL
+    name: Build SDL v1.2.13 patched
     runs-on: windows-latest
     defaults:
       run:
@@ -43,7 +43,7 @@ jobs:
           make -j $(nproc)
 
       - name: "Cache SDL build"
-        uses: actions/cache@v3
+        uses: actions/cache/save@v3
         with:
           path: SDL-1.2.13
           key: cache-sdl-${{ github.run_id }}-${{ github.run_attempt }}

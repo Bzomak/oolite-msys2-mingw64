@@ -5,7 +5,7 @@ on: [workflow_dispatch, workflow_call]
 
 jobs:
   build-tools-make:
-    name: Build tools-make
+    name: Build tools-make v2.4.0
     runs-on: windows-latest
     defaults:
       run:
@@ -33,7 +33,7 @@ jobs:
           make -j $(nproc)
 
       - name: "Cache tools-make build"
-        uses: actions/cache@v3
+        uses: actions/cache/save@v3
         with:
           path: tools-make
           key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}

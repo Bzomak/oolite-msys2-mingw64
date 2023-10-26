@@ -7,6 +7,7 @@ on: workflow_dispatch
 
 jobs:
   build-oolite:
+    name: Build Oolite
     runs-on: windows-latest
     needs: [build-tools-make, build-libs-base, build-sdl]
     defaults:
@@ -22,7 +23,7 @@ jobs:
             base-devel git mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
 
       - name: "Retrieve tools-make cache"
-        uses: actions/cache@v3
+        uses: actions/cache/restore@v3
         with:
           path: tools-make
           key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
@@ -34,7 +35,7 @@ jobs:
           make -j $(nproc) install
 
       - name: "Retrieve libs-base cache"
-        uses: actions/cache@v3
+        uses: actions/cache/restore@v3
         with:
           path: libs-base
           key: cache-libs-base-${{ github.run_id }}-${{ github.run_attempt }}
@@ -47,7 +48,7 @@ jobs:
           make -j $(nproc) install
 
       - name: "Retrieve SDL cache"
-        uses: actions/cache@v3
+        uses: actions/cache/restore@v3
         with:
           path: SDL-1.2.13
           key: cache-sdl-${{ github.run_id }}-${{ github.run_attempt }}
@@ -61,7 +62,7 @@ jobs:
       - name: "Checkout oolite"
         uses: actions/checkout@v4
         with:
-          repository: OOliteProject/oolite
+          repository: OoliteProject/oolite
           path: oolite
           submodules: recursive
 
@@ -77,6 +78,7 @@ jobs:
 ########################################
 
   build-tools-make:
+    name: Build tools-make v2.4.0
     runs-on: windows-latest
     defaults:
       run:
@@ -104,7 +106,7 @@ jobs:
           make -j $(nproc)
 
       - name: "Cache tools-make build"
-        uses: actions/cache@v3
+        uses: actions/cache/save@v3
         with:
           path: tools-make
           key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
@@ -112,6 +114,7 @@ jobs:
 ########################################
 
   build-libs-base:
+    name: Build libs-base v1.29.0
     runs-on: windows-latest
     needs: [build-tools-make]
     defaults:
@@ -127,7 +130,7 @@ jobs:
             base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
 
       - name: "Retrieve tools-make cache"
-        uses: actions/cache@v3
+        uses: actions/cache/restore@v3
         with:
           path: tools-make
           key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
@@ -142,6 +145,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: gnustep/libs-base
+          ref: base-1_29_0
           path: libs-base
 
       - name: "Configure and build libs-base"
@@ -152,7 +156,7 @@ jobs:
           make -j $(nproc)
 
       - name: "Cache libs-base build"
-        uses: actions/cache@v3
+        uses: actions/cache/save@v3
         with:
           path: libs-base
           key: cache-libs-base-${{ github.run_id }}-${{ github.run_attempt }}
@@ -160,6 +164,7 @@ jobs:
 ########################################
 
   build-sdl:
+    name: Build SDL v1.2.13 patched
     runs-on: windows-latest
     defaults:
       run:
@@ -197,7 +202,7 @@ jobs:
           make -j $(nproc)
 
       - name: "Cache SDL build"
-        uses: actions/cache@v3
+        uses: actions/cache/restore@v3
         with:
           path: SDL-1.2.13
           key: cache-sdl-${{ github.run_id }}-${{ github.run_attempt }}

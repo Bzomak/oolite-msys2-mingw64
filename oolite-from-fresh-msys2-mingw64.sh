@@ -41,7 +41,7 @@ pacman -S --noconfirm mingw-w64-x86_64-gnutls
 pacman -S --noconfirm mingw-w64-x86_64-icu
 
 # Clone libs-base repo
-git clone https://github.com/gnustep/libs-base.git
+git clone https://github.com/gnustep/libs-base.git --branch=base-1_29_0
 
 # Make and install libs-base
 cd libs-base

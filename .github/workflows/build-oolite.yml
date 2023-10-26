@@ -23,7 +23,7 @@ jobs:
             base-devel git mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
 
       - name: "Retrieve tools-make cache"
-        uses: actions/cache@v3
+        uses: actions/cache/restore@v3
         with:
           path: tools-make
           key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
@@ -35,7 +35,7 @@ jobs:
           make -j $(nproc) install
 
       - name: "Retrieve libs-base cache"
-        uses: actions/cache@v3
+        uses: actions/cache/restore@v3
         with:
           path: libs-base
           key: cache-libs-base-${{ github.run_id }}-${{ github.run_attempt }}
@@ -48,7 +48,7 @@ jobs:
           make -j $(nproc) install
 
       - name: "Retrieve SDL cache"
-        uses: actions/cache@v3
+        uses: actions/cache/restore@v3
         with:
           path: SDL-1.2.13
           key: cache-sdl-${{ github.run_id }}-${{ github.run_attempt }}
@@ -62,7 +62,7 @@ jobs:
       - name: "Checkout oolite"
         uses: actions/checkout@v4
         with:
-          repository: OOliteProject/oolite
+          repository: OoliteProject/oolite
           path: oolite
           submodules: recursive
 
