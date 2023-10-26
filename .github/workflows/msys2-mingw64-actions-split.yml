@@ -204,7 +204,7 @@ jobs:
           make -j $(nproc)
 
       - name: "Cache SDL build"
-        uses: actions/cache/restore@v3
+        uses: actions/cache/save@v3
         with:
           path: SDL-1.2.13
           key: cache-sdl-${{ github.run_id }}-${{ github.run_attempt }}
