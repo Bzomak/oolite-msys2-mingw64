@@ -5,7 +5,7 @@ on: [workflow_dispatch, workflow_call]
 
 jobs:
   build-tools-make:
-    name: Build tools-make v2.4.0
+    name: Build tools-make latest
     runs-on: windows-latest
     defaults:
       run:
@@ -23,7 +23,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: gnustep/tools-make
-          ref: make-2_4_0
           path: tools-make
 
       - name: "Configure and build tools-make"

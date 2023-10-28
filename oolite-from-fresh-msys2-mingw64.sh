@@ -21,15 +21,15 @@ pacman -S --noconfirm mingw-w64-x86_64-gcc-objc
 
 ###############################
 
-# Clone tools-make repo - latest release didn't seem to set the GNUSTEP variables properly so using v2.4.0
-git clone https://github.com/gnustep/tools-make.git  --branch=make-2_4_0
+# Clone tools-make repo
+git clone https://github.com/gnustep/tools-make.git
 
 # Make and Install gnumake
 cd tools-make
 ./configure
 make -j $(nproc)
 make -j $(nproc) install
-. /mingw64/System/Library/Makefiles/GNUstep.sh
+. /mingw64/share/GNUstep/Makefiles/GNUstep.sh
 cd ..
 
 ###############################
@@ -40,7 +40,7 @@ pacman -S --noconfirm mingw-w64-x86_64-libxml2
 pacman -S --noconfirm mingw-w64-x86_64-gnutls
 pacman -S --noconfirm mingw-w64-x86_64-icu
 
-# Clone libs-base repo
+# Clone libs-base repo - Using latest - Needs https://github.com/gnustep/libs-base/pull/295
 git clone https://github.com/gnustep/libs-base.git
 
 # Make and install libs-base
