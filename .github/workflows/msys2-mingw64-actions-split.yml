@@ -165,6 +165,49 @@ jobs:
   
 ########################################
 
+  test-libs-base:
+    name: Test libs-base
+    runs-on: windows-latest
+    needs: [build-tools-make, build-libs-base]
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Set up msys2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: |
+            base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
+
+      - name: "Retrieve tools-make cache"
+        uses: actions/cache/restore@v3
+        with:
+          path: tools-make
+          key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
+
+      - name: "Install tools-make"
+        run: |
+          cd tools-make
+          make -j $(nproc) install
+
+      - name: "Retrieve libs-base cache"
+        uses: actions/cache/restore@v3
+        with:
+          path: libs-base
+          key: cache-libs-base-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
+
+      - name: "Test libs-base"
+        run: |
+          . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
+          cd libs-base
+          make -j $(nproc) check
+
+########################################
+
   build-sdl:
     name: Build SDL v1.2.13 patched
     runs-on: windows-latest
