@@ -44,7 +44,7 @@ jobs:
       - name: "Install libs-base"
         run: |
           cd libs-base
-          . /mingw64/System/Library/Makefiles/GNUstep.sh
+          . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
           make -j $(nproc) install
 
       - name: "Retrieve SDL cache"
@@ -152,7 +152,7 @@ jobs:
 
       - name: "Configure and build libs-base"
         run: |
-          . /mingw64/System/Library/Makefiles/GNUstep.sh
+          . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
           cd libs-base
           ./configure
           make -j $(nproc)
