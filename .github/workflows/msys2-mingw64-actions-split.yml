@@ -20,7 +20,7 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            base-devel git mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
+            base-devel git mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu mingw-w64-x86_64-libxslt
 
       - name: "Retrieve tools-make cache"
         uses: actions/cache/restore@v3
@@ -126,7 +126,7 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
+            base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu mingw-w64-x86_64-libxslt
 
       - name: "Retrieve tools-make cache"
         uses: actions/cache/restore@v3
@@ -221,7 +221,7 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu
+            base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu mingw-w64-x86_64-libxslt
 
       - name: "Retrieve tools-make cache"
         uses: actions/cache/restore@v3
