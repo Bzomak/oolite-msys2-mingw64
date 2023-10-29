@@ -1,0 +1,262 @@
+# Workflow to compile Oolite and necessary dependencies
+
+name: MSYS2-CLANG64-ACTIONS-SPLIT
+on: workflow_dispatch
+
+########################################
+
+jobs:
+  build-oolite:
+    name: Build Oolite
+    runs-on: windows-latest
+    needs: [build-tools-make, build-libs-base, build-sdl]
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Set up msys2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: CLANG64
+          update: true
+          install: |
+            base-devel mingw-w64-clang-x86_64-toolchain mingw-w64-clang-x86_64-libffi mingw-w64-clang-x86_64-libxml2 mingw-w64-clang-x86_64-gnutls mingw-w64-clang-x86_64-icu mingw-w64-clang-x86_64-libxslt
+
+      - name: "Retrieve tools-make cache"
+        uses: actions/cache/restore@v3
+        with:
+          path: tools-make
+          key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
+
+      - name: "Install tools-make"
+        run: |
+          cd tools-make
+          make -j $(nproc) install
+
+      - name: "Retrieve libs-base cache"
+        uses: actions/cache/restore@v3
+        with:
+          path: libs-base
+          key: cache-libs-base-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
+
+      - name: "Install libs-base"
+        run: |
+          cd libs-base
+          . /CLANG64/share/GNUstep/Makefiles/GNUstep.sh
+          make -j $(nproc) install
+
+      - name: "Retrieve SDL cache"
+        uses: actions/cache/restore@v3
+        with:
+          path: SDL-1.2.13
+          key: cache-sdl-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
+
+      - name: "Install SDL"
+        run: |
+          cd SDL-1.2.13
+          make -j $(nproc) install
+
+      - name: "Checkout oolite"
+        uses: actions/checkout@v4
+        with:
+          repository: OoliteProject/oolite
+          path: oolite
+          submodules: recursive
+
+      - name: "Configure and build Oolite"
+        run: |
+          cd oolite
+          sed -i '36 s/$/ -fobjc-exceptions -fcommon/' GNUMakefile
+          sed -i '25 s/^#//' GNUMakefile
+          sed -i '33 s/-l$(JS_IMPORT_LIBRARY) /-L$(JS_LIB_DIR) &/' GNUMakefile
+          . /CLANG64/share/GNUstep/Makefiles/GNUstep.sh
+          make -j $(nproc) -f Makefile release
+
+########################################
+
+  build-tools-make:
+    name: Build tools-make latest
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Set up msys2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: CLANG64
+          update: true
+          install: |
+            base-devel mingw-w64-clang-x86_64-toolchain
+
+      - name: "Checkout tools-make"
+        uses: actions/checkout@v4
+        with:
+          repository: gnustep/tools-make
+          path: tools-make
+
+      - name: "Configure and build tools-make"
+        run: |
+          cd tools-make
+          ./configure
+          make -j $(nproc)
+
+      - name: "Cache tools-make build"
+        uses: actions/cache/save@v3
+        with:
+          path: tools-make
+          key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
+  
+########################################
+
+  build-libs-base:
+    name: Build libs-base latest
+    runs-on: windows-latest
+    needs: [build-tools-make]
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Set up msys2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: CLANG64
+          update: true
+          install: |
+            base-devel mingw-w64-clang-x86_64-toolchain mingw-w64-clang-x86_64-libffi mingw-w64-clang-x86_64-libxml2 mingw-w64-clang-x86_64-gnutls mingw-w64-clang-x86_64-icu mingw-w64-clang-x86_64-libxslt
+
+      - name: "Retrieve tools-make cache"
+        uses: actions/cache/restore@v3
+        with:
+          path: tools-make
+          key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
+    
+      - name: "Install tools-make"
+        run: |
+          cd tools-make
+          make -j $(nproc) install
+
+      - name: "Checkout libs-base"
+        uses: actions/checkout@v4
+        with:
+          repository: gnustep/libs-base
+          path: libs-base
+
+      - name: "Configure and build libs-base"
+        run: |
+          . /CLANG64/share/GNUstep/Makefiles/GNUstep.sh
+          cd libs-base
+          ./configure
+          make -j $(nproc)
+
+      - name: "Cache libs-base build"
+        uses: actions/cache/save@v3
+        with:
+          path: libs-base
+          key: cache-libs-base-${{ github.run_id }}-${{ github.run_attempt }}
+  
+########################################
+
+  build-sdl:
+    name: Build SDL v1.2.13 patched
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Set up msys2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: CLANG64
+          update: true
+          install: |
+            base-devel autoconf mingw-w64-clang-x86_64-toolchain
+
+      - name: "Download oolite-win-deps for patch"
+        uses: actions/checkout@v4
+        with:
+          repository: OoliteProject/oolite-windows-dependencies
+          path: Windows-deps
+
+      - name: "Download and extract SDL"
+        run: |
+          wget https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
+          tar -xf SDL-1.2.13.tar.gz
+
+      - name: "Apply Oolte patch to SDL"
+        run: |
+          patch -s -d SDL-1.2.13 -p1 < Windows-deps/OOSDLWin32Patch/OOSDLdll_x64.patch
+
+      - name: "Configure and build SDL"
+        run: |
+          cd SDL-1.2.13
+          ./autogen.sh
+          ./configure
+          sed -i '/^EXTRA_LDFLAGS/ s/$/ -ldxerr8 -ldinput8 -lole32/' Makefile
+          make -j $(nproc)
+
+      - name: "Cache SDL build"
+        uses: actions/cache/save@v3
+        with:
+          path: SDL-1.2.13
+          key: cache-sdl-${{ github.run_id }}-${{ github.run_attempt }}
+
+########################################
+
+  test-libs-base:
+    name: Test libs-base
+    runs-on: windows-latest
+    needs: [build-tools-make, build-libs-base]
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Set up msys2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: CLANG64
+          update: true
+          install: |
+            base-devel mingw-w64-clang-x86_64-toolchain mingw-w64-clang-x86_64-libffi mingw-w64-clang-x86_64-libxml2 mingw-w64-clang-x86_64-gnutls mingw-w64-clang-x86_64-icu mingw-w64-clang-x86_64-libxslt
+
+      - name: "Retrieve tools-make cache"
+        uses: actions/cache/restore@v3
+        with:
+          path: tools-make
+          key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
+
+      - name: "Install tools-make"
+        run: |
+          cd tools-make
+          make -j $(nproc) install
+
+      - name: "Retrieve libs-base cache"
+        uses: actions/cache/restore@v3
+        with:
+          path: libs-base
+          key: cache-libs-base-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
+
+      - name: "Install libs-base"
+        run: |
+          cd libs-base
+          . /CLANG64/share/GNUstep/Makefiles/GNUstep.sh
+          make -j $(nproc) install
+
+      - name: "Test libs-base"
+        run: |
+          . /CLANG64/share/GNUstep/Makefiles/GNUstep.sh
+          cd libs-base
+          make -j $(nproc) check
+
+      - name: Upload tests.log
+        uses: actions/upload-artifact@v3
+        with:
+          name: test.log
+          path: |
+            libs-base/Tests/tests.log
