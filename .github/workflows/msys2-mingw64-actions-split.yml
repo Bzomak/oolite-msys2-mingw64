@@ -20,6 +20,9 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
+    strategy:
+      matrix:
+        build_type: [release, release-deployment, release-snapshot, debug]
     steps:
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
@@ -83,7 +86,7 @@ jobs:
           sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUMakefile
           sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUmakefile.postamble 
           . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
-          make -j $(nproc) -f Makefile release
+          make -j $(nproc) -f Makefile ${{ matrix.build_type }}
 
 ########################################
 
