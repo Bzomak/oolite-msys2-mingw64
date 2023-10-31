@@ -263,3 +263,39 @@ jobs:
           name: test.log
           path: |
             libs-base/Tests/tests.log
+
+########################################
+
+  test-sdl:
+    name: Test SDL
+    runs-on: windows-latest
+    needs: [build-sdl]
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Set up msys2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: |
+            base-devel autoconf mingw-w64-x86_64-gcc
+
+      - name: "Retrieve SDL cache"
+        uses: actions/cache/restore@v3
+        with:
+          path: SDL-1.2.13
+          key: cache-sdl-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
+
+      - name: "Install SDL"
+        run: |
+          cd SDL-1.2.13
+          make -j $(nproc) install
+
+      - name: "Build SDL tests"
+        run: |
+          cd SDL-1.2.13/test
+          ./configure
+          make -j $(nproc)
