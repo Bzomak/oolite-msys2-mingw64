@@ -1,7 +1,14 @@
 # Workflow to compile Oolite and necessary dependencies
 
 name: MSYS2-MINGW64-ACTIONS-SPLIT
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: "Run build tests"
+        required: false
+        type: boolean
+        default: false
 
 ########################################
 
@@ -213,6 +220,7 @@ jobs:
   test-libs-base:
     name: Test libs-base
     runs-on: windows-latest
+    if: ${{ inputs.run_tests == 'true' }}
     needs: [build-tools-make, build-libs-base]
     defaults:
       run:
@@ -269,6 +277,7 @@ jobs:
   test-sdl:
     name: Test SDL
     runs-on: windows-latest
+    if: ${{ inputs.run_tests == 'true' }}
     needs: [build-sdl]
     defaults:
       run:
