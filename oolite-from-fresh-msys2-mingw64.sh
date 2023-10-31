@@ -39,6 +39,7 @@ pacman -S --noconfirm mingw-w64-x86_64-libffi
 pacman -S --noconfirm mingw-w64-x86_64-libxml2
 pacman -S --noconfirm mingw-w64-x86_64-gnutls
 pacman -S --noconfirm mingw-w64-x86_64-icu
+pacman -S --noconfirm mingw-w64-x86_64-libxslt
 
 # Clone libs-base repo - Using latest - Needs https://github.com/gnustep/libs-base/pull/295
 git clone https://github.com/gnustep/libs-base.git
