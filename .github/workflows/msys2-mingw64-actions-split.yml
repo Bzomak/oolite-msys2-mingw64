@@ -221,7 +221,7 @@ jobs:
   test-libs-base:
     name: Test libs-base
     runs-on: windows-latest
-    if: ${{ inputs.run_tests == 'true' }}
+    if: ${{ inputs.run_tests }}
     needs: [build-tools-make, build-libs-base]
     defaults:
       run:
@@ -278,7 +278,7 @@ jobs:
   test-sdl:
     name: Test SDL
     runs-on: windows-latest
-    if: ${{ inputs.run_tests == 'true' }}
+    if: ${{ inputs.run_tests }}
     needs: [build-sdl]
     defaults:
       run:
