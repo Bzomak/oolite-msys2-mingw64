@@ -104,6 +104,11 @@ sed -i '25 s/^#//' GNUMakefile
 # Add JS_LIB_DIR to ADDITIONAL_OBJC_LIBS
 sed -i '33 s/-l$(JS_IMPORT_LIBRARY) /-L$(JS_LIB_DIR) &/' GNUMakefile
 
+# Use tool.make instead of objc.make
+sed -i '452 s/objc.make/tool.make/' GNUMakefile
+sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUMakefile
+sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUmakefile.postamble
+
 # Try to build
 make -j $(nproc) -f Makefile release
 

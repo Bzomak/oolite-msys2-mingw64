@@ -72,7 +72,9 @@ jobs:
           sed -i '36 s/$/ -fobjc-exceptions -fcommon/' GNUMakefile
           sed -i '25 s/^#//' GNUMakefile
           sed -i '33 s/-l$(JS_IMPORT_LIBRARY) /-L$(JS_LIB_DIR) &/' GNUMakefile
-          . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
+          sed -i '452 s/objc.make/tool.make/' GNUMakefile
+          sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUMakefile
+          sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUmakefile.postamble          . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
           make -j $(nproc) -f Makefile release
 
 ########################################
