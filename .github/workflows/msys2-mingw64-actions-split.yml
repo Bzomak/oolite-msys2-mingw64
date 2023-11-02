@@ -29,6 +29,9 @@ jobs:
         build_type: [release, release-deployment, release-snapshot, debug]
       fail-fast: false
     steps:
+      - name: "Checkout this repository"
+        uses: actions/checkout@v3
+
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
@@ -117,6 +120,9 @@ jobs:
         build_type: [release, release-deployment, release-snapshot, debug]
       fail-fast: false
     steps:
+      - name: "Checkout this repository"
+        uses: actions/checkout@v3
+
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
@@ -297,6 +303,9 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
+      - name: "Checkout this repository"
+        uses: actions/checkout@v3
+
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
@@ -354,6 +363,9 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
+      - name: "Checkout this repository"
+        uses: actions/checkout@v3
+        
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
