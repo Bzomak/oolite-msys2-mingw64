@@ -90,6 +90,7 @@ jobs:
           sed -i '452 s/objc.make/tool.make/' GNUMakefile
           sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUMakefile
           sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUmakefile.postamble 
+          sed -i 's/pkg-win/pkg-win-release/' Makefile
           . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
           make -j $(nproc) -f Makefile ${{ matrix.build_type }}
 
@@ -122,7 +123,7 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            base-devel mingw-w64-x86_64-nsis
+            base-devel git mingw-w64-x86_64-nsis
 
       - name: "Retrieve tools-make cache"
         uses: actions/cache/restore@v3
@@ -143,10 +144,9 @@ jobs:
           key: cache-oolite-${{ matrix.build_type }}-${{ github.run_id }}-${{ github.run_attempt }}
           fail-on-cache-miss: true
 
-      - name: "Edit Makefile and build installers"
+      - name: "Build installers"
         run: |
           cd oolite
-          sed -i 's/pkg-win/pkg-win-release/' Makefile
           . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
           make -j $(nproc) -f Makefile pkg-win-${{ matrix.build_type }}
 
