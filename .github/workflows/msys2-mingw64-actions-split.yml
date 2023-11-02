@@ -344,7 +344,7 @@ jobs:
       - name: Upload tests.log
         uses: actions/upload-artifact@v3
         with:
-          name: test.log
+          name: libs-base_test.log
           path: |
             libs-base/Tests/tests.log
 
