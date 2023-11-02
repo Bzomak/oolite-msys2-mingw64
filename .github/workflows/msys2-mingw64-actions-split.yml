@@ -9,10 +9,14 @@ on:
         required: false
         type: boolean
         default: false
+jobs:
 
 ########################################
+########################################
+########################################
 
-jobs:
+# Build Oolite and it's installers
+
   build-oolite:
     name: Build Oolite
     runs-on: windows-latest
@@ -23,6 +27,7 @@ jobs:
     strategy:
       matrix:
         build_type: [release, release-deployment, release-snapshot, debug]
+      fail-fast: false
     steps:
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
@@ -88,7 +93,64 @@ jobs:
           . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
           make -j $(nproc) -f Makefile ${{ matrix.build_type }}
 
+      - name: "Cache Oolite build"
+        uses: actions/cache/save@v3
+        with:
+          path: oolite
+          key: cache-oolite-${{ matrix.build_type }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+
 ########################################
+
+# Build the installers.
+
+  build-oolite-installers:
+    name: Build Oolite installers
+    runs-on: windows-latest
+    needs: [build-tools-make, build-oolite]
+    strategy:
+      matrix:
+        build_type: [release, release-deployment, release-snapshot, debug]
+      fail-fast: false
+    steps:
+      - name: "Set up msys2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: |
+            base-devel mingw-w64-x86_64-nsis
+
+      - name: "Retrieve tools-make cache"
+        uses: actions/cache/restore@v3
+        with:
+          path: tools-make
+          key: cache-tools-make-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
+    
+      - name: "Install tools-make"
+        run: |
+          cd tools-make
+          make -j $(nproc) install
+          
+      - name: "Retrieve Oolite cache"
+        uses: actions/cache/restore@v3
+        with:
+          path: oolite
+          key: cache-oolite-${{ matrix.build_type }}-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
+
+      - name: "Edit Makefile and build installers"
+        run: |
+          sed -i 's/pkg-win/pkg-win-release/' Makefile
+          make -j $(nproc) -f Makefile pkg-win-${{ matrix.build_type }}
+
+
+########################################
+########################################
+########################################
+
+# Build the dependencies that need to be installed to build Oolite.
 
   build-tools-make:
     name: Build tools-make latest
@@ -220,6 +282,11 @@ jobs:
           key: cache-sdl-${{ github.run_id }}-${{ github.run_attempt }}
 
 ########################################
+########################################
+########################################
+
+# Test the dependencies.
+# These jobs only run if the build jobs have been successful and the run_tests input is true.
 
   test-libs-base:
     name: Test libs-base
@@ -312,3 +379,5 @@ jobs:
           cd SDL-1.2.13/test
           ./configure
           make -j $(nproc)
+
+ ########################################
