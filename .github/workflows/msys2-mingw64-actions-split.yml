@@ -142,6 +142,7 @@ jobs:
 
       - name: "Edit Makefile and build installers"
         run: |
+          cd oolite
           sed -i 's/pkg-win/pkg-win-release/' Makefile
           make -j $(nproc) -f Makefile pkg-win-${{ matrix.build_type }}
 
