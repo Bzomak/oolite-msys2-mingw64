@@ -108,6 +108,9 @@ jobs:
     name: Build Oolite installers
     runs-on: windows-latest
     needs: [build-tools-make, build-oolite]
+    defaults:
+      run:
+        shell: msys2 {0}
     strategy:
       matrix:
         build_type: [release, release-deployment, release-snapshot, debug]
