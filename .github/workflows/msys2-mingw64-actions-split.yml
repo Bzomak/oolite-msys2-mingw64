@@ -164,6 +164,9 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
+      - name: "Checkout this repository"
+        uses: actions/checkout@v3
+
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
@@ -180,9 +183,7 @@ jobs:
 
       - name: "Configure and build tools-make"
         run: |
-          cd tools-make
-          ./configure
-          make -j $(nproc)
+          bash ./tools-make-build.sh
 
       - name: "Cache tools-make build"
         uses: actions/cache/save@v3
@@ -200,6 +201,9 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
+      - name: "Checkout this repository"
+        uses: actions/checkout@v3
+
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
@@ -228,11 +232,7 @@ jobs:
 
       - name: "Configure and build libs-base"
         run: |
-          . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
-          cd libs-base
-          sed -i '330 s/NSPropertyListXMLFormat_v1_0/NSPropertyListOpenStepFormat/' Source/NSUserDefaults.m
-          ./configure
-          make -j $(nproc)
+          bash ./libs-base-build.sh
 
       - name: "Cache libs-base build"
         uses: actions/cache/save@v3
@@ -249,6 +249,9 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
+      - name: "Checkout this repository"
+        uses: actions/checkout@v3
+
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
@@ -268,17 +271,9 @@ jobs:
           wget https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
           tar -xf SDL-1.2.13.tar.gz
 
-      - name: "Apply Oolte patch to SDL"
-        run: |
-          patch -s -d SDL-1.2.13 -p1 < Windows-deps/OOSDLWin32Patch/OOSDLdll_x64.patch
-
       - name: "Configure and build SDL"
         run: |
-          cd SDL-1.2.13
-          ./autogen.sh
-          ./configure
-          sed -i '/^EXTRA_LDFLAGS/ s/$/ -ldxerr8 -ldinput8 -lole32/' Makefile
-          make -j $(nproc)
+          bash ./sdl-build.sh
 
       - name: "Cache SDL build"
         uses: actions/cache/save@v3
