@@ -174,8 +174,11 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-#      - name: "Check for pre-existing tools-make cache"
-      - id: cache
+      - name: "Checkout this repository"
+        uses: actions/checkout@v3
+
+      - name: "Check for pre-existing tools-make cache"
+        id: check-cache
         uses: actions/cache/restore@v3
         with:
           path: tools-make
@@ -183,14 +186,11 @@ jobs:
           lookup-only: true
 
       - name: "Early exit if cache exists"
-        if: steps.cache.outputs.cache-hit == 'true' 
+        if: steps.check-cache.outputs.cache-hit == 'true' 
         run: |
           echo "tools-make cache exists, exiting early"
           exit 0
-
-      - name: "Checkout this repository"
-        uses: actions/checkout@v3
-
+          
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
