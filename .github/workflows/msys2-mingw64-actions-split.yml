@@ -133,7 +133,7 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            base-devel git mingw-w64-x86_64-nsis
+            base-devel git mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-nsis
 
       - name: "Retrieve tools-make cache"
         uses: actions/cache/restore@v3
@@ -145,6 +145,18 @@ jobs:
       - name: "Install tools-make"
         run: |
           cd tools-make
+          make -j $(nproc) install
+          
+      - name: "Retrieve SDL cache"
+        uses: actions/cache/restore@v3
+        with:
+          path: SDL-1.2.13
+          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/sdl-build.sh') }}
+          fail-on-cache-miss: true
+
+      - name: "Install SDL"
+        run: |
+          cd SDL-1.2.13
           make -j $(nproc) install
           
       - name: "Retrieve Oolite cache"
