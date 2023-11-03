@@ -168,7 +168,7 @@ jobs:
 # Build the dependencies that need to be installed to build Oolite.
 
   build-tools-make:
-    name: Build tools-make latest
+    name: Build tools-make
     runs-on: windows-latest
     defaults:
       run:
@@ -224,7 +224,7 @@ jobs:
 ########################################
 
   build-libs-base:
-    name: Build libs-base latest
+    name: Build libs-base
     runs-on: windows-latest
     needs: [build-tools-make]
     defaults:
@@ -234,7 +234,23 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v3
 
+      - name: "Check for pre-existing libs-base cache"
+        id: check-cache
+        uses: actions/cache/restore@v3
+        with:
+          path: libs-base
+          key: cache-libs-base-${{ env.LIBS_MAKE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
+          lookup-only: true
+
+      - name: "Early exit if cache exists"
+        id: early-exit
+        if: steps.check-cache.outputs.cache-hit == 'true' 
+        shell: bash
+        run: |
+          echo "libs-base cache exists, exiting early"
+
       - name: "Set up msys2"
+        if: steps.early-exit.conclusion != 'success'  
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -243,6 +259,7 @@ jobs:
             base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu mingw-w64-x86_64-libxslt
 
       - name: "Retrieve tools-make cache"
+        if: steps.early-exit.conclusion != 'success'  
         uses: actions/cache/restore@v3
         with:
           path: tools-make
@@ -250,11 +267,13 @@ jobs:
           fail-on-cache-miss: true
     
       - name: "Install tools-make"
+        if: steps.early-exit.conclusion != 'success'  
         run: |
           cd tools-make
           make -j $(nproc) install
 
       - name: "Checkout libs-base"
+        if: steps.early-exit.conclusion != 'success'  
         uses: actions/checkout@v4
         with:
           repository: gnustep/libs-base
@@ -262,10 +281,12 @@ jobs:
           ref: ${{ env.LIBS_MAKE_VERSION }}
 
       - name: "Configure and build libs-base"
+        if: steps.early-exit.conclusion != 'success'  
         run: |
           bash ./libs-base-build.sh
 
       - name: "Cache libs-base build"
+        if: steps.early-exit.conclusion != 'success'  
         uses: actions/cache/save@v3
         with:
           path: libs-base
@@ -274,7 +295,7 @@ jobs:
 ########################################
 
   build-sdl:
-    name: Build SDL v1.2.13 patched
+    name: Build SDL
     runs-on: windows-latest
     defaults:
       run:
@@ -283,7 +304,23 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v3
 
+      - name: "Check for pre-existing SDL cache"
+        id: check-cache
+        uses: actions/cache/restore@v3
+        with:
+          path: SDL-1.2.13
+          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/sdl-build.sh') }}
+          lookup-only: true
+
+      - name: "Early exit if cache exists"
+        id: early-exit
+        if: steps.check-cache.outputs.cache-hit == 'true' 
+        shell: bash
+        run: |
+          echo "SDL cache exists, exiting early"
+
       - name: "Set up msys2"
+        if: steps.early-exit.conclusion != 'success'  
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -291,22 +328,26 @@ jobs:
           install: |
             base-devel autoconf mingw-w64-x86_64-gcc
 
-      - name: "Download oolite-win-deps for patch"
+      - name: "Download oolite-win-deps SDL patch"
+        if: steps.early-exit.conclusion != 'success'  
         uses: actions/checkout@v4
         with:
           repository: OoliteProject/oolite-windows-dependencies
           path: Windows-deps
 
       - name: "Download and extract SDL"
+        if: steps.early-exit.conclusion != 'success'  
         run: |
           wget ${{ env.SDL_VERSION }}
           tar -xf SDL-1.2.13.tar.gz
 
       - name: "Configure and build SDL"
+        if: steps.early-exit.conclusion != 'success'  
         run: |
           bash ./sdl-build.sh
 
       - name: "Cache SDL build"
+        if: steps.early-exit.conclusion != 'success'  
         uses: actions/cache/save@v3
         with:
           path: SDL-1.2.13
