@@ -186,13 +186,14 @@ jobs:
           lookup-only: true
 
       - name: "Early exit if cache exists"
+        id: early-exit
         if: steps.check-cache.outputs.cache-hit == 'true' 
         shell: bash
         run: |
           echo "tools-make cache exists, exiting early"
-          exit 1
 
       - name: "Set up msys2"
+        if: steps.early-exit.conclusion != 'success'  
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -201,6 +202,7 @@ jobs:
             base-devel mingw-w64-x86_64-gcc-objc
 
       - name: "Checkout tools-make"
+        if: steps.early-exit.conclusion != 'success'  
         uses: actions/checkout@v4
         with:
           repository: gnustep/tools-make
@@ -208,10 +210,12 @@ jobs:
           ref: ${{ env.TOOLS_MAKE_VERSION }}
 
       - name: "Configure and build tools-make"
+        if: steps.early-exit.conclusion != 'success'  
         run: |
           bash ./tools-make-build.sh
 
       - name: "Cache tools-make build"
+        if: steps.early-exit.conclusion != 'success'  
         uses: actions/cache/save@v3
         with:
           path: tools-make
