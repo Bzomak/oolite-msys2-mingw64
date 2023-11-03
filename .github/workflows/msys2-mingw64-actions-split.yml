@@ -10,8 +10,8 @@ on:
         type: boolean
         default: false
 env:
-  TOOLS_MAKE_VERSION: HEAD
-  LIBS_MAKE_VERSION: HEAD
+  TOOLS_MAKE_VERSION: make-2_9_1
+  LIBS_MAKE_VERSION: refs/heads/master
   SDL_VERSION: https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
 jobs:
 
