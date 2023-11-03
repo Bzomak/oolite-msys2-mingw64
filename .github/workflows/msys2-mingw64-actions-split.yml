@@ -334,6 +334,7 @@ jobs:
         with:
           repository: OoliteProject/oolite-windows-dependencies
           path: Windows-deps
+          sparse-checkout: OOSDLWin32Patch/
 
       - name: "Download and extract SDL"
         if: steps.early-exit.conclusion != 'success'  
