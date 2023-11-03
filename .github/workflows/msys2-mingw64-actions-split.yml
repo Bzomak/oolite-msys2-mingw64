@@ -174,6 +174,18 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
+      - name: "Check for pre-existing tools-make cache"
+        id: check_cache
+        uses: actions/cache/restore@v3
+        with:
+          path: tools-make
+          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/tools-make-build.sh') }}
+          lookup-only: true
+
+      - name: "Early exit if cache exists"
+        if: steps.check_cache.outputs.cache-hit == 'true'
+        run: exit 0
+
       - name: "Checkout this repository"
         uses: actions/checkout@v3
 
