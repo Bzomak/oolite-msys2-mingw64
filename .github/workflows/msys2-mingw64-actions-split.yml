@@ -11,7 +11,7 @@ on:
         default: false
 env:
   TOOLS_MAKE_VERSION: make-2_9_1
-  LIBS_MAKE_VERSION: refs/heads/master
+  LIBS_MAKE_VERSION: 1942313dea27ceafa3bb107c427be813094c04e3
   SDL_VERSION: https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
 jobs:
 
