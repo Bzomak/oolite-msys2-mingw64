@@ -9,6 +9,10 @@ on:
         required: false
         type: boolean
         default: false
+env:
+  TOOLS_MAKE_VERSION: HEAD
+  LIBS_MAKE_VERSION: HEAD
+  SDL_VERSION: https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
 jobs:
 
 ########################################
@@ -44,7 +48,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/tools-make-build.sh') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/tools-make-build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install tools-make"
@@ -56,7 +60,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/libs-base-build.sh') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-libs-base-${{ env.LIBS_MAKE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install libs-base"
@@ -69,7 +73,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/sdl-build.sh') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/sdl-build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install SDL"
@@ -135,7 +139,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/tools-make-build.sh') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/tools-make-build.sh') }}
           fail-on-cache-miss: true
     
       - name: "Install tools-make"
@@ -186,6 +190,7 @@ jobs:
         with:
           repository: gnustep/tools-make
           path: tools-make
+          ref: ${{ env.TOOLS_MAKE_VERSION }}
 
       - name: "Configure and build tools-make"
         run: |
@@ -195,7 +200,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/tools-make-build.sh') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/tools-make-build.sh') }}
   
 ########################################
 
@@ -222,7 +227,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/tools-make-build.sh') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/tools-make-build.sh') }}
           fail-on-cache-miss: true
     
       - name: "Install tools-make"
@@ -235,6 +240,7 @@ jobs:
         with:
           repository: gnustep/libs-base
           path: libs-base
+          ref: ${{ env.LIBS_MAKE_VERSION }}
 
       - name: "Configure and build libs-base"
         run: |
@@ -244,7 +250,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/libs-base-build.sh') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-libs-base-${{ env.LIBS_MAKE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
   
 ########################################
 
@@ -274,7 +280,7 @@ jobs:
 
       - name: "Download and extract SDL"
         run: |
-          wget https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
+          wget ${{ env.SDL_VERSION }}
           tar -xf SDL-1.2.13.tar.gz
 
       - name: "Configure and build SDL"
@@ -285,7 +291,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/sdl-build.sh') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/sdl-build.sh') }}
 
 ########################################
 ########################################
@@ -318,7 +324,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/tools-make-build.sh') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/tools-make-build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install tools-make"
@@ -330,7 +336,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/libs-base-build.sh') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-libs-base-${{ env.LIBS_MAKE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install libs-base"
@@ -365,7 +371,7 @@ jobs:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v3
-        
+
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
@@ -378,7 +384,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/sdl-build.sh') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/sdl-build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install SDL"
