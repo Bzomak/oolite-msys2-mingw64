@@ -184,7 +184,9 @@ jobs:
 
       - name: "Early exit if cache exists"
         if: steps.check_cache.outputs.cache-hit == 'true'
-        run: exit 0
+        run: |
+          echo "tools-make cache exists, exiting early"
+          exit 0
 
       - name: "Checkout this repository"
         uses: actions/checkout@v3
