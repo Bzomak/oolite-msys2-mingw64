@@ -189,8 +189,8 @@ jobs:
         if: steps.check-cache.outputs.cache-hit == 'true' 
         run: |
           echo "tools-make cache exists, exiting early"
-          exit 0
-          
+          bash exit 0
+
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
