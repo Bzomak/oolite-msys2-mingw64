@@ -34,7 +34,7 @@ jobs:
       fail-fast: false
     steps:
       - name: "Checkout this repository"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
@@ -125,7 +125,7 @@ jobs:
       fail-fast: false
     steps:
       - name: "Checkout this repository"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
@@ -200,7 +200,7 @@ jobs:
         shell: msys2 {0}
     steps:
       - name: "Checkout this repository"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: "Check for pre-existing tools-make cache"
         id: check-cache
@@ -257,7 +257,7 @@ jobs:
         shell: msys2 {0}
     steps:
       - name: "Checkout this repository"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: "Check for pre-existing libs-base cache"
         id: check-cache
@@ -327,7 +327,7 @@ jobs:
         shell: msys2 {0}
     steps:
       - name: "Checkout this repository"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: "Check for pre-existing SDL cache"
         id: check-cache
@@ -396,7 +396,7 @@ jobs:
         shell: msys2 {0}
     steps:
       - name: "Checkout this repository"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
@@ -456,7 +456,7 @@ jobs:
         shell: msys2 {0}
     steps:
       - name: "Checkout this repository"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
