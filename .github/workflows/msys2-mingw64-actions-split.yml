@@ -19,7 +19,7 @@ jobs:
 ########################################
 ########################################
 
-# Build Oolite and it's installers
+# Build Oolite and its installers
 
   build-oolite:
     name: Build Oolite
@@ -30,7 +30,7 @@ jobs:
         shell: msys2 {0}
     strategy:
       matrix:
-        build_type: [release, release-deployment, release-snapshot, debug]
+        build_type: [debug, release, release-deployment, release-snapshot]
       fail-fast: false
     steps:
       - name: "Checkout this repository"
@@ -115,13 +115,13 @@ jobs:
   build-oolite-installers:
     name: Build Oolite installers
     runs-on: windows-latest
-    needs: [build-tools-make, build-oolite]
+    needs: [build-tools-make, build-libs-base, build-sdl, build-oolite]
     defaults:
       run:
         shell: msys2 {0}
     strategy:
       matrix:
-        build_type: [release, release-deployment, release-snapshot, debug]
+        build_type: [release, release-deployment, release-snapshot]
       fail-fast: false
     steps:
       - name: "Checkout this repository"
@@ -133,7 +133,7 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            base-devel git mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-nsis
+            base-devel git mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu mingw-w64-x86_64-libxslt mingw-w64-x86_64-nsis
 
       - name: "Retrieve tools-make cache"
         uses: actions/cache/restore@v3
@@ -147,6 +147,19 @@ jobs:
           cd tools-make
           make -j $(nproc) install
           
+      - name: "Retrieve libs-base cache"
+        uses: actions/cache/restore@v3
+        with:
+          path: libs-base
+          key: cache-libs-base-${{ env.LIBS_MAKE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
+          fail-on-cache-miss: true
+
+      - name: "Install libs-base"
+        run: |
+          cd libs-base
+          . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
+          make -j $(nproc) install
+
       - name: "Retrieve SDL cache"
         uses: actions/cache/restore@v3
         with:
