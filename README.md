@@ -15,4 +15,4 @@ Download the oolite-from-fresh-msys2-mingw64.sh script from this repository into
 
 ## GitHub Actions
 
-We also try to build all Oolite Windows targets using GitHub Actions, splitting each dependency into its own build job.
+We also try to build all Oolite Windows targets using a GitHub Actions matrix strategy, splitting each dependency into its own build job to parallise building where possible.
