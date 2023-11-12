@@ -124,8 +124,8 @@ cp /mingw64/bin/libgcc_s_seh-1.dll ./oolite.app/
 cp /mingw64/bin/libffi-8.dll ./oolite.app/
 cp /mingw64/bin/libgnutls-30.dll ./oolite.app/
 cp /mingw64/bin/libwinpthread-1.dll ./oolite.app/
-cp /mingw64/bin/libicuin73.dll ./oolite.app/
-cp /mingw64/bin/libicuuc73.dll ./oolite.app/
+cp /mingw64/bin/libicuin74.dll ./oolite.app/
+cp /mingw64/bin/libicuuc74.dll ./oolite.app/
 cp /mingw64/bin/libxslt-1.dll ./oolite.app/
 cp /mingw64/bin/libbrotlidec.dll ./oolite.app/
 cp /mingw64/bin/libbrotlienc.dll ./oolite.app/
@@ -139,8 +139,9 @@ cp /mingw64/bin/libp11-kit-0.dll ./oolite.app/
 cp /mingw64/bin/libunistring-5.dll ./oolite.app/
 cp /mingw64/bin/libzstd.dll ./oolite.app/
 cp /mingw64/bin/libstdc++-6.dll ./oolite.app/
-cp /mingw64/bin/libicudt73.dll ./oolite.app/
+cp /mingw64/bin/libicudt74.dll ./oolite.app/
 cp /mingw64/bin/libbrotlicommon.dll ./oolite.app/
+cp /mingw64/bin/liblzma-5.dll ./oolite.app/
 
 # Copy these dlls to the oolite.app folder, overwriting the ones that are already there
 cp /mingw64/bin/SDL.dll ./oolite.app/
