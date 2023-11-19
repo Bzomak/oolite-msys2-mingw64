@@ -18,12 +18,11 @@
 
         - name: List Oolite caches
           run: |
-            gh cache list | grep cache-oolite | awk '{print $2}'
+            gh cache list | grep cache-oolite | awk '{print $2}' > cache-list.txt
 
         - name: Delete Oolite caches
           run: |
-            echo $OOLITE_CACHE_LIST
-            foreach ($cache in $(cat $OOLITE_CACHE_LIST)) {gh cache delete $cache}
+            foreach ($cache in $(cat cache-list.txt) {gh cache delete $cache}
 
         - name: List caches
           run: |
