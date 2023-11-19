@@ -510,8 +510,8 @@ jobs:
 
       - name: "Delete Oolite caches"
         run: |
-          echo ${{ env.OOLITE_CACHE_LIST }}
-          for cache in $(cat ${{ env.OOLITE_CACHE_LIST }}); do gh cache delete $cache; done
+            echo $OOLITE_CACHE_LIST
+            foreach ($cache in $(cat $OOLITE_CACHE_LIST)) {gh cache delete $cache}
 
       - name: "List caches"
         run: |
