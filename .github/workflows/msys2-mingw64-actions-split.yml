@@ -497,10 +497,10 @@ jobs:
     runs-on: windows-latest
     if: always()
     needs: [build-oolite, build-oolite-installers]
-    strategy:
-      matrix:
-        build_type: [debug, release, release-deployment, release-snapshot]
-      fail-fast: false
+#    strategy:
+#      matrix:
+#        build_type: [debug, release, release-deployment, release-snapshot]
+#      fail-fast: false
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -513,7 +513,7 @@ jobs:
 
       - name: "Delete Oolite caches"
         run: |
-          gh cache delete cache-oolite-${{ matrix.build_type }}-${{ github.run_id }}-${{ github.run_attempt }}
+          gh cache delete cache-oolite-*
 
       - name: "List caches"
         run: |
