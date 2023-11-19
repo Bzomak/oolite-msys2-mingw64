@@ -499,14 +499,14 @@ jobs:
     needs: [build-oolite, build-oolite-installers]
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      OOLITE_CACHE_LIST:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
       - name: "List Oolite caches"
         run: |
-          gh cache list | grep cache-oolite | awk '{print $2}' >> ${{ env.OOLITE_CACHE_LIST }}
+          OOLITE_CACHE_LIST = $(gh cache list | grep cache-oolite | awk '{print $2}')
+          echo "OOLITE_CACHE_LIST=$OOLITE_CACHE_LIST" >> $GITHUB_ENV
 
       - name: "Delete Oolite caches"
         run: |
