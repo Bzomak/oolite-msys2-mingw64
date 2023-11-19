@@ -497,6 +497,8 @@ jobs:
     runs-on: windows-latest
     if: always()
     needs: [build-oolite, build-oolite-installers]
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: "List caches"
         run: |
