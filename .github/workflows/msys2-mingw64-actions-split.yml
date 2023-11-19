@@ -505,7 +505,7 @@ jobs:
 
       - name: "List Oolite caches"
         run: |
-          OOLITE_CACHE_LIST = $(gh cache list | grep cache-oolite | awk '{print $2}')
+          $(gh cache list | grep cache-oolite | awk '{print $2}') >> OOLITE_CACHE_LIST
           echo "OOLITE_CACHE_LIST=$OOLITE_CACHE_LIST" >> $GITHUB_ENV
 
       - name: "Delete Oolite caches"
