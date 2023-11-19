@@ -498,7 +498,7 @@ jobs:
     if: always()
     needs: [build-oolite, build-oolite-installers]
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.ACTIONS_CLEAR_CACHE_TOKEN }}
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
