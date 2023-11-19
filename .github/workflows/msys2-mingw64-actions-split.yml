@@ -500,6 +500,9 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: "Checkout this repository"
+        uses: actions/checkout@v4
+        
       - name: "List caches"
         run: |
           gh cache list
