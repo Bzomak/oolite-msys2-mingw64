@@ -97,6 +97,9 @@ jobs:
           sed -i '452 s/objc.make/tool.make/' GNUMakefile
           sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUMakefile
           sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUmakefile.postamble 
+          sed -i '271 s/release //' Makefile
+          sed -i '275 s/release-deployment //' Makefile
+          sed -i '280 s/release-snapshot //' Makefile
           sed -i 's/pkg-win/pkg-win-release/' Makefile
           sed -i 's|/nsis/makensis.exe|/mingw64/bin/makensis.exe|' Makefile
           . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
