@@ -1,0 +1,29 @@
+  name: Clear Oolite Caches
+
+  on:
+    push:
+      branches:
+        - main
+
+  jobs:
+    clear-oolite-caches:
+      name: Clear Oolite Caches
+      runs-on: windows-latest
+
+      steps:
+        - name: Checkout this repository
+          uses: actions/checkout@v4
+
+        - name: List Oolite caches
+          run: |
+            $(gh cache list | grep cache-oolite | awk '{print $2}') >> OOLITE_CACHE_LIST
+            echo "OOLITE_CACHE_LIST=$OOLITE_CACHE_LIST" >> $GITHUB_ENV
+
+        - name: Delete Oolite caches
+          run: |
+            echo $OOLITE_CACHE_LIST
+            foreach ($cache in $(cat $OOLITE_CACHE_LIST)) {gh cache delete $cache}
+
+        - name: List caches
+          run: |
+            gh cache list
