@@ -509,11 +509,11 @@ jobs:
 
       - name: "List caches"
         run: |
-          gh cache list
+          gh cache list | grep cache-oolite
 
       - name: "Delete Oolite caches"
         run: |
-          gh cache delete cache-oolite-*
+          gh cache delete cache-oolite-
 
       - name: "List caches"
         run: |
