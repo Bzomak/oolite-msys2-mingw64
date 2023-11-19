@@ -502,7 +502,15 @@ jobs:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
-        
+
+      - name: "List caches"
+        run: |
+          gh cache list
+
+      - name: "Delete Oolite caches"
+        run: |
+          gh cache delete cache-oolite-*
+
       - name: "List caches"
         run: |
           gh cache list
