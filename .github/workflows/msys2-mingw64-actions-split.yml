@@ -497,23 +497,21 @@ jobs:
     runs-on: windows-latest
     if: always()
     needs: [build-oolite, build-oolite-installers]
-#    strategy:
-#      matrix:
-#        build_type: [debug, release, release-deployment, release-snapshot]
-#      fail-fast: false
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      OOLITE_CACHE_LIST:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
-      - name: "List caches"
+      - name: "List Oolite caches"
         run: |
-          gh cache list | grep cache-oolite
+          gh cache list | grep cache-oolite | awk '{print $2}' >> ${{ env.OOLITE_CACHE_LIST }}
 
       - name: "Delete Oolite caches"
         run: |
-          gh cache delete cache-oolite-
+          echo ${{ env.OOLITE_CACHE_LIST }}
+          for cache in $(cat ${{ env.OOLITE_CACHE_LIST }}); do gh cache delete $cache; done
 
       - name: "List caches"
         run: |
