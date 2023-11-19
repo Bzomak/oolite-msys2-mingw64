@@ -505,15 +505,17 @@ jobs:
 
       - name: "List Oolite caches"
         run: |
-          $(gh cache list | grep cache-oolite | awk '{print $2}') >> OOLITE_CACHE_LIST
-          echo "OOLITE_CACHE_LIST=$OOLITE_CACHE_LIST" >> $GITHUB_ENV
+          gh cache list | grep cache-oolite | awk '{print $2}' > cache-list.txt
+          cat cache-list.txt
 
       - name: "Delete Oolite caches"
         run: |
-            echo $OOLITE_CACHE_LIST
-            foreach ($cache in $(cat $OOLITE_CACHE_LIST)) {gh cache delete $cache}
+          foreach ($cache in Get-Content cache-list.txt) {
+            echo $cache
+            gh cache delete $cache
+          }
 
-      - name: "List caches"
+      - name: "List all remaining caches"
         run: |
           gh cache list
 
