@@ -22,8 +22,11 @@
 
         - name: Delete Oolite caches
           run: |
-            foreach ($cache in $(cat cache-list.txt) {gh cache delete $cache}
-
+            - name: Delete Oolite caches
+                run: |
+                    foreach ($cache in Get-Content cache-list.txt) {
+                            gh cache delete $cache
+                    }
         - name: List caches
           run: |
             gh cache list
