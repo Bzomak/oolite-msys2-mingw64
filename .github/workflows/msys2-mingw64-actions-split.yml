@@ -91,7 +91,7 @@ jobs:
       - name: "Configure and build Oolite"
         run: |
           cd oolite
-          # sed -i '36 s/$/ -fobjc-exceptions -fcommon/' GNUMakefile
+          sed -i '36 s/$/ -fobjc-exceptions -fcommon/' GNUMakefile
           sed -i '25 s/^#//' GNUMakefile
           sed -i '33 s/-l$(JS_IMPORT_LIBRARY) /-L$(JS_LIB_DIR) &/' GNUMakefile
           sed -i '452 s/objc.make/tool.make/' GNUMakefile
