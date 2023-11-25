@@ -103,7 +103,7 @@ jobs:
           sed -i 's/pkg-win/pkg-win-release/' Makefile
           sed -i 's|/nsis/makensis.exe|/mingw64/bin/makensis.exe|' Makefile
           . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
-          make -j $(nproc) -f Makefile ${{ matrix.build_type }}
+#          make -j $(nproc) -f Makefile ${{ matrix.build_type }}
 
       - name: "Cache Oolite build"
         uses: actions/cache/save@v3
