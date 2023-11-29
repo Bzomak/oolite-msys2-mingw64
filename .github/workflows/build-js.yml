@@ -1,0 +1,29 @@
+name: BUILD-JS
+on: workflow_dispatch
+
+jobs:
+  build-js:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Checkout this repository"
+        uses: actions/checkout@v4
+
+      - name: "Set up msys2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: |
+            base-devel git mingw-w64-x86_64-gcc mingw-w64-x86_64-python2 zip
+
+      - name: "Download and extract SpiderMonkey"
+        run: |
+          wget https://ftp.mozilla.org/pub/firefox/releases/4.0/source/firefox-4.0.source.tar.bz2
+          tar -xf firefox-4.0.source.tar.bz2
+
+      - name: "Build SpiderMonkey"
+        run: |
+          bash ./js-build.sh
