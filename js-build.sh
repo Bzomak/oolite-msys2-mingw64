@@ -6,6 +6,7 @@
 
 ###############################
 
+systeminfo
 cp msys2-mingw64.mk mozilla-2.0/js/src/ref-config/WINNT4.0.mk
 cp msys2-mingw64.mk mozilla-2.0/js/src/ref-config/WINNT5.0.mk
 cp msys2-mingw64.mk mozilla-2.0/js/src/ref-config/WINNT5.1.mk
