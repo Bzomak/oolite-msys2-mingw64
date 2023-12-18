@@ -442,7 +442,7 @@ jobs:
           make -j $(nproc) check
 
       - name: Upload tests.log
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: libs-base_test.log
           path: |
