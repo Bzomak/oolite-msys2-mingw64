@@ -226,7 +226,7 @@ jobs:
         if: steps.check-cache.outputs.cache-hit == 'true'
         shell: bash
         run: |
-          echo "tools-make cache exists, exiting early"
+          echo "tools-make cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
 
       - name: "Set up msys2"
         if: steps.early-exit.conclusion != 'success'
@@ -283,7 +283,7 @@ jobs:
         if: steps.check-cache.outputs.cache-hit == 'true'
         shell: bash
         run: |
-          echo "libs-base cache exists, exiting early"
+          echo "libs-base cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
 
       - name: "Set up msys2"
         if: steps.early-exit.conclusion != 'success'
@@ -353,7 +353,7 @@ jobs:
         if: steps.check-cache.outputs.cache-hit == 'true'
         shell: bash
         run: |
-          echo "SDL cache exists, exiting early"
+          echo "SDL cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
 
       - name: "Set up msys2"
         if: steps.early-exit.conclusion != 'success'
@@ -415,7 +415,7 @@ jobs:
         if: steps.check-cache.outputs.cache-hit == 'true'
         shell: bash
         run: |
-          echo "JavaScript cache exists, exiting early"
+          echo "JavaScript cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
 
       - name: "Set up msys2"
         if: steps.early-exit.conclusion != 'success'
