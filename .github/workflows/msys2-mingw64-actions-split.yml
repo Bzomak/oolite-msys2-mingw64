@@ -1,6 +1,6 @@
 # Workflow to compile Oolite and necessary dependencies
 
-name: MSYS2-MINGW64-ACTIONS-SPLIT
+name: Build Oolite on MSYS2-MINGW64
 on: 
   workflow_dispatch:
     inputs:
@@ -13,13 +13,14 @@ env:
   TOOLS_MAKE_VERSION: make-2_9_1
   LIBS_MAKE_VERSION: 1942313dea27ceafa3bb107c427be813094c04e3
   SDL_VERSION: https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
+  JS_VERSION: https://ftp.mozilla.org/pub/firefox/releases/4.0/source/firefox-4.0.source.tar.bz2
 jobs:
 
 ########################################
 ########################################
 ########################################
 
-# Build Oolite and its installers
+# Build Oolite
 
   build-oolite:
     name: Build Oolite
@@ -216,13 +217,13 @@ jobs:
 
       - name: "Early exit if cache exists"
         id: early-exit
-        if: steps.check-cache.outputs.cache-hit == 'true' 
+        if: steps.check-cache.outputs.cache-hit == 'true'
         shell: bash
         run: |
           echo "tools-make cache exists, exiting early"
 
       - name: "Set up msys2"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -231,7 +232,7 @@ jobs:
             base-devel mingw-w64-x86_64-gcc-objc
 
       - name: "Checkout tools-make"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         uses: actions/checkout@v4
         with:
           repository: gnustep/tools-make
@@ -239,12 +240,12 @@ jobs:
           ref: ${{ env.TOOLS_MAKE_VERSION }}
 
       - name: "Configure and build tools-make"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         run: |
           bash ./tools-make-build.sh
 
       - name: "Cache tools-make build"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v3
         with:
           path: tools-make
@@ -273,13 +274,13 @@ jobs:
 
       - name: "Early exit if cache exists"
         id: early-exit
-        if: steps.check-cache.outputs.cache-hit == 'true' 
+        if: steps.check-cache.outputs.cache-hit == 'true'
         shell: bash
         run: |
           echo "libs-base cache exists, exiting early"
 
       - name: "Set up msys2"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -288,7 +289,7 @@ jobs:
             base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu mingw-w64-x86_64-libxslt
 
       - name: "Retrieve tools-make cache"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/restore@v3
         with:
           path: tools-make
@@ -296,13 +297,13 @@ jobs:
           fail-on-cache-miss: true
     
       - name: "Install tools-make"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         run: |
           cd tools-make
           make -j $(nproc) install
 
       - name: "Checkout libs-base"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         uses: actions/checkout@v4
         with:
           repository: gnustep/libs-base
@@ -310,12 +311,12 @@ jobs:
           ref: ${{ env.LIBS_MAKE_VERSION }}
 
       - name: "Configure and build libs-base"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         run: |
           bash ./libs-base-build.sh
 
       - name: "Cache libs-base build"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v3
         with:
           path: libs-base
@@ -343,13 +344,13 @@ jobs:
 
       - name: "Early exit if cache exists"
         id: early-exit
-        if: steps.check-cache.outputs.cache-hit == 'true' 
+        if: steps.check-cache.outputs.cache-hit == 'true'
         shell: bash
         run: |
           echo "SDL cache exists, exiting early"
 
       - name: "Set up msys2"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -358,7 +359,7 @@ jobs:
             base-devel autoconf mingw-w64-x86_64-gcc
 
       - name: "Download oolite-win-deps SDL patch"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         uses: actions/checkout@v4
         with:
           repository: OoliteProject/oolite-windows-dependencies
@@ -366,22 +367,76 @@ jobs:
           sparse-checkout: OOSDLWin32Patch/
 
       - name: "Download and extract SDL"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         run: |
           wget ${{ env.SDL_VERSION }}
           tar -xf SDL-1.2.13.tar.gz
 
       - name: "Configure and build SDL"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         run: |
           bash ./sdl-build.sh
 
       - name: "Cache SDL build"
-        if: steps.early-exit.conclusion != 'success'  
+        if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v3
         with:
           path: SDL-1.2.13
           key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/sdl-build.sh') }}
+
+########################################
+
+  build-js:
+    name: Build JavaScript library
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Checkout this repository"
+        uses: actions/checkout@v4
+
+      - name: "Check for pre-existing JavaScript cache"
+        id: check-cache
+        uses: actions/cache/restore@v3
+        with:
+          path: mozilla-2.0
+          key: cache-js-${{ env.JS_VERSION }}-${{ hashFiles('**/js-build.sh') }}
+          lookup-only: true
+
+      - name: "Early exit if cache exists"
+        id: early-exit
+        if: steps.check-cache.outputs.cache-hit == 'true'
+        shell: bash
+        run: |
+          echo "JavaScript cache exists, exiting early"
+
+      - name: "Set up msys2"
+        if: steps.early-exit.conclusion != 'success'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: |
+            base-devel git mingw-w64-x86_64-gcc mingw-w64-x86_64-python2 zip
+
+      - name: "Download and extract JavaScript"
+        if: steps.early-exit.conclusion != 'success'
+        run: |
+          wget ${{ env.JS_VERSION }}
+          tar -xf firefox-4.0.source.tar.bz2
+
+      - name: "Configure and build JavaScript"
+        if: steps.early-exit.conclusion != 'success'
+        run: |
+          bash ./js-build.sh
+
+      - name: "Cache JavaScript build"
+        if: steps.early-exit.conclusion != 'success'
+        uses: actions/cache/save@v3
+        with:
+          path: mozilla-2.0
+          key: cache-JavaScript-${{ env.JS_VERSION }}-${{ hashFiles('**/js-build.sh') }}
 
 ########################################
 ########################################
@@ -491,6 +546,8 @@ jobs:
 ########################################
 ########################################
 ########################################
+
+# Clear unnecessary caches on GitHub
 
   clear-oolite-caches:
     name: Clear Oolite caches
