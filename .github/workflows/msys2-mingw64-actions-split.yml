@@ -9,11 +9,6 @@ on:
         required: false
         type: boolean
         default: false
-env:
-  TOOLS_MAKE_VERSION: make-2_9_1
-  LIBS_MAKE_VERSION: 1942313dea27ceafa3bb107c427be813094c04e3
-  SDL_VERSION: https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
-  JS_VERSION: https://ftp.mozilla.org/pub/firefox/releases/4.0/source/firefox-4.0.source.tar.bz2
 jobs:
 
 ########################################
@@ -36,6 +31,11 @@ jobs:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
+
+      - name: "Load dependency versions into env"
+        uses: aarcangeli/load-dotenv@v1.0.0
+        with:
+          filenames: dep_versions.env
 
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
@@ -132,6 +132,11 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
+      - name: "Load dependency versions into env"
+        uses: aarcangeli/load-dotenv@v1.0.0
+        with:
+          filenames: dep_versions.env
+
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
@@ -213,6 +218,11 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
+      - name: "Load dependency versions into env"
+        uses: aarcangeli/load-dotenv@v1.0.0
+        with:
+          filenames: dep_versions.env
+
       - name: "Check for pre-existing tools-make cache"
         id: check-cache
         uses: actions/cache/restore@v3
@@ -269,6 +279,11 @@ jobs:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
+
+      - name: "Load dependency versions into env"
+        uses: aarcangeli/load-dotenv@v1.0.0
+        with:
+          filenames: dep_versions.env
 
       - name: "Check for pre-existing libs-base cache"
         id: check-cache
@@ -340,6 +355,11 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
+      - name: "Load dependency versions into env"
+        uses: aarcangeli/load-dotenv@v1.0.0
+        with:
+          filenames: dep_versions.env
+
       - name: "Check for pre-existing SDL cache"
         id: check-cache
         uses: actions/cache/restore@v3
@@ -402,6 +422,11 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
+      - name: "Load dependency versions into env"
+        uses: aarcangeli/load-dotenv@v1.0.0
+        with:
+          filenames: dep_versions.env
+
       - name: "Check for pre-existing JavaScript cache"
         id: check-cache
         uses: actions/cache/restore@v3
@@ -463,6 +488,11 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
+      - name: "Load dependency versions into env"
+        uses: aarcangeli/load-dotenv@v1.0.0
+        with:
+          filenames: dep_versions.env
+
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
@@ -522,6 +552,11 @@ jobs:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
+
+      - name: "Load dependency versions into env"
+        uses: aarcangeli/load-dotenv@v1.0.0
+        with:
+          filenames: dep_versions.env
 
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
