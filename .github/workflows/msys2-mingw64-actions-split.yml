@@ -61,7 +61,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ env.LIBS_MAKE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
+          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install libs-base"
@@ -161,7 +161,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ env.LIBS_MAKE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
+          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install libs-base"
@@ -290,7 +290,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ env.LIBS_MAKE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
+          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
           lookup-only: true
 
       - name: "Early exit if cache exists"
@@ -329,7 +329,7 @@ jobs:
         with:
           repository: gnustep/libs-base
           path: libs-base
-          ref: ${{ env.LIBS_MAKE_VERSION }}
+          ref: ${{ env.LIBS_BASE_VERSION }}
 
       - name: "Configure and build libs-base"
         if: steps.early-exit.conclusion != 'success'
@@ -341,7 +341,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ env.LIBS_MAKE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
+          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
   
 ########################################
 
@@ -517,7 +517,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ env.LIBS_MAKE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
+          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install libs-base"
