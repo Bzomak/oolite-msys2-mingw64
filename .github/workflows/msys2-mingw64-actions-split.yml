@@ -52,7 +52,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/deps/tools-make/build.sh') }}
+          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       - name: "Install tools-make"
@@ -142,7 +142,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/deps/tools-make/build.sh') }}
+          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
           fail-on-cache-miss: true
     
       - name: "Install tools-make"
@@ -223,7 +223,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/deps/tools-make/build.sh') }}
+          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
           lookup-only: true
 
       - name: "Early exit if cache exists"
@@ -260,7 +260,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/deps/tools-make/build.sh') }}
+          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
   
 ########################################
 
@@ -312,7 +312,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/deps/tools-make/build.sh') }}
+          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
           fail-on-cache-miss: true
     
       - name: "Install tools-make"
@@ -510,7 +510,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/deps/tools-make/build.sh') }}
+          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       - name: "Install tools-make"
