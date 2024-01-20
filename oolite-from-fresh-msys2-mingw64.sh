@@ -48,39 +48,31 @@ git clone https://github.com/gnustep/libs-base.git --branch=$LIBS_BASE_VERSION
 
 ###############################
 
-# Clone Oolite repo and submodules
-git clone --recursive https://github.com/OoliteProject/oolite.git
+# Download Oolite SDL patch
+git clone https://github.com/OoliteProject/oolite-windows-dependencies.git Windows-deps --sparse
+git sparse-checkout set OOSDLWin32Patch
 
 ###############################
 
-# Download SDL 
-wget https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
+# Install build dependencies for SDL
+. ./deps/sdl/msys2-deps.env
+pacman -S --noconfirm --needed $SDL_MSYS2_DEPS
 
-# Extract from tarball
+# Download SDL and extract from tarball
+. ./deps/sdl/version.env
+wget $SDL_VERSION
 tar -xf SDL-1.2.13.tar.gz
 
-# Apply patch from Oolite
-patch -s -d SDL-1.2.13 -p1 < oolite/deps/Windows-deps/OOSDLWin32Patch/OOSDLdll_x64.patch
-
-# Install autoconf
-pacman -S --noconfirm autoconf
-
-# Configure to hopefully find everything
-cd SDL-1.2.13
-./autogen.sh
-./configure
-
-# Add flags back that configure seems to remove
-sed -i '/^EXTRA_LDFLAGS/ s/$/ -ldxerr8 -ldinput8 -lole32/' Makefile
-
-# Make
-make -j $(nproc)
-make -j $(nproc) install
-cd ..
+./deps/sdl/build.sh
+./deps/sdl/install.sh
 
 ###############################
 
 # Now let's try to compile Oolite
+
+# Clone Oolite repo and submodules
+git clone --recursive https://github.com/OoliteProject/oolite.git
+
 cd oolite
 
 # Add -fobjc-exceptions and -fcommon to OBJC flags in GNUMakefile, line 36
