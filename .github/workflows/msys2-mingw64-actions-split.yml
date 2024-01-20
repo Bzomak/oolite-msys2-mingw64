@@ -57,8 +57,7 @@ jobs:
 
       - name: "Install tools-make"
         run: |
-          cd tools-make
-          make -j $(nproc) install
+          bash ./deps/tools-make/install.sh
 
       - name: "Retrieve libs-base cache"
         uses: actions/cache/restore@v3
@@ -69,9 +68,7 @@ jobs:
 
       - name: "Install libs-base"
         run: |
-          cd libs-base
-          . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
-          make -j $(nproc) install
+          bash ./deps/libs-base/install.sh
 
       - name: "Retrieve SDL cache"
         uses: actions/cache/restore@v3
@@ -82,8 +79,7 @@ jobs:
 
       - name: "Install SDL"
         run: |
-          cd SDL-1.2.13
-          make -j $(nproc) install
+          bash ./deps/sdl/install.sh
 
       - name: "Checkout oolite"
         uses: actions/checkout@v4
@@ -147,8 +143,7 @@ jobs:
     
       - name: "Install tools-make"
         run: |
-          cd tools-make
-          make -j $(nproc) install
+          bash ./deps/tools-make/install.sh
           
       - name: "Retrieve libs-base cache"
         uses: actions/cache/restore@v3
@@ -159,9 +154,7 @@ jobs:
 
       - name: "Install libs-base"
         run: |
-          cd libs-base
-          . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
-          make -j $(nproc) install
+          bash ./deps/libs-base/install.sh
 
       - name: "Retrieve SDL cache"
         uses: actions/cache/restore@v3
@@ -172,8 +165,7 @@ jobs:
 
       - name: "Install SDL"
         run: |
-          cd SDL-1.2.13
-          make -j $(nproc) install
+          bash ./deps/sdl/install.sh
           
       - name: "Retrieve Oolite cache"
         uses: actions/cache/restore@v3
@@ -318,8 +310,7 @@ jobs:
       - name: "Install tools-make"
         if: steps.early-exit.conclusion != 'success'
         run: |
-          cd tools-make
-          make -j $(nproc) install
+          bash ./deps/tools-make/install.sh
 
       - name: "Checkout libs-base"
         if: steps.early-exit.conclusion != 'success'
@@ -515,8 +506,7 @@ jobs:
 
       - name: "Install tools-make"
         run: |
-          cd tools-make
-          make -j $(nproc) install
+          bash ./deps/tools-make/install.sh
 
       - name: "Retrieve libs-base cache"
         uses: actions/cache/restore@v3
@@ -527,9 +517,7 @@ jobs:
 
       - name: "Install libs-base"
         run: |
-          cd libs-base
-          . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
-          make -j $(nproc) install
+          bash ./deps/libs-base/install.sh
 
       - name: "Test libs-base"
         run: |
@@ -582,8 +570,7 @@ jobs:
 
       - name: "Install SDL"
         run: |
-          cd SDL-1.2.13
-          make -j $(nproc) install
+          bash ./deps/sdl/install.sh
 
       - name: "Build SDL tests"
         run: |
