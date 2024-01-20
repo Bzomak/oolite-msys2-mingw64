@@ -94,7 +94,7 @@ jobs:
 
       - name: "Configure and build Oolite"
         run: |
-          bash ./oolite/build.sh ${{ matrix.build_type }}
+          bash ./oolite-config/build.sh ${{ matrix.build_type }}
 
       - name: "Cache Oolite build"
         uses: actions/cache/save@v3
