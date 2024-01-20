@@ -64,7 +64,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*') }}
+          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       - name: "Install libs-base"
@@ -154,7 +154,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*') }}
+          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       - name: "Install libs-base"
@@ -288,7 +288,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*') }}
+          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
           lookup-only: true
 
       - name: "Early exit if cache exists"
@@ -339,7 +339,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*') }}
+          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
   
 ########################################
 
@@ -522,7 +522,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*') }}
+          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       - name: "Install libs-base"
