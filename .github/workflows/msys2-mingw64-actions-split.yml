@@ -52,7 +52,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/tools-make-build.sh') }}
+          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/deps/tools-make/build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install tools-make"
@@ -64,7 +64,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
+          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/deps/libs-base/build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install libs-base"
@@ -77,7 +77,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/sdl-build.sh') }}
+          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/deps/sdl/build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install SDL"
@@ -142,7 +142,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/tools-make-build.sh') }}
+          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/deps/tools-make/build.sh') }}
           fail-on-cache-miss: true
     
       - name: "Install tools-make"
@@ -154,7 +154,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
+          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/deps/libs-base/build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install libs-base"
@@ -167,7 +167,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/sdl-build.sh') }}
+          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/deps/sdl/build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install SDL"
@@ -221,7 +221,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/tools-make-build.sh') }}
+          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/deps/tools-make/build.sh') }}
           lookup-only: true
 
       - name: "Early exit if cache exists"
@@ -258,7 +258,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/tools-make-build.sh') }}
+          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/deps/tools-make/build.sh') }}
   
 ########################################
 
@@ -285,7 +285,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
+          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/deps/libs-base/build.sh') }}
           lookup-only: true
 
       - name: "Early exit if cache exists"
@@ -309,7 +309,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/tools-make-build.sh') }}
+          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/deps/tools-make/build.sh') }}
           fail-on-cache-miss: true
     
       - name: "Install tools-make"
@@ -336,7 +336,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
+          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/deps/libs-base/build.sh') }}
   
 ########################################
 
@@ -360,7 +360,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/sdl-build.sh') }}
+          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/deps/sdl/build.sh') }}
           lookup-only: true
 
       - name: "Early exit if cache exists"
@@ -403,7 +403,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/sdl-build.sh') }}
+          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/deps/sdl/build.sh') }}
 
 ########################################
 
@@ -427,7 +427,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: mozilla-2.0
-          key: cache-js-${{ env.JS_VERSION }}-${{ hashFiles('**/js-build.sh') }}
+          key: cache-js-${{ env.JS_VERSION }}-${{ hashFiles('**/deps/js/build.sh') }}
           lookup-only: true
 
       - name: "Early exit if cache exists"
@@ -462,7 +462,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: mozilla-2.0
-          key: cache-JavaScript-${{ env.JS_VERSION }}-${{ hashFiles('**/js-build.sh') }}
+          key: cache-js-${{ env.JS_VERSION }}-${{ hashFiles('**/deps/js/build.sh') }}
 
 ########################################
 ########################################
@@ -502,7 +502,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: tools-make
-          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/tools-make-build.sh') }}
+          key: cache-tools-make-${{ env.TOOLS_MAKE_VERSION }}-${{ hashFiles('**/deps/tools-make/build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install tools-make"
@@ -514,7 +514,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: libs-base
-          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/libs-base-build.sh') }}
+          key: cache-libs-base-${{ env.LIBS_BASE_VERSION }}-${{ hashFiles('**/deps/libs-base/build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install libs-base"
@@ -567,7 +567,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/sdl-build.sh') }}
+          key: cache-sdl-${{ env.SDL_VERSION }}-${{ hashFiles('**/deps/sdl/build.sh') }}
           fail-on-cache-miss: true
 
       - name: "Install SDL"
