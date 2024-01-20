@@ -423,7 +423,9 @@ jobs:
       - name: "Load dependency versions into env"
         uses: aarcangeli/load-dotenv@v1.0.0
         with:
-          filenames: deps/js/version.env
+          filenames: |
+            deps/js/version.env
+            deps/js/msys2-deps.env
 
       - name: "Check for pre-existing JavaScript cache"
         id: check-cache
@@ -447,7 +449,7 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            base-devel git mingw-w64-x86_64-gcc mingw-w64-x86_64-python2 zip
+            ${{ env.JS_MSYS2_DEPS }}
 
       - name: "Download and extract JavaScript"
         if: steps.early-exit.conclusion != 'success'
