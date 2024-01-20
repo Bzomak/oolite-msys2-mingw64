@@ -214,7 +214,9 @@ jobs:
       - name: "Load dependency versions into env"
         uses: aarcangeli/load-dotenv@v1.0.0
         with:
-          filenames: deps/tools-make/version.env
+          filenames: |
+            deps/tools-make/version.env
+            deps/tools-make/msys2-deps.env
 
       - name: "Check for pre-existing tools-make cache"
         id: check-cache
