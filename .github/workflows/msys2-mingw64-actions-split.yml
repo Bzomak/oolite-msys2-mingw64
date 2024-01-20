@@ -98,6 +98,10 @@ jobs:
           path: oolite
           key: cache-oolite-${{ matrix.build_type }}-${{ github.run_id }}-${{ github.run_attempt }}
 
+      - name: check filesystem
+        run: |
+          Get-ChildItem -Path "$env:GITHUB_WORKSPACE" –Recurse
+
 
 ########################################
 
@@ -187,6 +191,11 @@ jobs:
           path: |
             oolite/installers/win32/OoliteInstall*.exe
 
+      - name: check filesystem
+        run: |
+          Get-ChildItem -Path "$env:GITHUB_WORKSPACE" –Recurse
+
+
 ########################################
 ########################################
 ########################################
@@ -253,7 +262,11 @@ jobs:
         with:
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
-  
+
+      - name: check filesystem
+        run: |
+          Get-ChildItem -Path "$env:GITHUB_WORKSPACE" –Recurse
+
 ########################################
 
   build-libs-base:
@@ -331,7 +344,11 @@ jobs:
         with:
           path: libs-base
           key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
-  
+
+      - name: check filesystem
+        run: |
+          Get-ChildItem -Path "$env:GITHUB_WORKSPACE" –Recurse
+
 ########################################
 
   build-sdl:
@@ -400,6 +417,10 @@ jobs:
         with:
           path: SDL-1.2.13
           key: cache-sdl-${{ hashFiles('**/deps/sdl/*') }}
+
+      - name: check filesystem
+        run: |
+          Get-ChildItem -Path "$env:GITHUB_WORKSPACE" –Recurse
 
 ########################################
 
