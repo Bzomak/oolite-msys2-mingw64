@@ -4,6 +4,8 @@
 
 # Configure and build Oolite
 
+# Usage: ./build.sh [debug|release|release-deployment|release-snapshot]
+
 ###############################
 
 cd oolite
