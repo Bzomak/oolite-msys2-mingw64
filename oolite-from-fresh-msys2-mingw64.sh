@@ -17,6 +17,10 @@
 # Install useful tools for building
 pacman -S --noconfirm git
 
+echo "pwd and ls"
+pwd
+ls -la
+
 ###############################
 
 # Install build dependencies for GNUstep make
@@ -31,6 +35,10 @@ git clone https://github.com/gnustep/tools-make.git --branch=$TOOLS_MAKE_VERSION
 ./deps/tools-make/build.sh
 ./deps/tools-make/install.sh
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
+
+echo "pwd and ls"
+pwd
+ls -la
 
 ###############################
 
@@ -47,11 +55,19 @@ git checkout $LIBS_BASE_VERSION
 ./deps/libs-base/build.sh
 ./deps/libs-base/install.sh
 
+echo "pwd and ls"
+pwd
+ls -la
+
 ###############################
 
 # Download Oolite SDL patch
 git clone https://github.com/OoliteProject/oolite-windows-dependencies.git Windows-deps --sparse
 git sparse-checkout set OOSDLWin32Patch
+
+echo "pwd and ls"
+pwd
+ls -la
 
 ###############################
 
