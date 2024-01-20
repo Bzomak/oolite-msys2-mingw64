@@ -40,7 +40,8 @@ pacman -S --noconfirm --needed $LIBS_BASE_MSYS2_DEPS
 
 # Clone libs-base repo - Using latest - Needs https://github.com/gnustep/libs-base/pull/295
 . ./deps/libs-base/version.env
-git clone https://github.com/gnustep/libs-base.git --branch=$LIBS_BASE_VERSION
+git clone https://github.com/gnustep/libs-base.git 
+git checkout $LIBS_BASE_VERSION
 
 # Make and install libs-base
 ./deps/libs-base/build.sh
