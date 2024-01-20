@@ -21,7 +21,7 @@ pacman -S --noconfirm git
 
 # Install build dependencies for GNUstep make
 . ./deps/tools-make/msys2-deps.env
-pacman -S --noconfirm --needed TOOLS_MAKE_MSYS2_DEPS
+pacman -S --noconfirm --needed $TOOLS_MAKE_MSYS2_DEPS
 
 # Clone tools-make repo
 git clone https://github.com/gnustep/tools-make.git
