@@ -24,7 +24,8 @@ pacman -S --noconfirm git
 pacman -S --noconfirm --needed $TOOLS_MAKE_MSYS2_DEPS
 
 # Clone tools-make repo
-git clone https://github.com/gnustep/tools-make.git
+. ./deps/tools-make/version.env
+git clone https://github.com/gnustep/tools-make.git --branch=$TOOLS_MAKE_VERSION
 
 # Make and Install gmake
 ./deps/tools-make/build.sh
