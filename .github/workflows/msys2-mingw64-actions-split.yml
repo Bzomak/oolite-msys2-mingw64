@@ -380,7 +380,7 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            base-devel autoconf mingw-w64-x86_64-gcc
+            ${{ env.SDL_MSYS2_DEPS }}
 
       - name: "Download oolite-win-deps SDL patch"
         if: steps.early-exit.conclusion != 'success'
