@@ -281,6 +281,7 @@ jobs:
           filenames: |
             deps/tools-make/version.env
             deps/libs-base/version.env
+            deps/libs-base/msys2-deps.env
 
       - name: "Check for pre-existing libs-base cache"
         id: check-cache
@@ -304,7 +305,7 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            base-devel mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu mingw-w64-x86_64-libxslt
+            ${{ env.LIBS_BASE_MSYS2_DEPS }}
 
       - name: "Retrieve tools-make cache"
         if: steps.early-exit.conclusion != 'success'
