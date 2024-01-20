@@ -238,7 +238,7 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            base-devel mingw-w64-x86_64-gcc-objc
+            ${{ env.TOOLS_MAKE_MSYS2_DEPS }}
 
       - name: "Checkout tools-make"
         if: steps.early-exit.conclusion != 'success'
