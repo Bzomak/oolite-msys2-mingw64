@@ -24,13 +24,10 @@ pacman -S --noconfirm mingw-w64-x86_64-gcc-objc
 # Clone tools-make repo
 git clone https://github.com/gnustep/tools-make.git
 
-# Make and Install gnumake
-cd tools-make
-./configure
-make -j $(nproc)
-make -j $(nproc) install
+# Make and Install gmake
+./deps/tools-make/build.sh
+./deps/tools-make/install.sh
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
-cd ..
 
 ###############################
 
