@@ -65,7 +65,10 @@ ls -la
 
 # Download Oolite SDL patch
 git clone https://github.com/OoliteProject/oolite-windows-dependencies.git Windows-deps --sparse
+cd Windows-deps
 git sparse-checkout set OOSDLWin32Patch
+git checkout
+cd ..
 
 echo "pwd and ls"
 pwd
