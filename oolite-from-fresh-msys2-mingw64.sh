@@ -95,28 +95,7 @@ tar -xf SDL-1.2.13.tar.gz
 # Clone Oolite repo and submodules
 git clone --recursive https://github.com/OoliteProject/oolite.git
 
-cd oolite
-
-# Add -fobjc-exceptions and -fcommon to OBJC flags in GNUMakefile, line 36
-# Since gcc 10 -fno-common is default; add -fcommon to avoid 9425 (yes, 9425!) errors of the form
-# C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/13.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: ./obj.win.spk/oolite.obj/OODebugSupport.m.o:C:\msys64\home\Robert\oolite/src/Core/OOOpenGLExtensionManager.h:280: multiple definition of `glClampColor'; ./obj.win.spk/oolite.obj/OODebugMonitor.m.o:C:\msys64\home\Robert\oolite/src/Core/OOOpenGLExtensionManager.h:280: first defined here
-# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=85678
-
-sed -i '36 s/$/ -fobjc-exceptions -fcommon/' GNUMakefile
-
-# Fix inability to find js lib
-# Uncomment JS_LIB_DIR
-sed -i '25 s/^#//' GNUMakefile
-# Add JS_LIB_DIR to ADDITIONAL_OBJC_LIBS
-sed -i '33 s/-l$(JS_IMPORT_LIBRARY) /-L$(JS_LIB_DIR) &/' GNUMakefile
-
-# Use tool.make instead of objc.make
-sed -i '452 s/objc.make/tool.make/' GNUMakefile
-sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUMakefile
-sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUmakefile.postamble
-
-# Try to build
-make -j $(nproc) -f Makefile release
+./oolite-config/build.sh release
 
 ###############################
 ###############################
