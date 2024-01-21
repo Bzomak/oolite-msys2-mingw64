@@ -100,7 +100,8 @@ jobs:
 
       - name: check filesystem
         run: |
-          Get-ChildItem -Path "$env:GITHUB_WORKSPACE" –Recurse
+          pwd
+          ls -la
 
 
 ########################################
@@ -193,7 +194,8 @@ jobs:
 
       - name: check filesystem
         run: |
-          Get-ChildItem -Path "$env:GITHUB_WORKSPACE" –Recurse
+          pwd
+          ls -la
 
 
 ########################################
@@ -265,7 +267,8 @@ jobs:
 
       - name: check filesystem
         run: |
-          Get-ChildItem -Path "$env:GITHUB_WORKSPACE" –Recurse
+          pwd
+          ls -la
 
 ########################################
 
@@ -347,7 +350,8 @@ jobs:
 
       - name: check filesystem
         run: |
-          Get-ChildItem -Path "$env:GITHUB_WORKSPACE" –Recurse
+          pwd
+          ls -la
 
 ########################################
 
@@ -420,7 +424,8 @@ jobs:
 
       - name: check filesystem
         run: |
-          Get-ChildItem -Path "$env:GITHUB_WORKSPACE" –Recurse
+          pwd
+          ls -la
 
 ########################################
 
