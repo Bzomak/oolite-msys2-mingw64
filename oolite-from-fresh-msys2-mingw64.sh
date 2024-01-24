@@ -50,10 +50,12 @@ cd ..
 
 ###############################
 
-# Clone Oolite repo and submodules
-git clone --recursive https://github.com/OoliteProject/oolite.git
-
-###############################
+# Download Oolite SDL patch
+git clone https://github.com/OoliteProject/oolite-windows-dependencies.git Windows-deps --sparse
+cd Windows-deps
+git sparse-checkout set OOSDLWin32Patch
+git checkout
+cd ..
 
 # Install build dependencies for SDL
 . ./deps/sdl/msys2-deps.env
@@ -69,6 +71,9 @@ tar -xf SDL-1.2.13.tar.gz
 ./deps/sdl/install.sh
 
 ###############################
+
+# Clone Oolite repo and submodules
+git clone --recursive https://github.com/OoliteProject/oolite.git
 
 # Now let's try to compile Oolite
 ./oolite-config/build.sh release
