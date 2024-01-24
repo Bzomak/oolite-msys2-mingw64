@@ -34,52 +34,83 @@ git clone https://github.com/gnustep/tools-make.git --branch=$TOOLS_MAKE_VERSION
 ###############################
 
 # Install build dependencies for GNUstep libs-base
-. ./deps/libs-base/msys2-deps.env
-pacman -S --noconfirm --needed $LIBS_BASE_MSYS2_DEPS
+pacman -S --noconfirm mingw-w64-x86_64-libffi
+pacman -S --noconfirm mingw-w64-x86_64-libxml2
+pacman -S --noconfirm mingw-w64-x86_64-gnutls
+pacman -S --noconfirm mingw-w64-x86_64-icu
+pacman -S --noconfirm mingw-w64-x86_64-libxslt
 
 # Clone libs-base repo - Using latest - Needs https://github.com/gnustep/libs-base/pull/295
-. ./deps/libs-base/version.env
 git clone https://github.com/gnustep/libs-base.git
-cd libs-base 
-git checkout $LIBS_BASE_VERSION
-cd ..
 
 # Make and install libs-base
-./deps/libs-base/build.sh
-./deps/libs-base/install.sh
+cd libs-base
 
-###############################
+# Use OpenStep plist format
+sed -i '330 s/NSPropertyListXMLFormat_v1_0/NSPropertyListOpenStepFormat/' Source/NSUserDefaults.m
 
-# Download Oolite SDL patch
-git clone https://github.com/OoliteProject/oolite-windows-dependencies.git Windows-deps --sparse
-cd Windows-deps
-git sparse-checkout set OOSDLWin32Patch
-git checkout
+./configure
+make -j $(nproc)
+make -j $(nproc) install
 cd ..
 
 ###############################
-
-# Install build dependencies for SDL
-. ./deps/sdl/msys2-deps.env
-pacman -S --noconfirm --needed $SDL_MSYS2_DEPS
-
-# Download SDL and extract from tarball
-. ./deps/sdl/version.env
-wget $SDL_VERSION
-tar -xf SDL-1.2.13.tar.gz
-
-# Make and install SDL
-./deps/sdl/build.sh
-./deps/sdl/install.sh
-
-###############################
-
-# Now let's try to compile Oolite
 
 # Clone Oolite repo and submodules
 git clone --recursive https://github.com/OoliteProject/oolite.git
 
-./oolite-config/build.sh release
+###############################
+
+# Download SDL 
+wget https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
+
+# Extract from tarball
+tar -xf SDL-1.2.13.tar.gz
+
+# Apply patch from Oolite
+patch -s -d SDL-1.2.13 -p1 < oolite/deps/Windows-deps/OOSDLWin32Patch/OOSDLdll_x64.patch
+
+# Install autoconf
+pacman -S --noconfirm autoconf
+
+# Configure to hopefully find everything
+cd SDL-1.2.13
+./autogen.sh
+./configure
+
+# Add flags back that configure seems to remove
+sed -i '/^EXTRA_LDFLAGS/ s/$/ -ldxerr8 -ldinput8 -lole32/' Makefile
+
+# Make
+make -j $(nproc)
+make -j $(nproc) install
+cd ..
+
+###############################
+
+# Now let's try to compile Oolite
+cd oolite
+
+# Add -fobjc-exceptions and -fcommon to OBJC flags in GNUMakefile, line 36
+# Since gcc 10 -fno-common is default; add -fcommon to avoid 9425 (yes, 9425!) errors of the form
+# C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/13.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: ./obj.win.spk/oolite.obj/OODebugSupport.m.o:C:\msys64\home\Robert\oolite/src/Core/OOOpenGLExtensionManager.h:280: multiple definition of `glClampColor'; ./obj.win.spk/oolite.obj/OODebugMonitor.m.o:C:\msys64\home\Robert\oolite/src/Core/OOOpenGLExtensionManager.h:280: first defined here
+# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=85678
+
+sed -i '36 s/$/ -fobjc-exceptions -fcommon/' GNUMakefile
+
+# Fix inability to find js lib
+# Uncomment JS_LIB_DIR
+sed -i '25 s/^#//' GNUMakefile
+# Add JS_LIB_DIR to ADDITIONAL_OBJC_LIBS
+sed -i '33 s/-l$(JS_IMPORT_LIBRARY) /-L$(JS_LIB_DIR) &/' GNUMakefile
+
+# Use tool.make instead of objc.make
+sed -i '452 s/objc.make/tool.make/' GNUMakefile
+sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUMakefile
+sed -i 's/OBJC_PROGRAM_NAME/TOOL_NAME/' GNUmakefile.postamble
+
+# Try to build
+make -j $(nproc) -f Makefile release
 
 ###############################
 ###############################
