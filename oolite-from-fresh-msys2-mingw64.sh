@@ -32,7 +32,6 @@ git clone https://github.com/gnustep/tools-make.git --branch=$TOOLS_MAKE_VERSION
 ./deps/tools-make/install.sh
 
 ###############################
-. /mingw64/share/GNUstep/Makefiles/GNUstep.sh
 
 # Install build dependencies for GNUstep libs-base
 . ./deps/libs-base/msys2-deps.env
@@ -56,30 +55,18 @@ git clone --recursive https://github.com/OoliteProject/oolite.git
 
 ###############################
 
-# Download SDL 
-wget https://sourceforge.net/projects/libsdl/files/SDL/1.2.13/SDL-1.2.13.tar.gz
+# Install build dependencies for SDL
+. ./deps/sdl/msys2-deps.env
+pacman -S --noconfirm --needed $SDL_MSYS2_DEPS
 
-# Extract from tarball
+# Download SDL and extract from tarball
+. ./deps/sdl/version.env
+wget $SDL_VERSION
 tar -xf SDL-1.2.13.tar.gz
 
-# Apply patch from Oolite
-patch -s -d SDL-1.2.13 -p1 < oolite/deps/Windows-deps/OOSDLWin32Patch/OOSDLdll_x64.patch
-
-# Install autoconf
-pacman -S --noconfirm autoconf
-
-# Configure to hopefully find everything
-cd SDL-1.2.13
-./autogen.sh
-./configure
-
-# Add flags back that configure seems to remove
-sed -i '/^EXTRA_LDFLAGS/ s/$/ -ldxerr8 -ldinput8 -lole32/' Makefile
-
-# Make
-make -j $(nproc)
-make -j $(nproc) install
-cd ..
+# Make and install SDL
+./deps/sdl/build.sh
+./deps/sdl/install.sh
 
 ###############################
 
