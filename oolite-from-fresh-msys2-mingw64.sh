@@ -33,26 +33,17 @@ git clone https://github.com/gnustep/tools-make.git --branch=$TOOLS_MAKE_VERSION
 
 ###############################
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
+
 # Install build dependencies for GNUstep libs-base
-pacman -S --noconfirm mingw-w64-x86_64-libffi
-pacman -S --noconfirm mingw-w64-x86_64-libxml2
-pacman -S --noconfirm mingw-w64-x86_64-gnutls
-pacman -S --noconfirm mingw-w64-x86_64-icu
-pacman -S --noconfirm mingw-w64-x86_64-libxslt
+. ./deps/libs-base/msys2-deps.env
+pacman -S --noconfirm --needed $LIBS_BASE_MSYS2_DEPS
 
 # Clone libs-base repo - Using latest - Needs https://github.com/gnustep/libs-base/pull/295
 git clone https://github.com/gnustep/libs-base.git
 
 # Make and install libs-base
-cd libs-base
-
-# Use OpenStep plist format
-sed -i '330 s/NSPropertyListXMLFormat_v1_0/NSPropertyListOpenStepFormat/' Source/NSUserDefaults.m
-
-./configure
-make -j $(nproc)
-make -j $(nproc) install
-cd ..
+./deps/libs-base/build.sh
+./deps/libs-base/install.sh
 
 ###############################
 
