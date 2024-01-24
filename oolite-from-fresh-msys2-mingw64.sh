@@ -32,7 +32,7 @@ git clone https://github.com/gnustep/tools-make.git --branch=$TOOLS_MAKE_VERSION
 ./deps/tools-make/install.sh
 
 ###############################
-
+. /mingw64/share/GNUstep/Makefiles/GNUstep.sh
 # Install build dependencies for GNUstep libs-base
 pacman -S --noconfirm mingw-w64-x86_64-libffi
 pacman -S --noconfirm mingw-w64-x86_64-libxml2
