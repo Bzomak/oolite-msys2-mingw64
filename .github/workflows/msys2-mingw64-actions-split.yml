@@ -9,6 +9,8 @@ on:
         required: false
         type: boolean
         default: false
+  pull_request:
+  push:
 jobs:
 
 ########################################
@@ -611,3 +613,27 @@ jobs:
           gh cache list
 
 ########################################
+########################################
+########################################
+
+# Single script to build Oolite from scratch
+
+  build-oolite-from-fresh-msys2-mingw64:
+    name: Test all-in-one build script
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "Checkout this repository"
+        uses: actions/checkout@v4
+
+      - name: "Load dependency versions into env"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+
+      - name: Run build script
+        run: |
+          bash ./oolite-from-fresh-msys2-mingw64.sh
