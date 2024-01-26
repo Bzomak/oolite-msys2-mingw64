@@ -193,8 +193,8 @@ jobs:
       - name: "Load dependency data into env"
         shell: bash
         run: |
-          echo $(cat deps/tools-make/version) >> $GITHUB_ENV
-          echo $(cat deps/tools-make/msys2-deps) >> $GITHUB_ENV
+          echo TOOLS_MAKE_VERSION=$(cat deps/tools-make/version) >> $GITHUB_ENV
+          echo TOOLS_MAKE_MSYS2_DEPS=$(cat deps/tools-make/msys2-deps) >> $GITHUB_ENV
 
       - name: "Check for pre-existing tools-make cache"
         id: check-cache
