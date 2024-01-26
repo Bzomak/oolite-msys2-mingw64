@@ -403,67 +403,6 @@ jobs:
           key: cache-sdl-${{ hashFiles('**/deps/sdl/*') }}
 
 ########################################
-
-  build-js:
-    name: Build JavaScript library
-    runs-on: windows-latest
-    defaults:
-      run:
-        shell: msys2 {0}
-    steps:
-      - name: "Checkout this repository"
-        uses: actions/checkout@v4
-
-      - name: "Load dependency versions into env"
-        uses: aarcangeli/load-dotenv@v1.0.0
-        with:
-          filenames: |
-            deps/js/version.env
-            deps/js/msys2-deps.env
-
-      - name: "Check for pre-existing JavaScript cache"
-        id: check-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: mozilla-2.0
-          key: cache-js-${{ hashFiles('**/deps/js/*') }}
-          lookup-only: true
-
-      - name: "Early exit if cache exists"
-        id: early-exit
-        if: steps.check-cache.outputs.cache-hit == 'true'
-        shell: bash
-        run: |
-          echo "JavaScript cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
-
-      - name: "Set up msys2"
-        if: steps.early-exit.conclusion != 'success'
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.JS_MSYS2_DEPS }}
-
-      - name: "Download and extract JavaScript"
-        if: steps.early-exit.conclusion != 'success'
-        run: |
-          wget ${{ env.JS_VERSION }}
-          tar -xf firefox-4.0.source.tar.bz2
-
-      - name: "Configure and build JavaScript"
-        if: steps.early-exit.conclusion != 'success'
-        run: |
-          bash ./deps/js/build.sh
-
-      - name: "Cache JavaScript build"
-        if: steps.early-exit.conclusion != 'success'
-        uses: actions/cache/save@v4
-        with:
-          path: mozilla-2.0
-          key: cache-js-${{ hashFiles('**/deps/js/*') }}
-
-########################################
 ########################################
 ########################################
 
