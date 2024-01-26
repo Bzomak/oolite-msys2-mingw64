@@ -34,14 +34,6 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
-      - name: "Load dependency versions into env"
-        uses: aarcangeli/load-dotenv@v1.0.0
-        with:
-          filenames: |
-            deps/tools-make/version.env
-            deps/libs-base/version.env
-            deps/sdl/version.env
-
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
@@ -118,14 +110,6 @@ jobs:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
-
-      - name: "Load dependency versions into env"
-        uses: aarcangeli/load-dotenv@v1.0.0
-        with:
-          filenames: |
-            deps/tools-make/version.env
-            deps/libs-base/version.env
-            deps/sdl/version.env
 
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
