@@ -189,6 +189,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: "Load dependency versions into env"
+        shell: bash
         run: |
           echo $(cat deps/tools-make/version.env) >> $GITHUB_ENV
           echo $(cat deps/tools-make/msys2-deps.env) >> $GITHUB_ENV
