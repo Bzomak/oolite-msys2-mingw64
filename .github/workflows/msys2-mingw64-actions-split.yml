@@ -188,7 +188,7 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
-      - name: "Load dependency versions into env"
+      - name: "Load dependency data into env"
         shell: bash
         run: |
           echo $(cat deps/tools-make/version.env) >> $GITHUB_ENV
@@ -251,13 +251,11 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
-      - name: "Load dependency versions into env"
-        uses: aarcangeli/load-dotenv@v1.0.0
-        with:
-          filenames: |
-            deps/tools-make/version.env
-            deps/libs-base/version.env
-            deps/libs-base/msys2-deps.env
+      - name: "Load dependency data into env"
+        shell: bash
+        run: |
+          echo $(cat deps/libs-base/version.env) >> $GITHUB_ENV
+          echo $(cat deps/libs-base/msys2-deps.env) >> $GITHUB_ENV
 
       - name: "Check for pre-existing libs-base cache"
         id: check-cache
@@ -328,12 +326,11 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
-      - name: "Load dependency versions into env"
-        uses: aarcangeli/load-dotenv@v1.0.0
-        with:
-          filenames: |
-            deps/sdl/version.env
-            deps/sdl/msys2-deps.env
+      - name: "Load dependency data into env"
+        shell: bash
+        run: |
+          echo $(cat deps/sdl/version.env) >> $GITHUB_ENV
+          echo $(cat deps/sdl/msys2-deps.env) >> $GITHUB_ENV
 
       - name: "Check for pre-existing SDL cache"
         id: check-cache
@@ -404,13 +401,10 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
-      - name: "Load dependency versions into env"
-        uses: aarcangeli/load-dotenv@v1.0.0
-        with:
-          filenames: |
-            deps/tools-make/version.env
-            deps/libs-base/version.env
-            deps/libs-base/msys2-deps.env
+      - name: "Load dependency data into env"
+        shell: bash
+        run: |
+          echo $(cat deps/libs-base/msys2-deps.env) >> $GITHUB_ENV
 
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
@@ -469,12 +463,10 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
-      - name: "Load dependency versions into env"
-        uses: aarcangeli/load-dotenv@v1.0.0
-        with:
-          filenames: |
-            deps/sdl/version.env
-            deps/sdl/msys2-deps.env
+      - name: "Load dependency data into env"
+        shell: bash
+        run: |
+          echo $(cat deps/sdl/msys2-deps.env) >> $GITHUB_ENV
 
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
@@ -550,7 +542,7 @@ jobs:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
 
-      - name: "Load dependency versions into env"
+      - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
