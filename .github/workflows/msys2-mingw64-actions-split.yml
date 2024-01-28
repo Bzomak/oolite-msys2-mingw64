@@ -125,7 +125,7 @@ jobs:
       - name: "Load dependency data into env"
         shell: bash
         run: |
-          echo OOLITE_INSALLTER_BUILD_MSYS2_DEPS=$(cat oolite-installer-config/msys2-deps) >> $GITHUB_ENV
+          echo OOLITE_INSTALLER_BUILD_MSYS2_DEPS=$(cat oolite-installer-config/msys2-deps) >> $GITHUB_ENV
 
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
@@ -133,7 +133,7 @@ jobs:
           msystem: MINGW64
           update: true
           install: |
-            base-devel git mingw-w64-x86_64-gcc-objc mingw-w64-x86_64-libffi mingw-w64-x86_64-libxml2 mingw-w64-x86_64-gnutls mingw-w64-x86_64-icu mingw-w64-x86_64-libxslt mingw-w64-x86_64-nsis
+            ${{ env.OOLITE_INSTALLER_BUILD_MSYS2_DEPS }}
 
       - name: "Retrieve tools-make cache"
         uses: actions/cache/restore@v4
