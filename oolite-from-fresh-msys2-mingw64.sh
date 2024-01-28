@@ -20,11 +20,11 @@ pacman -S --noconfirm git
 ###############################
 
 # Install build dependencies for GNUstep make
-TOOLS_MAKE_MSYS2_DEPS=$(cat ./deps/tools-make/msys2-deps.env)
+TOOLS_MAKE_MSYS2_DEPS=$(cat ./deps/tools-make/msys2-deps)
 pacman -S --noconfirm --needed $TOOLS_MAKE_MSYS2_DEPS
 
 # Clone tools-make repo
-TOOLS_MAKE_VERSION=$(cat ./deps/tools-make/version.env)
+TOOLS_MAKE_VERSION=$(cat ./deps/tools-make/version)
 git clone https://github.com/gnustep/tools-make.git --branch=$TOOLS_MAKE_VERSION
 
 # Make and Install gmake
@@ -34,11 +34,11 @@ git clone https://github.com/gnustep/tools-make.git --branch=$TOOLS_MAKE_VERSION
 ###############################
 
 # Install build dependencies for GNUstep libs-base
-. ./deps/libs-base/msys2-deps.env
+. ./deps/libs-base/msys2-deps
 pacman -S --noconfirm --needed $LIBS_BASE_MSYS2_DEPS
 
 # Clone libs-base repo - Needs https://github.com/gnustep/libs-base/pull/295
-. ./deps/libs-base/version.env
+. ./deps/libs-base/version
 git clone https://github.com/gnustep/libs-base.git
 cd libs-base 
 git checkout $LIBS_BASE_VERSION
@@ -58,11 +58,11 @@ git checkout
 cd ..
 
 # Install build dependencies for SDL
-. ./deps/sdl/msys2-deps.env
+. ./deps/sdl/msys2-deps
 pacman -S --noconfirm --needed $SDL_MSYS2_DEPS
 
 # Download SDL and extract from tarball
-. ./deps/sdl/version.env
+. ./deps/sdl/version
 wget $SDL_VERSION
 tar -xf SDL-1.2.13.tar.gz
 
