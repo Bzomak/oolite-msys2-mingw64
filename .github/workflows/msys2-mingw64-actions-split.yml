@@ -112,6 +112,8 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
+    env:
+      OOLITE_INSTALLER_BUILD_MSYS2_DEPS:
     strategy:
       matrix:
         build_type: [release, release-deployment, release-snapshot]
@@ -119,6 +121,11 @@ jobs:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
+
+      - name: "Load dependency data into env"
+        shell: bash
+        run: |
+          echo OOLITE_INSALLTER_BUILD_MSYS2_DEPS=$(cat oolite-installer-config/msys2-deps) >> $GITHUB_ENV
 
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
@@ -170,9 +177,7 @@ jobs:
 
       - name: "Build installers"
         run: |
-          cd oolite
-          . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
-          make -j $(nproc) -f Makefile pkg-win-${{ matrix.build_type }}
+          bash ./oolite-installer-config/build.sh ${{ matrix.build_type }}
 
       - name: "Upload Oolite installers as artifacts"
         uses: actions/upload-artifact@v4
