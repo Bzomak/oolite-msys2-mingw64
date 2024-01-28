@@ -331,8 +331,8 @@ jobs:
       - name: "Load dependency data into env"
         shell: bash
         run: |
-          echo $(cat deps/sdl/version) >> $GITHUB_ENV
-          echo $(cat deps/sdl/msys2-deps) >> $GITHUB_ENV
+          echo SDL_VERSION=$(cat deps/sdl/version) >> $GITHUB_ENV
+          echo SDL_MSYS2_DEPS=$(cat deps/sdl/msys2-deps) >> $GITHUB_ENV
 
       - name: "Check for pre-existing SDL cache"
         id: check-cache
@@ -468,7 +468,7 @@ jobs:
       - name: "Load dependency data into env"
         shell: bash
         run: |
-          echo $(cat deps/sdl/msys2-deps) >> $GITHUB_ENV
+          echo SDL_MSYS2_DEPS=$(cat deps/sdl/msys2-deps) >> $GITHUB_ENV
 
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2

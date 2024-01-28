@@ -58,11 +58,11 @@ git checkout
 cd ..
 
 # Install build dependencies for SDL
-. ./deps/sdl/msys2-deps
+SDL_MSYS2_DEPS=$(cat ./deps/sdl/msys2-deps)
 pacman -S --noconfirm --needed $SDL_MSYS2_DEPS
 
 # Download SDL and extract from tarball
-. ./deps/sdl/version
+SDL_VERSION=$(cat ./deps/sdl/version)
 wget $SDL_VERSION
 tar -xf SDL-1.2.13.tar.gz
 
