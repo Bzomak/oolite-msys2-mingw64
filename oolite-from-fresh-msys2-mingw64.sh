@@ -34,11 +34,11 @@ git clone https://github.com/gnustep/tools-make.git --branch=$TOOLS_MAKE_VERSION
 ###############################
 
 # Install build dependencies for GNUstep libs-base
-. ./deps/libs-base/msys2-deps
+LIBS_BASE_MSYS2_DEPS=$(cat ./deps/libs-base/msys2-deps)
 pacman -S --noconfirm --needed $LIBS_BASE_MSYS2_DEPS
 
 # Clone libs-base repo - Needs https://github.com/gnustep/libs-base/pull/295
-. ./deps/libs-base/version
+LIBS_BASE_VERSION=$(cat ./deps/libs-base/version)
 git clone https://github.com/gnustep/libs-base.git
 cd libs-base 
 git checkout $LIBS_BASE_VERSION
