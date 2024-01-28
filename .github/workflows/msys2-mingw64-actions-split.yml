@@ -186,6 +186,9 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
+    env:
+      TOOLS_MAKE_VERSION:
+      TOOLS_MAKE_MSYS2_DEPS:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
@@ -249,6 +252,9 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
+    env:
+      LIBS_BASE_VERSION:
+      LIBS_BASE_MSYS2_DEPS:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
@@ -324,6 +330,9 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
+    env:
+      SDL_VERSION:
+      SDL_MSYS2_DEPS:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
@@ -399,6 +408,8 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
+    env:
+      LIBS_BASE_MSYS2_DEPS:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
@@ -461,6 +472,8 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
+    env:
+      SDL_MSYS2_DEPS:
     steps:
       - name: "Checkout this repository"
         uses: actions/checkout@v4
