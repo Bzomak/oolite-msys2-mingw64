@@ -256,8 +256,8 @@ jobs:
       - name: "Load dependency data into env"
         shell: bash
         run: |
-          echo $(cat deps/libs-base/version) >> $GITHUB_ENV
-          echo $(cat deps/libs-base/msys2-deps) >> $GITHUB_ENV
+          echo LIBS_BASE_VERSION=$(cat deps/libs-base/version) >> $GITHUB_ENV
+          echo LIBS_BASE_MSYS2_DEPS=$(cat deps/libs-base/msys2-deps) >> $GITHUB_ENV
 
       - name: "Check for pre-existing libs-base cache"
         id: check-cache
@@ -406,7 +406,7 @@ jobs:
       - name: "Load dependency data into env"
         shell: bash
         run: |
-          echo $(cat deps/libs-base/msys2-deps) >> $GITHUB_ENV
+          echo LIBS_BASE_MSYS2_DEPS=$(cat deps/libs-base/msys2-deps) >> $GITHUB_ENV
 
       - name: "Set up msys2"
         uses: msys2/setup-msys2@v2
