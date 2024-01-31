@@ -37,7 +37,8 @@ sed -i 's/pkg-win/pkg-win-release/' Makefile
 sed -i 's|/nsis/makensis.exe|/mingw64/bin/makensis.exe|' Makefile
 
 # Stop copying Oolite's precompiled dlls
-# sed needs to comment out lines 60 to 70
+# sed needs to comment out lines 59 to 70
+sed -i '59 s/^/#/' Gnumakefile.postamble
 sed -i '60 s/^/#/' Gnumakefile.postamble
 sed -i '61 s/^/#/' Gnumakefile.postamble
 sed -i '62 s/^/#/' Gnumakefile.postamble
