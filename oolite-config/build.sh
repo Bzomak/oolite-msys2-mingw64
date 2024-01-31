@@ -36,6 +36,23 @@ sed -i 's/pkg-win/pkg-win-release/' Makefile
 # Stop the installer from rebuilding Oolite
 sed -i 's|/nsis/makensis.exe|/mingw64/bin/makensis.exe|' Makefile
 
+# Stop copying Oolite's precompiled dlls
+# sed needs to comment out lines 60 to 70
+sed -i '60 s/^/#/' Gnumakefile.postamble
+sed -i '61 s/^/#/' Gnumakefile.postamble
+sed -i '62 s/^/#/' Gnumakefile.postamble
+sed -i '63 s/^/#/' Gnumakefile.postamble
+sed -i '64 s/^/#/' Gnumakefile.postamble
+sed -i '65 s/^/#/' Gnumakefile.postamble
+sed -i '66 s/^/#/' Gnumakefile.postamble
+sed -i '67 s/^/#/' Gnumakefile.postamble
+sed -i '68 s/^/#/' Gnumakefile.postamble
+sed -i '69 s/^/#/' Gnumakefile.postamble
+sed -i '70 s/^/#/' Gnumakefile.postamble
+
 # Try to build
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
 make -j $(nproc) -f Makefile $1
+
+# Need to copy the correct dlls to the oolite.app folder
+# Will start off by copying them all manually, and then in a later version will call a series of scripts
