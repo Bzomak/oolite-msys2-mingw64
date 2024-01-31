@@ -72,6 +72,11 @@ tar -xf SDL-1.2.13.tar.gz
 
 ###############################
 
+# Install build dependencies for Oolite
+# Some of these are already installed, but we're reusing the list from the build Oolite job on GitHub Actions
+OOLITE_MSYS2_DEPS=$(cat ./oolite-config/msys2-deps)
+pacman -S --noconfirm --needed $OOLITE_MSYS2_DEPS
+
 # Clone Oolite repo and submodules
 git clone --recursive https://github.com/OoliteProject/oolite.git
 
