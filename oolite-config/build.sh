@@ -50,6 +50,13 @@ sed -i '68 s/^/#/' Gnumakefile.postamble
 sed -i '69 s/^/#/' Gnumakefile.postamble
 sed -i '70 s/^/#/' Gnumakefile.postamble
 
+# Use pre-build MSYS2 png and openal
+sed -i '33 s/-lopenal32.dll -lpng14.dll/-lopenal.dll -lpng16.dll/' GNUMakefile
+
+# Remove the oolite-windows-dependencies repo's include & libs folders
+sed -i '32 s/-I$(WIN_DEPS_DIR)\/include //' GNUMakefile
+sed -i '33 s/-L$(WIN_DEPS_DIR)\/lib //' GNUMakefile
+
 # Try to build
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
 make -j $(nproc) -f Makefile $1
