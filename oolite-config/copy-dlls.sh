@@ -6,6 +6,11 @@
 
 ###############################
 
+# Try asking Oolite what dlls it thinks it needs
+echo "Checking dlls before copying"
+ldd ./oolite/oolite.app/oolite.exe
+
+
 cp /mingw64/bin/libobjc-4.dll ./oolite/oolite.app/
 cp /mingw64/bin/gnustep-base-1_29.dll ./oolite/oolite.app/
 cp /mingw64/bin/libopenal-1.dll ./oolite/oolite.app/
@@ -30,4 +35,5 @@ cp ./oolite/deps/Windows-deps/x86_64/DLLs/js32ECMAv5.dll ./oolite/oolite.app/
 ###############################
 
 # Try asking Oolite what dlls it thinks it needs
+echo "Checking dlls after copying"
 ldd ./oolite/oolite.app/oolite.exe
