@@ -30,4 +30,5 @@ cp ./oolite/deps/Windows-deps/x86_64/DLLs/js32ECMAv5.dll ./oolite/oolite.app/
 ###############################
 
 # Try asking Oolite what dlls it thinks it needs
+pacman -S --noconfirm --needed mingw-w64-x86_64-lld
 lld ./oolite/oolite.app/oolite.exe
