@@ -19,6 +19,7 @@ cp /mingw64/bin/libffi-8.dll ./oolite/oolite.app/
 cp /mingw64/bin/libicuin74.dll ./oolite/oolite.app/
 cp /mingw64/bin/libicuuc74.dll ./oolite/oolite.app/
 cp /mingw64/bin/libiconv-2.dll ./oolite/oolite.app/
+cp /mingw64/bin/libxml2-2.dll ./oolite/oolite.app/
 
 ###############################
 
