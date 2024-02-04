@@ -26,3 +26,8 @@ cp /mingw64/bin/libxml2-2.dll ./oolite/oolite.app/
 # Copy the js lib from the oolite-windows-dependencies repo to the oolite.app folder
 # Once we can build it ourselves it can be copied with the other dlls
 cp ./oolite/deps/Windows-deps/x86_64/DLLs/js32ECMAv5.dll ./oolite/oolite.app/
+
+###############################
+
+# Try asking Oolite what dlls it thinks it needs
+lld ./oolite/oolite.app/oolite.exe
