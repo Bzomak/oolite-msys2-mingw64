@@ -16,9 +16,9 @@ cp /mingw64/bin/libgcc_s_seh-1.dll ./oolite/oolite.app/
 cp /mingw64/bin/libwinpthread-1.dll ./oolite/oolite.app/
 CP /mingw64/bin/libstdc++-6.dll ./oolite/oolite.app/
 cp /mingw64/bin/libffi-8.dll ./oolite/oolite.app/
-cp /mingw64/bin/icuin74.dll ./oolite/oolite.app/
-cp /mingw64/bin/icuuc74.dll ./oolite/oolite.app/
-cp /mingw64/bin/iconv-2.dll ./oolite/oolite.app/
+cp /mingw64/bin/libicuin74.dll ./oolite/oolite.app/
+cp /mingw64/bin/libicuuc74.dll ./oolite/oolite.app/
+cp /mingw64/bin/libiconv-2.dll ./oolite/oolite.app/
 
 ###############################
 
