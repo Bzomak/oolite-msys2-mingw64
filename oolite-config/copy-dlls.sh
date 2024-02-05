@@ -41,7 +41,7 @@ ldd ./oolite/oolite.app/oolite.exe
 ###############################
 
 # Check if the required argument is provided
-if [ $# -ne 1 ]; then
+if [ $# -lt 1 ]; then
     echo "Usage: $0 <application_name>"
     exit 1
 fi
