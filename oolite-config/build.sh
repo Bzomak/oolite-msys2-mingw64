@@ -66,6 +66,10 @@ sed -i '17 s/yes/no/' config.make
 make -j $(nproc) -f Makefile $1
 
 # Need to copy the correct dlls to the oolite.app folder
-# Will start off by copying them all at once, and then in a later version will call a series of scripts
 cd ..
+if $1 == "release" || $1 == "release-deployment" || $1 == "release-snapshot"; then
+    ./oolite-config/copy-dlls.sh ./oolite/oolite.app/oolite.exe
+elif $1 == "debug"; then
+    ./oolite-config/copy-dlls.sh ./oolite/oolite.app/oolite.dbg.exe
+fi
 ./oolite-config/copy-dlls.sh ./oolite/oolite.app/oolite.exe

@@ -86,6 +86,3 @@ git clone --recursive https://github.com/OoliteProject/oolite.git
 ###############################
 ###############################
 ###############################
-
-# Copy required dlls to the oolite.app folder
-./oolite-config/copy-dlls.sh ./oolite/oolite.app/oolite.exe
