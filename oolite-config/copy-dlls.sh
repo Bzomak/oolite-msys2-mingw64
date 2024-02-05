@@ -55,7 +55,7 @@ if [ -z "$dll_list" ]; then
 fi
 
 # Filter the DLLs by those in /mingw64/bin
-    filtered_dll_list=$(echo "$dll_list" | grep "/mingw64/bin")
+    filtered_dll_list=$(echo "$dll_list" | grep "/mingw64/bin" | awk '{print $3}')
     if [ -z "$filtered_dll_list" ]; then
         echo "No DLLs found in directory: /mingw64/bin"
         exit 1
@@ -75,4 +75,4 @@ done
 
 # Try asking Oolite what dlls it thinks it needs
 echo "Checking dlls after copying"
-ldd ./oolite/oolite.app/oolite.exe | sort
+ldd ./oolite/oolite.app/oolite.exe
