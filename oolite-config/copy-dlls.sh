@@ -63,11 +63,11 @@ fi
 
 
 # Copy the required dlls to the oolite.app folder using the filtered list
-$app_location=$(dirname $app_name)
-foreach ($dll in $filtered_dll_list) {
+$app_location="$(dirname $app_name)/"
+for $dll in $filtered_dll_list; do
     echo $dll
     cp $dll $app_location
-}
+done
 
 ###############################
 
