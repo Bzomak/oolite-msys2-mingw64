@@ -45,7 +45,9 @@ done
 
 ###############################
 
-# Try asking Oolite what dlls it thinks it needs
+# Try asking Oolite again what dlls it thinks it needs after copying
 echo "Checking dlls after copying"
-$dll_list=$(ldd $app_name)
-echo "$dll_list"
+post_copy_dll_list=$(ldd $app_name)
+echo "$post_copy_dll_list"
+
+###############################
