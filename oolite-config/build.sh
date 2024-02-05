@@ -67,15 +67,14 @@ make -j $(nproc) -f Makefile $1
 
 # Need to copy the correct dlls to the oolite.app folder
 cd ..
-if $1 == "release" || $1 == "release-deployment" || $1 == "release-snapshot"; then
+if [ "$1" = "release" ] || [ "$1" = "release-deployment" ] || [ "$1" = "release-snapshot" ]; then
     ./oolite-config/copy-dlls.sh ./oolite/oolite.app/oolite.exe
     # Copy the js lib from the oolite-windows-dependencies repo to the oolite.app folder
     # Once we can build it ourselves it can be copied with the other dlls
     cp ./oolite/deps/Windows-deps/x86_64/DLLs/js32ECMAv5.dll ./oolite/oolite.app/
-elif $1 == "debug"; then
+elif [ "$1" = "debug" ]; then
     ./oolite-config/copy-dlls.sh ./oolite/oolite.app/oolite.dbg.exe
     # Copy the js lib from the oolite-windows-dependencies repo to the oolite.app folder
     # Once we can build it ourselves it can be copied with the other dlls
     cp ./oolite/deps/Windows-deps/x86_64/DLLs/js32ECMAv5dbg.dll ./oolite/oolite.app/
 fi
-./oolite-config/copy-dlls.sh ./oolite/oolite.app/oolite.exe
