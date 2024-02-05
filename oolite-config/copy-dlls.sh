@@ -44,7 +44,7 @@ fi
 app_name=$1
 
 # Get the list of DLLs for the application using 'ldd' command
-dll_list=$(ldd $app_name     | grep -oE '/[a-zA-Z0-9./_]+\.dll')
+dll_list=$(ldd $app_name)
 echo "DLLs used by $app_name:"
 echo "$dll_list"
 
@@ -67,7 +67,7 @@ fi
 # Copy the required dlls to the oolite.app folder using the filtered list
 app_location="$(dirname $app_name)/"
 for dll in $filtered_dll_list; do
-    echo $dll
+    echo "Copying $dll"
     cp $dll $app_location
 done
 
