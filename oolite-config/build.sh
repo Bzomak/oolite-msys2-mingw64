@@ -68,4 +68,4 @@ make -j $(nproc) -f Makefile $1
 # Need to copy the correct dlls to the oolite.app folder
 # Will start off by copying them all at once, and then in a later version will call a series of scripts
 cd ..
-./oolite-config/copy-dlls.sh
+./oolite-config/copy-dlls.sh ./oolite/oolite.app/oolite.exe
