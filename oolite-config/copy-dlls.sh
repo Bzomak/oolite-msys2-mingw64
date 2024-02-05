@@ -37,3 +37,30 @@ cp ./oolite/deps/Windows-deps/x86_64/DLLs/js32ECMAv5.dll ./oolite/oolite.app/
 # Try asking Oolite what dlls it thinks it needs
 echo "Checking dlls after copying"
 ldd ./oolite/oolite.app/oolite.exe
+
+###############################
+
+# Check if the required argument is provided
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <application_name>"
+    exit 1
+fi
+
+# Store the application name provided as argument
+app_name=$1
+
+# Get the list of DLLs for the application using 'ldd' command
+dll_list=$(ldd $(which $app_name) | grep -oE '/[a-zA-Z0-9./_]+\.dll')
+
+# Check if any DLLs are found
+if [ -z "$dll_list" ]; then
+    echo "No DLLs found for the application: $app_name"
+    exit 1
+fi
+
+# Sort the DLLs by location
+sorted_dll_list=$(echo "$dll_list" | sort)
+
+# Output the sorted DLL list
+echo "Sorted DLLs used by $app_name:"
+echo "$sorted_dll_list"
