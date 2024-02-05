@@ -58,9 +58,17 @@ if [ -z "$dll_list" ]; then
     exit 1
 fi
 
-# Sort the DLLs by location
-sorted_dll_list=$(echo "$dll_list" | sort)
-
-# Output the sorted DLL list
-echo "Sorted DLLs used by $app_name:"
-echo "$sorted_dll_list"
+# If a directory path is provided as the second argument, filter the DLLs by that directory
+if [ -n "$2" ]; then
+    directory_path=$2
+    filtered_dll_list=$(echo "$dll_list" | grep "$directory_path")
+    if [ -z "$filtered_dll_list" ]; then
+        echo "No DLLs found in directory: $directory_path"
+        exit 1
+    fi
+    echo "Filtered DLLs in directory $directory_path used by $app_name:"
+    echo "$filtered_dll_list"
+else
+    echo "DLLs used by $app_name:"
+    echo "$dll_list"
+fi
