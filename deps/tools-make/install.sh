@@ -6,5 +6,5 @@
 
 ###############################
 
-cd tools-make
+cd tools-make || exit
 make -j $(nproc) install

@@ -8,7 +8,7 @@
 
 ###############################
 
-cd oolite
+cd oolite || exit
 
 # Add -fobjc-exceptions and -fcommon to OBJC flags in GNUMakefile, line 36
 # Since gcc 10 -fno-common is default; add -fcommon to avoid 9425 (yes, 9425!) errors of the form

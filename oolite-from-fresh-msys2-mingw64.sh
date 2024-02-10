@@ -40,7 +40,7 @@ pacman -S --noconfirm --needed $LIBS_BASE_MSYS2_DEPS
 # Clone libs-base repo - Needs https://github.com/gnustep/libs-base/pull/295
 LIBS_BASE_VERSION=$(cat ./deps/libs-base/version)
 git clone https://github.com/gnustep/libs-base.git
-cd libs-base 
+cd libs-base || exit 
 git checkout $LIBS_BASE_VERSION
 cd ..
 
@@ -52,7 +52,7 @@ cd ..
 
 # Download Oolite SDL patch
 git clone https://github.com/OoliteProject/oolite-windows-dependencies.git Windows-deps --sparse
-cd Windows-deps
+cd Windows-deps || exit
 git sparse-checkout set OOSDLWin32Patch
 git checkout
 cd ..

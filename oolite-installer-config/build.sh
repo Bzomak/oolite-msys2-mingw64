@@ -8,6 +8,6 @@
 
 ###############################
 
-cd oolite
+cd oolite || exit
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
 make -j $(nproc) -f Makefile pkg-win-$1
