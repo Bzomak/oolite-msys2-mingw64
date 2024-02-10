@@ -8,4 +8,4 @@
 
 cd tools-make || exit
 ./configure
-make -j$(nproc)
+make -j "$(nproc)"

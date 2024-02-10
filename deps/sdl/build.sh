@@ -13,4 +13,4 @@ cd SDL-1.2.13 || exit
 ./configure
 # Add flags back that configure seems to remove
 sed -i '/^EXTRA_LDFLAGS/ s/$/ -ldxerr8 -ldinput8 -lole32/' Makefile
-make -j$(nproc)
+make -j "$(nproc)"

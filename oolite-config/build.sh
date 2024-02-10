@@ -63,7 +63,7 @@ sed -i '17 s/yes/no/' config.make
 
 # Try to build
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
-make -j $(nproc) -f Makefile $1
+make -j "$(nproc)" -f Makefile $1
 
 # Need to copy the correct dlls to the oolite.app folder
 cd ..

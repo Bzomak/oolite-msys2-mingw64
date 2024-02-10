@@ -8,4 +8,4 @@
 
 cd libs-base || exit
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
-make -j $(nproc) install
+make -j "$(nproc)" install
