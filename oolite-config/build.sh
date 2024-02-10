@@ -36,6 +36,45 @@ sed -i 's/pkg-win/pkg-win-release/' Makefile
 # Stop the installer from rebuilding Oolite
 sed -i 's|/nsis/makensis.exe|/mingw64/bin/makensis.exe|' Makefile
 
+# Stop copying Oolite's precompiled dlls
+# sed needs to comment out lines 59 to 70
+sed -i '59 s/^/#/' Gnumakefile.postamble
+sed -i '60 s/^/#/' Gnumakefile.postamble
+sed -i '61 s/^/#/' Gnumakefile.postamble
+sed -i '62 s/^/#/' Gnumakefile.postamble
+sed -i '63 s/^/#/' Gnumakefile.postamble
+sed -i '64 s/^/#/' Gnumakefile.postamble
+sed -i '65 s/^/#/' Gnumakefile.postamble
+sed -i '66 s/^/#/' Gnumakefile.postamble
+sed -i '67 s/^/#/' Gnumakefile.postamble
+sed -i '68 s/^/#/' Gnumakefile.postamble
+sed -i '69 s/^/#/' Gnumakefile.postamble
+sed -i '70 s/^/#/' Gnumakefile.postamble
+
+# Use pre-build MSYS2 png and openal
+sed -i '33 s/-lopenal32.dll -lpng14.dll/-lopenal.dll -lpng16.dll/' GNUMakefile
+
+# Remove the oolite-windows-dependencies repo's include & libs folders
+sed -i '32 s/-I$(WIN_DEPS_DIR)\/include //' GNUMakefile
+sed -i '33 s/-L$(WIN_DEPS_DIR)\/lib //' GNUMakefile
+
+# Change espeak=no in config.make - shall be removed once we can build espeak on MSYS2
+sed -i '17 s/yes/no/' config.make
+
 # Try to build
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
 make -j $(nproc) -f Makefile $1
+
+# Need to copy the correct dlls to the oolite.app folder
+cd ..
+if [ "$1" = "release" ] || [ "$1" = "release-deployment" ] || [ "$1" = "release-snapshot" ]; then
+    # Copy the js lib from the oolite-windows-dependencies repo to the oolite.app folder
+    # Once we can build it ourselves it can be copied with the other dlls
+    cp ./oolite/deps/Windows-deps/x86_64/DLLs/js32ECMAv5.dll ./oolite/oolite.app/
+    ./oolite-config/copy-dlls.sh ./oolite/oolite.app/oolite.exe
+elif [ "$1" = "debug" ]; then
+    # Copy the js lib from the oolite-windows-dependencies repo to the oolite.app folder
+    # Once we can build it ourselves it can be copied with the other dlls
+    cp ./oolite/deps/Windows-deps/x86_64/DLLs/js32ECMAv5dbg.dll ./oolite/oolite.app/
+    ./oolite-config/copy-dlls.sh ./oolite/oolite.app/oolite.dbg.exe
+fi
