@@ -20,7 +20,7 @@ pacman -S --noconfirm git
 ###############################
 
 # Install build dependencies for GNUstep make
-read -ar TOOLS_MAKE_MSYS2_DEPS < ./deps/tools-make/msys2-deps
+read -aru ./deps/tools-make/msys2-deps TOOLS_MAKE_MSYS2_DEPS 
 pacman -S --noconfirm --needed "${TOOLS_MAKE_MSYS2_DEPS[@]}"
 
 # Clone tools-make repo
@@ -34,7 +34,7 @@ git clone https://github.com/gnustep/tools-make.git --branch="$TOOLS_MAKE_VERSIO
 ###############################
 
 # Install build dependencies for GNUstep libs-base
-read -ar LIBS_BASE_MSYS2_DEPS < ./deps/libs-base/msys2-deps
+read -aru ./deps/libs-base/msys2-deps LIBS_BASE_MSYS2_DEPS
 pacman -S --noconfirm --needed "${LIBS_BASE_MSYS2_DEPS[@]}"
 
 # Clone libs-base repo - Needs https://github.com/gnustep/libs-base/pull/295
@@ -58,7 +58,7 @@ git checkout
 cd ..
 
 # Install build dependencies for SDL
-read -ar SDL_MSYS2_DEPS < ./deps/sdl/msys2-deps
+read -aru ./deps/sdl/msys2-deps SDL_MSYS2_DEPS
 pacman -S --noconfirm --needed "${SDL_MSYS2_DEPS[@]}"
 
 # Download SDL and extract from tarball
@@ -74,7 +74,7 @@ tar -xf SDL-1.2.13.tar.gz
 
 # Install build dependencies for Oolite
 # Some of these are already installed, but we're reusing the list from the build Oolite job on GitHub Actions
-read -ar OOLITE_MSYS2_DEPS < ./oolite-config/msys2-deps
+read -aru ./oolite-config/msys2-deps OOLITE_MSYS2_DEPS
 pacman -S --noconfirm --needed "${OOLITE_MSYS2_DEPS[@]}"
 
 # Clone Oolite repo and submodules
