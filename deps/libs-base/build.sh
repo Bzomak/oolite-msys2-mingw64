@@ -6,6 +6,7 @@
 
 ###############################
 
+# shellcheck source=/dev/null
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
 cd libs-base || exit
 # Use OpenStep plist format

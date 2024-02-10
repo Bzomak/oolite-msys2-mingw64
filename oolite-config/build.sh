@@ -65,6 +65,7 @@ sed -i '33 s/-L$(WIN_DEPS_DIR)\/lib //' GNUMakefile
 sed -i '17 s/yes/no/' config.make
 
 # Try to build
+# shellcheck source=/dev/null
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
 make -j "$(nproc)" -f Makefile "$1"
 
