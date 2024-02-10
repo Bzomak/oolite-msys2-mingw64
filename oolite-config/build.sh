@@ -20,6 +20,7 @@ sed -i '36 s/$/ -fobjc-exceptions -fcommon/' GNUMakefile
 # Uncomment JS_LIB_DIR
 sed -i '25 s/^#//' GNUMakefile
 # Add JS_LIB_DIR to ADDITIONAL_OBJC_LIBS
+# shellcheck disable=SC2016
 sed -i '33 s/-l$(JS_IMPORT_LIBRARY) /-L$(JS_LIB_DIR) &/' GNUMakefile
 
 # Use tool.make instead of objc.make
@@ -55,7 +56,9 @@ sed -i '70 s/^/#/' Gnumakefile.postamble
 sed -i '33 s/-lopenal32.dll -lpng14.dll/-lopenal.dll -lpng16.dll/' GNUMakefile
 
 # Remove the oolite-windows-dependencies repo's include & libs folders
+# shellcheck disable=SC2016
 sed -i '32 s/-I$(WIN_DEPS_DIR)\/include //' GNUMakefile
+# shellcheck disable=SC2016
 sed -i '33 s/-L$(WIN_DEPS_DIR)\/lib //' GNUMakefile
 
 # Change espeak=no in config.make - shall be removed once we can build espeak on MSYS2
