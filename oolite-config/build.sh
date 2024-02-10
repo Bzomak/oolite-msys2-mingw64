@@ -8,7 +8,7 @@
 
 ###############################
 
-cd oolite
+cd oolite || exit
 
 # Add -fobjc-exceptions and -fcommon to OBJC flags in GNUMakefile, line 36
 # Since gcc 10 -fno-common is default; add -fcommon to avoid 9425 (yes, 9425!) errors of the form
@@ -20,6 +20,7 @@ sed -i '36 s/$/ -fobjc-exceptions -fcommon/' GNUMakefile
 # Uncomment JS_LIB_DIR
 sed -i '25 s/^#//' GNUMakefile
 # Add JS_LIB_DIR to ADDITIONAL_OBJC_LIBS
+# shellcheck disable=SC2016
 sed -i '33 s/-l$(JS_IMPORT_LIBRARY) /-L$(JS_LIB_DIR) &/' GNUMakefile
 
 # Use tool.make instead of objc.make
@@ -55,15 +56,18 @@ sed -i '70 s/^/#/' Gnumakefile.postamble
 sed -i '33 s/-lopenal32.dll -lpng14.dll/-lopenal.dll -lpng16.dll/' GNUMakefile
 
 # Remove the oolite-windows-dependencies repo's include & libs folders
+# shellcheck disable=SC2016
 sed -i '32 s/-I$(WIN_DEPS_DIR)\/include //' GNUMakefile
+# shellcheck disable=SC2016
 sed -i '33 s/-L$(WIN_DEPS_DIR)\/lib //' GNUMakefile
 
 # Change espeak=no in config.make - shall be removed once we can build espeak on MSYS2
 sed -i '17 s/yes/no/' config.make
 
 # Try to build
+# shellcheck source=/dev/null
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
-make -j $(nproc) -f Makefile $1
+make -j "$(nproc)" -f Makefile "$1"
 
 # Need to copy the correct dlls to the oolite.app folder
 cd ..

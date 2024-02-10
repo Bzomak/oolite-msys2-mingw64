@@ -6,5 +6,5 @@
 
 ###############################
 
-cd SDL-1.2.13
-make -j $(nproc) install
+cd SDL-1.2.13 || exit
+make -j "$(nproc)" install

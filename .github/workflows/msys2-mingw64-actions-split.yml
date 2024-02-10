@@ -578,3 +578,23 @@ jobs:
       - name: Run build script
         run: |
           bash ./oolite-from-fresh-msys2-mingw64.sh
+
+########################################
+########################################
+########################################
+
+# Run Shellcheck to lint the scripts
+
+  shellcheck:
+    name: Run ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout this repository"
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+
+########################################
+########################################
+########################################
