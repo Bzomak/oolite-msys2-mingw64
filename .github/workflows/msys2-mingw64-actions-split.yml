@@ -61,7 +61,7 @@ jobs:
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
       # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Cache data for tools-make missing
+      - name: Fail if cached data for tools-make is missing
         if: steps.restore-tools-make.outputs.cache-hit != 'true'
         run: echo "Unable to restore tools-make files from previous job" && false
 
@@ -79,7 +79,7 @@ jobs:
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
       # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Cache data for libs-base missing
+      - name: Fail if cached data for libs-base is missing
         if: steps.restore-libs-base.outputs.cache-hit != 'true'
         run: echo "Unable to restore libs-base files from previous job" && false
 
@@ -97,7 +97,7 @@ jobs:
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
       # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Cache data for SDL missing
+      - name: Fail if cached data for SDL is missing
         if: steps.restore-sdl.outputs.cache-hit != 'true'
         run: echo "Unable to restore SDL files from previous job" && false
 
@@ -166,7 +166,7 @@ jobs:
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
       # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Cache data for tools-make missing
+      - name: Fail if cached data for tools-make is missing
         if: steps.restore-tools-make.outputs.cache-hit != 'true'
         run: echo "Unable to restore tools-make files from previous job" && false
     
@@ -184,7 +184,7 @@ jobs:
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
       # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Cache data for libs-base missing
+      - name: Fail if cached data for libs-base is missing
         if: steps.restore-libs-base.outputs.cache-hit != 'true'
         run: echo "Unable to restore libs-base files from previous job" && false
 
@@ -202,7 +202,7 @@ jobs:
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
       # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Cache data for SDL missing
+      - name: Fail if cached data for SDL is missing
         if: steps.restore-sdl.outputs.cache-hit != 'true'
         run: echo "Unable to restore SDL files from previous job" && false
 
@@ -220,7 +220,7 @@ jobs:
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
       # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Cache data for Oolite missing
+      - name: Fail if cached data for Oolite is missing
         if: steps.restore-oolite.outputs.cache-hit != 'true'
         run: echo "Unable to restore Oolite files from previous job" && false
 
@@ -361,7 +361,7 @@ jobs:
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
       # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Cache data for tools-make missing
+      - name: Fail if cached data for tools-make is missing
         if: steps.early-exit.conclusion != 'success' && steps.restore-tools-make.outputs.cache-hit != 'true'
         run: echo "Unable to restore tools-make files from previous job" && false
 
@@ -505,7 +505,7 @@ jobs:
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
       # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Cache data for tools-make missing
+      - name: Fail if cached data for tools-make is missing
         if: steps.restore-tools-make.outputs.cache-hit != 'true'
         run: echo "Unable to restore tools-make files from previous job" && false
 
@@ -523,7 +523,7 @@ jobs:
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
       # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Cache data for libs-base missing
+      - name: Fail if cached data for libs-base is missing
         if: steps.restore-libs-base.outputs.cache-hit != 'true'
         run: echo "Unable to restore libs-base files from previous job" && false
 
@@ -583,7 +583,7 @@ jobs:
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
       # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Cache data for SDL missing
+      - name: Fail if cached data for SDL is missing
         if: steps.restore-sdl.outputs.cache-hit != 'true'
         run: echo "Unable to restore SDL files from previous job" && false
 
