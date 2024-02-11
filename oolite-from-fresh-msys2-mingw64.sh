@@ -56,8 +56,7 @@ pacman -S --noconfirm --needed "${SDL_MSYS2_DEPS[@]}"
 
 # Download SDL and extract from tarball
 SDL_VERSION=$(cat ./deps/sdl/version)
-wget "$SDL_VERSION"
-tar -xf SDL-1.2.13.tar.gz
+git clone https://github.com/libsdl-org/SDL-1.2.git --branch="$SDL_VERSION" SDL-1.2.13
 
 # Make and install SDL
 ./deps/sdl/build.sh

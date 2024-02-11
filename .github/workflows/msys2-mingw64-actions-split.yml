@@ -435,6 +435,14 @@ jobs:
           install: |
             ${{ env.SDL_MSYS2_DEPS }}
 
+      - name: "Checkout SDL"
+        if: steps.early-exit.conclusion != 'success'
+        uses: actions/checkout@v4
+        with:
+          repository: libsdl-org/SDL-1.2
+          path: SDL-1.2.13
+          ref: ${{ env.SDL_VERSION }}
+
       - name: "Download and extract SDL"
         if: steps.early-exit.conclusion != 'success'
         run: |
