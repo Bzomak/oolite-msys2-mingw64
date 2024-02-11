@@ -50,13 +50,6 @@ cd ..
 
 ###############################
 
-# Download Oolite SDL patch
-git clone https://github.com/OoliteProject/oolite-windows-dependencies.git Windows-deps --sparse
-cd Windows-deps || exit
-git sparse-checkout set OOSDLWin32Patch
-git checkout
-cd ..
-
 # Install build dependencies for SDL
 read -r -a SDL_MSYS2_DEPS <<< "$(cat ./deps/sdl/msys2-deps)"
 pacman -S --noconfirm --needed "${SDL_MSYS2_DEPS[@]}"

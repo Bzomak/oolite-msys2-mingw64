@@ -7,7 +7,7 @@
 ###############################
 
 # Apply patch from Oolite
-patch -s -d SDL-1.2.13 -p1 < Windows-deps/OOSDLWin32Patch/OOSDLdll_x64.patch
+patch -s -d SDL-1.2.13 -p1 < ./deps/sdl/OOSDLdll_x64.patch
 cd SDL-1.2.13 || exit
 ./autogen.sh
 ./configure

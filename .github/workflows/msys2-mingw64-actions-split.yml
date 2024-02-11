@@ -435,14 +435,6 @@ jobs:
           install: |
             ${{ env.SDL_MSYS2_DEPS }}
 
-      - name: "Download oolite-win-deps SDL patch"
-        if: steps.early-exit.conclusion != 'success'
-        uses: actions/checkout@v4
-        with:
-          repository: OoliteProject/oolite-windows-dependencies
-          path: Windows-deps
-          sparse-checkout: OOSDLWin32Patch/
-
       - name: "Download and extract SDL"
         if: steps.early-exit.conclusion != 'success'
         run: |
