@@ -443,12 +443,6 @@ jobs:
           path: SDL-1.2.13
           ref: ${{ env.SDL_VERSION }}
 
-      - name: "Download and extract SDL"
-        if: steps.early-exit.conclusion != 'success'
-        run: |
-          wget ${{ env.SDL_VERSION }}
-          tar -xf SDL-1.2.13.tar.gz
-
       - name: "Configure and build SDL"
         if: steps.early-exit.conclusion != 'success'
         run: |
