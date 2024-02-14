@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       run_tests:
-        description: "Run build tests"
+        description: Run build tests
         required: false
         type: boolean
         default: false
@@ -35,15 +35,15 @@ jobs:
         build_type: [debug, release, release-deployment, release-snapshot]
       fail-fast: false
     steps:
-      - name: "Checkout this repository"
+      - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: "Load dependency data into env"
+      - name: Load dependency data into env
         shell: bash
         run: |
           echo OOLITE_BUILD_MSYS2_DEPS=$(cat oolite-config/msys2-deps) >> $GITHUB_ENV
 
-      - name: "Set up msys2"
+      - name: Set up msys2
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -51,12 +51,12 @@ jobs:
           install: |
             ${{ env.OOLITE_BUILD_MSYS2_DEPS }}
 
-      - name: "Retrieve tools-make cache"
+      - name: Retrieve tools-make cache
         id: restore-tools-make
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -65,16 +65,16 @@ jobs:
         if: steps.restore-tools-make.outputs.cache-hit != 'true'
         run: echo "Unable to restore tools-make files from previous job" && false
 
-      - name: "Install tools-make"
+      - name: Install tools-make
         run: |
           bash ./deps/tools-make/install.sh
 
-      - name: "Retrieve libs-base cache"
+      - name: Retrieve libs-base cache
         id: restore-libs-base
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -83,16 +83,16 @@ jobs:
         if: steps.restore-libs-base.outputs.cache-hit != 'true'
         run: echo "Unable to restore libs-base files from previous job" && false
 
-      - name: "Install libs-base"
+      - name: Install libs-base
         run: |
           bash ./deps/libs-base/install.sh
 
-      - name: "Retrieve SDL cache"
+      - name: Retrieve SDL cache
         id: restore-sdl
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -101,26 +101,26 @@ jobs:
         if: steps.restore-sdl.outputs.cache-hit != 'true'
         run: echo "Unable to restore SDL files from previous job" && false
 
-      - name: "Install SDL"
+      - name: Install SDL
         run: |
           bash ./deps/sdl/install.sh
 
-      - name: "Checkout oolite"
+      - name: Checkout Oolite
         uses: actions/checkout@v4
         with:
           repository: OoliteProject/oolite
           path: oolite
           submodules: recursive
 
-      - name: "Configure and build Oolite"
+      - name: Configure and build Oolite
         run: |
           bash ./oolite-config/build.sh ${{ matrix.build_type }}
 
-      - name: "Cache Oolite build"
+      - name: Cache Oolite build
         uses: actions/cache/save@v4
         with:
           path: oolite
-          key: cache-oolite-${{ matrix.build_type }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-oolite-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.build_type }}
 
 ########################################
 
@@ -140,15 +140,15 @@ jobs:
         build_type: [release, release-deployment, release-snapshot]
       fail-fast: false
     steps:
-      - name: "Checkout this repository"
+      - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: "Load dependency data into env"
+      - name: Load dependency data into env
         shell: bash
         run: |
           echo OOLITE_INSTALLER_BUILD_MSYS2_DEPS=$(cat oolite-installer-config/msys2-deps) >> $GITHUB_ENV
 
-      - name: "Set up msys2"
+      - name: Set up msys2
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -156,12 +156,12 @@ jobs:
           install: |
             ${{ env.OOLITE_INSTALLER_BUILD_MSYS2_DEPS }}
 
-      - name: "Retrieve tools-make cache"
+      - name: Retrieve tools-make cache
         id: restore-tools-make
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -170,16 +170,16 @@ jobs:
         if: steps.restore-tools-make.outputs.cache-hit != 'true'
         run: echo "Unable to restore tools-make files from previous job" && false
     
-      - name: "Install tools-make"
+      - name: Install tools-make
         run: |
           bash ./deps/tools-make/install.sh
           
-      - name: "Retrieve libs-base cache"
+      - name: Retrieve libs-base cache
         id: restore-libs-base
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -188,16 +188,16 @@ jobs:
         if: steps.restore-libs-base.outputs.cache-hit != 'true'
         run: echo "Unable to restore libs-base files from previous job" && false
 
-      - name: "Install libs-base"
+      - name: Install libs-base
         run: |
           bash ./deps/libs-base/install.sh
 
-      - name: "Retrieve SDL cache"
+      - name: Retrieve SDL cache
         id: restore-sdl
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -206,16 +206,16 @@ jobs:
         if: steps.restore-sdl.outputs.cache-hit != 'true'
         run: echo "Unable to restore SDL files from previous job" && false
 
-      - name: "Install SDL"
+      - name: Install SDL
         run: |
           bash ./deps/sdl/install.sh
           
-      - name: "Retrieve Oolite cache"
+      - name: Retrieve Oolite cache
         id: restore-oolite
         uses: actions/cache/restore@v4
         with:
           path: oolite
-          key: cache-oolite-${{ matrix.build_type }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-oolite-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.build_type }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -224,11 +224,11 @@ jobs:
         if: steps.restore-oolite.outputs.cache-hit != 'true'
         run: echo "Unable to restore Oolite files from previous job" && false
 
-      - name: "Build installers"
+      - name: Build installers
         run: |
           bash ./oolite-installer-config/build.sh ${{ matrix.build_type }}
 
-      - name: "Upload Oolite installers as artifacts"
+      - name: Upload Oolite installers as artifacts
         uses: actions/upload-artifact@v4
         with:
           name: oolite-${{ matrix.build_type }}.exe
@@ -251,31 +251,31 @@ jobs:
       TOOLS_MAKE_VERSION:
       TOOLS_MAKE_MSYS2_DEPS:
     steps:
-      - name: "Checkout this repository"
+      - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: "Load dependency data into env"
+      - name: Load dependency data into env
         shell: bash
         run: |
           echo TOOLS_MAKE_VERSION=$(cat deps/tools-make/version) >> $GITHUB_ENV
           echo TOOLS_MAKE_MSYS2_DEPS=$(cat deps/tools-make/msys2-deps) >> $GITHUB_ENV
 
-      - name: "Check for pre-existing tools-make cache"
+      - name: Check for pre-existing tools-make cache
         id: check-cache
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
           lookup-only: true
 
-      - name: "Early exit if cache exists"
+      - name: Early exit if cache exists
         id: early-exit
         if: steps.check-cache.outputs.cache-hit == 'true'
         shell: bash
         run: |
           echo "tools-make cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
 
-      - name: "Set up msys2"
+      - name: Set up msys2
         if: steps.early-exit.conclusion != 'success'
         uses: msys2/setup-msys2@v2
         with:
@@ -284,7 +284,7 @@ jobs:
           install: |
             ${{ env.TOOLS_MAKE_MSYS2_DEPS }}
 
-      - name: "Checkout tools-make"
+      - name: Checkout tools-make
         if: steps.early-exit.conclusion != 'success'
         uses: actions/checkout@v4
         with:
@@ -292,17 +292,17 @@ jobs:
           path: tools-make
           ref: ${{ env.TOOLS_MAKE_VERSION }}
 
-      - name: "Configure and build tools-make"
+      - name: Configure and build tools-make
         if: steps.early-exit.conclusion != 'success'
         run: |
           bash ./deps/tools-make/build.sh
 
-      - name: "Cache tools-make build"
+      - name: Cache tools-make build
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
 
 ########################################
 
@@ -317,31 +317,31 @@ jobs:
       LIBS_BASE_VERSION:
       LIBS_BASE_MSYS2_DEPS:
     steps:
-      - name: "Checkout this repository"
+      - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: "Load dependency data into env"
+      - name: Load dependency data into env
         shell: bash
         run: |
           echo LIBS_BASE_VERSION=$(cat deps/libs-base/version) >> $GITHUB_ENV
           echo LIBS_BASE_MSYS2_DEPS=$(cat deps/libs-base/msys2-deps) >> $GITHUB_ENV
 
-      - name: "Check for pre-existing libs-base cache"
+      - name: Check for pre-existing libs-base cache
         id: check-cache
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           lookup-only: true
 
-      - name: "Early exit if cache exists"
+      - name: Early exit if cache exists
         id: early-exit
         if: steps.check-cache.outputs.cache-hit == 'true'
         shell: bash
         run: |
           echo "libs-base cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
 
-      - name: "Set up msys2"
+      - name: Set up msys2
         if: steps.early-exit.conclusion != 'success'
         uses: msys2/setup-msys2@v2
         with:
@@ -350,13 +350,13 @@ jobs:
           install: |
             ${{ env.LIBS_BASE_MSYS2_DEPS }}
 
-      - name: "Retrieve tools-make cache"
+      - name: Retrieve tools-make cache
         if: steps.early-exit.conclusion != 'success'
         id: restore-tools-make
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -365,12 +365,12 @@ jobs:
         if: steps.early-exit.conclusion != 'success' && steps.restore-tools-make.outputs.cache-hit != 'true'
         run: echo "Unable to restore tools-make files from previous job" && false
 
-      - name: "Install tools-make"
+      - name: Install tools-make
         if: steps.early-exit.conclusion != 'success'
         run: |
           bash ./deps/tools-make/install.sh
 
-      - name: "Checkout libs-base"
+      - name: Checkout libs-base
         if: steps.early-exit.conclusion != 'success'
         uses: actions/checkout@v4
         with:
@@ -378,17 +378,17 @@ jobs:
           path: libs-base
           ref: ${{ env.LIBS_BASE_VERSION }}
 
-      - name: "Configure and build libs-base"
+      - name: Configure and build libs-base
         if: steps.early-exit.conclusion != 'success'
         run: |
           bash ./deps/libs-base/build.sh
 
-      - name: "Cache libs-base build"
+      - name: Cache libs-base build
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
 
 ########################################
 
@@ -402,31 +402,31 @@ jobs:
       SDL_VERSION:
       SDL_MSYS2_DEPS:
     steps:
-      - name: "Checkout this repository"
+      - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: "Load dependency data into env"
+      - name: Load dependency data into env
         shell: bash
         run: |
           echo SDL_VERSION=$(cat deps/sdl/version) >> $GITHUB_ENV
           echo SDL_MSYS2_DEPS=$(cat deps/sdl/msys2-deps) >> $GITHUB_ENV
 
-      - name: "Check for pre-existing SDL cache"
+      - name: Check for pre-existing SDL cache
         id: check-cache
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
           lookup-only: true
 
-      - name: "Early exit if cache exists"
+      - name: Early exit if cache exists
         id: early-exit
         if: steps.check-cache.outputs.cache-hit == 'true'
         shell: bash
         run: |
           echo "SDL cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
 
-      - name: "Set up msys2"
+      - name: Set up msys2
         if: steps.early-exit.conclusion != 'success'
         uses: msys2/setup-msys2@v2
         with:
@@ -435,23 +435,23 @@ jobs:
           install: |
             ${{ env.SDL_MSYS2_DEPS }}
 
-      - name: "Download and extract SDL"
+      - name: Download and extract SDL
         if: steps.early-exit.conclusion != 'success'
         run: |
           wget ${{ env.SDL_VERSION }}
           tar -xf SDL-1.2.13.tar.gz
 
-      - name: "Configure and build SDL"
+      - name: Configure and build SDL
         if: steps.early-exit.conclusion != 'success'
         run: |
           bash ./deps/sdl/build.sh
 
-      - name: "Cache SDL build"
+      - name: Cache SDL build
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
 
 ########################################
 ########################################
@@ -471,15 +471,15 @@ jobs:
     env:
       LIBS_BASE_MSYS2_DEPS:
     steps:
-      - name: "Checkout this repository"
+      - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: "Load dependency data into env"
+      - name: Load dependency data into env
         shell: bash
         run: |
           echo LIBS_BASE_MSYS2_DEPS=$(cat deps/libs-base/msys2-deps) >> $GITHUB_ENV
 
-      - name: "Set up msys2"
+      - name: Set up msys2
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -487,12 +487,12 @@ jobs:
           install: |
             ${{ env.LIBS_BASE_MSYS2_DEPS }}
 
-      - name: "Retrieve tools-make cache"
+      - name: Retrieve tools-make cache
         id: restore-tools-make
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -501,16 +501,16 @@ jobs:
         if: steps.restore-tools-make.outputs.cache-hit != 'true'
         run: echo "Unable to restore tools-make files from previous job" && false
 
-      - name: "Install tools-make"
+      - name: Install tools-make
         run: |
           bash ./deps/tools-make/install.sh
 
-      - name: "Retrieve libs-base cache"
+      - name: Retrieve libs-base cache
         id: restore-libs-base
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -519,11 +519,11 @@ jobs:
         if: steps.restore-libs-base.outputs.cache-hit != 'true'
         run: echo "Unable to restore libs-base files from previous job" && false
 
-      - name: "Install libs-base"
+      - name: Install libs-base
         run: |
           bash ./deps/libs-base/install.sh
 
-      - name: "Test libs-base"
+      - name: Test libs-base
         run: |
           . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
           cd libs-base
@@ -549,15 +549,15 @@ jobs:
     env:
       SDL_MSYS2_DEPS:
     steps:
-      - name: "Checkout this repository"
+      - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: "Load dependency data into env"
+      - name: Load dependency data into env
         shell: bash
         run: |
           echo SDL_MSYS2_DEPS=$(cat deps/sdl/msys2-deps) >> $GITHUB_ENV
 
-      - name: "Set up msys2"
+      - name: Set up msys2
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -565,12 +565,12 @@ jobs:
           install: |
             ${{ env.SDL_MSYS2_DEPS }}
 
-      - name: "Retrieve SDL cache"
+      - name: Retrieve SDL cache
         id: restore-sdl
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -579,11 +579,11 @@ jobs:
         if: steps.restore-sdl.outputs.cache-hit != 'true'
         run: echo "Unable to restore SDL files from previous job" && false
 
-      - name: "Install SDL"
+      - name: Install SDL
         run: |
           bash ./deps/sdl/install.sh
 
-      - name: "Build SDL tests"
+      - name: Build SDL tests
         run: |
           cd SDL-1.2.13/test
           ./configure
@@ -603,22 +603,26 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: "Checkout this repository"
+      - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: "List Oolite caches"
+      - name: List all caches
         run: |
-          gh cache list | grep cache-oolite | awk '{print $2}' > cache-list.txt
+          gh cache list
+
+      - name: List Oolite caches created by this workflow run
+        run: |
+          gh cache list | grep cache-oolite-${{ github.run_id }}-${{ github.run_attempt }} | awk '{print $2}' > cache-list.txt
           cat cache-list.txt
 
-      - name: "Delete Oolite caches"
+      - name: Delete Oolite caches created by this workflow run
         run: |
           foreach ($cache in Get-Content cache-list.txt) {
             echo $cache
             gh cache delete $cache
           }
 
-      - name: "List all remaining caches"
+      - name: List all remaining caches
         run: |
           gh cache list
 
@@ -635,10 +639,10 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-      - name: "Checkout this repository"
+      - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: "Set up msys2"
+      - name: Set up msys2
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -658,7 +662,7 @@ jobs:
     name: Run ShellCheck
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout this repository"
+      - name: Checkout this repository
         uses: actions/checkout@v4
 
       - name: Run ShellCheck
