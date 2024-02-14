@@ -610,12 +610,12 @@ jobs:
         run: |
           gh cache list
 
-      - name: List Oolite caches
+      - name: List Oolite caches created by this workflow run
         run: |
           gh cache list | grep cache-oolite-${{ github.run_id }}-${{ github.run_attempt }} | awk '{print $2}' > cache-list.txt
           cat cache-list.txt
 
-      - name: Delete Oolite caches
+      - name: Delete Oolite caches created by this workflow run
         run: |
           foreach ($cache in Get-Content cache-list.txt) {
             echo $cache
