@@ -56,7 +56,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -74,7 +74,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -92,7 +92,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -161,7 +161,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -179,7 +179,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -197,7 +197,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -265,7 +265,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
           lookup-only: true
 
       - name: Early exit if cache exists
@@ -302,7 +302,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
 
 ########################################
 
@@ -331,7 +331,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           lookup-only: true
 
       - name: Early exit if cache exists
@@ -356,7 +356,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -388,7 +388,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
 
 ########################################
 
@@ -416,7 +416,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
           lookup-only: true
 
       - name: Early exit if cache exists
@@ -451,7 +451,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
 
 ########################################
 ########################################
@@ -492,7 +492,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -510,7 +510,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -570,7 +570,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
