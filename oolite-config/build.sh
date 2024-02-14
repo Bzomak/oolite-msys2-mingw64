@@ -39,18 +39,7 @@ sed -i 's|/nsis/makensis.exe|/mingw64/bin/makensis.exe|' Makefile
 
 # Stop copying Oolite's precompiled dlls
 # sed needs to comment out lines 59 to 70
-sed -i '59 s/^/#/' Gnumakefile.postamble
-sed -i '60 s/^/#/' Gnumakefile.postamble
-sed -i '61 s/^/#/' Gnumakefile.postamble
-sed -i '62 s/^/#/' Gnumakefile.postamble
-sed -i '63 s/^/#/' Gnumakefile.postamble
-sed -i '64 s/^/#/' Gnumakefile.postamble
-sed -i '65 s/^/#/' Gnumakefile.postamble
-sed -i '66 s/^/#/' Gnumakefile.postamble
-sed -i '67 s/^/#/' Gnumakefile.postamble
-sed -i '68 s/^/#/' Gnumakefile.postamble
-sed -i '69 s/^/#/' Gnumakefile.postamble
-sed -i '70 s/^/#/' Gnumakefile.postamble
+sed -i '59,70 s/^/#/' Gnumakefile.postamble
 
 # Use pre-build MSYS2 png and openal
 sed -i '33 s/-lopenal32.dll -lpng14.dll/-lopenal.dll -lpng16.dll/' GNUMakefile
