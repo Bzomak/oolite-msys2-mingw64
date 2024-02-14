@@ -120,7 +120,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: oolite
-          key: cache-oolite-${{ matrix.build_type }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-oolite-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.build_type }}
 
 ########################################
 
@@ -215,7 +215,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: oolite
-          key: cache-oolite-${{ matrix.build_type }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: cache-oolite-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.build_type }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
