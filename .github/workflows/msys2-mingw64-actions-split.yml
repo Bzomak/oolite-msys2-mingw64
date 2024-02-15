@@ -269,14 +269,13 @@ jobs:
 
       - name: Check for pre-existing tools-make cache
         id: check-cache
-        if: ${{ inputs.from_fresh == false }}
         uses: actions/cache/restore@v4
         with:
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
           lookup-only: true
 
-      - name: Early exit if cache exists
+      - name: Early exit if cache exists and not building from fresh
         id: early-exit
         if: ${{ inputs.from_fresh == false && steps.check-cache.outputs.cache-hit == 'true' }}
         shell: bash
@@ -305,8 +304,8 @@ jobs:
         run: |
           bash ./deps/tools-make/build.sh
 
-      - name: Delete pre-existing cache if building from fresh
-        if: ${{ inputs.from_fresh == true }}
+      - name: Delete pre-existing cache if building from fresh and it exists
+        if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
         shell: bash
         run: |
           echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
