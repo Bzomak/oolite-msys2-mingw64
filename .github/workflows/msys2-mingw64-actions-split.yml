@@ -9,6 +9,11 @@ on:
         required: false
         type: boolean
         default: false
+      use_caches:
+        description: Use existing caches to build dependencies if available
+        required: false
+        type: boolean
+        default: true
   pull_request:
   push:
     branches:
@@ -262,6 +267,7 @@ jobs:
 
       - name: Check for pre-existing tools-make cache
         id: check-cache
+        if: ${{ inputs.use_caches }}
         uses: actions/cache/restore@v4
         with:
           path: tools-make
@@ -270,7 +276,7 @@ jobs:
 
       - name: Early exit if cache exists
         id: early-exit
-        if: steps.check-cache.outputs.cache-hit == 'true'
+        if: ${{ inputs.use_caches }} && steps.check-cache.outputs.cache-hit == 'true'
         shell: bash
         run: |
           echo "tools-make cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
