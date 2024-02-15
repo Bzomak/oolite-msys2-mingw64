@@ -276,7 +276,7 @@ jobs:
 
       - name: Early exit if cache exists
         id: early-exit
-        if: ${{ inputs.use_caches }} && steps.check-cache.outputs.cache-hit == 'true'
+        if: ${{ inputs.use_caches && steps.check-cache.outputs.cache-hit == 'true' }}
         shell: bash
         run: |
           echo "tools-make cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
