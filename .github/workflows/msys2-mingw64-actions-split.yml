@@ -9,11 +9,11 @@ on:
         required: false
         type: boolean
         default: false
-      use_caches:
-        description: Use existing caches to build dependencies if available
+      from_fresh:
+        description: Build all dependencies from scratch
         required: false
         type: boolean
-        default: true
+        default: false
   pull_request:
   push:
     branches:
@@ -269,7 +269,7 @@ jobs:
 
       - name: Check for pre-existing tools-make cache
         id: check-cache
-        if: ${{ inputs.use_caches }}
+        if: ${{ inputs.from_fresh == false }}
         uses: actions/cache/restore@v4
         with:
           path: tools-make
@@ -278,13 +278,13 @@ jobs:
 
       - name: Early exit if cache exists
         id: early-exit
-        if: ${{ inputs.use_caches && steps.check-cache.outputs.cache-hit == 'true' }}
+        if: ${{ inputs.from_fresh == false && steps.check-cache.outputs.cache-hit == true }}
         shell: bash
         run: |
           echo "tools-make cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
 
-      - name: Delete pre-existing cache
-        if: ${{ inputs.use_caches != true }}
+      - name: Delete pre-existing cache if building from fresh
+        if: ${{ inputs.from_fresh == true }}
         shell: bash
         run: |
           echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
