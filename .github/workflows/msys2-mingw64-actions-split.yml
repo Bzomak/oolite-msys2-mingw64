@@ -39,6 +39,7 @@ jobs:
       matrix:
         build_type: [debug, release, release-deployment, release-snapshot]
       fail-fast: false
+
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
@@ -144,6 +145,7 @@ jobs:
       matrix:
         build_type: [release, release-deployment, release-snapshot]
       fail-fast: false
+
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
@@ -330,6 +332,8 @@ jobs:
     env:
       LIBS_BASE_VERSION:
       LIBS_BASE_MSYS2_DEPS:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
@@ -348,9 +352,9 @@ jobs:
           key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           lookup-only: true
 
-      - name: Early exit if cache exists
+      - name: Early exit if cache exists and not building from fresh
         id: early-exit
-        if: steps.check-cache.outputs.cache-hit == 'true'
+        if: ${{ inputs.from_fresh == false && steps.check-cache.outputs.cache-hit == 'true' }}
         shell: bash
         run: |
           echo "libs-base cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
@@ -397,6 +401,13 @@ jobs:
         run: |
           bash ./deps/libs-base/build.sh
 
+      - name: Delete pre-existing cache if building from fresh and it exists
+        if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
+        shell: bash
+        run: |
+          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
+          gh cache delete cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+
       - name: Cache libs-base build
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
@@ -415,6 +426,8 @@ jobs:
     env:
       SDL_VERSION:
       SDL_MSYS2_DEPS:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
@@ -433,9 +446,9 @@ jobs:
           key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
           lookup-only: true
 
-      - name: Early exit if cache exists
+      - name: Early exit if cache exists and not building from fresh
         id: early-exit
-        if: steps.check-cache.outputs.cache-hit == 'true'
+        if: ${{ inputs.from_fresh == false && steps.check-cache.outputs.cache-hit == 'true' }}
         shell: bash
         run: |
           echo "SDL cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
@@ -459,6 +472,13 @@ jobs:
         if: steps.early-exit.conclusion != 'success'
         run: |
           bash ./deps/sdl/build.sh
+
+      - name: Delete pre-existing cache if building from fresh and it exists
+        if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
+        shell: bash
+        run: |
+          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
+          gh cache delete cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
 
       - name: Cache SDL build
         if: steps.early-exit.conclusion != 'success'
@@ -484,6 +504,7 @@ jobs:
         shell: msys2 {0}
     env:
       LIBS_BASE_MSYS2_DEPS:
+
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
@@ -562,6 +583,7 @@ jobs:
         shell: msys2 {0}
     env:
       SDL_MSYS2_DEPS:
+
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
@@ -616,6 +638,7 @@ jobs:
     needs: [build-oolite, build-oolite-installers]
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
@@ -652,6 +675,7 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
+
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
@@ -675,6 +699,7 @@ jobs:
   shellcheck:
     name: Run ShellCheck
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
