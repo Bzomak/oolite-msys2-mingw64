@@ -283,13 +283,6 @@ jobs:
         run: |
           echo "tools-make cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
 
-      - name: Delete pre-existing cache if building from fresh
-        if: ${{ inputs.from_fresh == true }}
-        shell: bash
-        run: |
-          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
-
       - name: Set up msys2
         if: steps.early-exit.conclusion != 'success'
         uses: msys2/setup-msys2@v2
@@ -311,6 +304,13 @@ jobs:
         if: steps.early-exit.conclusion != 'success'
         run: |
           bash ./deps/tools-make/build.sh
+
+      - name: Delete pre-existing cache if building from fresh
+        if: ${{ inputs.from_fresh == true }}
+        shell: bash
+        run: |
+          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
+          gh cache delete cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
 
       - name: Cache tools-make build
         if: steps.early-exit.conclusion != 'success'
