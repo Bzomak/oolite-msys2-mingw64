@@ -255,6 +255,8 @@ jobs:
     env:
       TOOLS_MAKE_VERSION:
       TOOLS_MAKE_MSYS2_DEPS:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
