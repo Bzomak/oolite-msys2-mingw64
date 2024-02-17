@@ -670,7 +670,7 @@ jobs:
 # Single script to build Oolite from scratch
 
   build-oolite-from-fresh-msys2-mingw64:
-    name: Test all-in-one build script
+    name: Test the from-fresh script
     runs-on: windows-latest
     defaults:
       run:

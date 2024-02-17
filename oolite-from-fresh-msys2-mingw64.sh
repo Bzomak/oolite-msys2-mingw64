@@ -1,17 +1,21 @@
 #! /usr/bin/bash -x
 
 ###############################
-
-# Download msys2 from https://www.msys2.org/
-# Installer from page above links to https://github.com/msys2/msys2-installer/releases/download/2023-07-18/msys2-x86_64-20230718.exe
-
-# Install msys2
-
-# Open msys2 mingw64
-
-# Update msys2 (May need to run twice. Not needed when using msys2/setup-msys2@v2 GitHub Action)
+#
+# This script is for setting up a development environment for Oolite on MSYS2 MINGW64.
+#
+# The script expects to be run from the root of the oolite-msys2 repository.
+# It needs to be run from the root of the repository because it uses relative paths to find the build scripts for the dependencies and Oolite.
+# It therefore needs the whole of the oolite-msys2 repository to be present in the MSYS2 MINGW64 environment.
+# It will download everything that it needs to set up a development environment from a fresh MSYS2 install and build Oolite.
+#
+# Download and install MSYS2 from https://www.msys2.org/#installation
+#
+# Open MSYS2 MINGW64
+#
+# Update MSYS2 (May need to run twice. Not needed when using msys2/setup-msys2@v2 GitHub Action) by running the following command:
 # pacman -Syu
-
+#
 ###############################
 
 # Install useful tools for building

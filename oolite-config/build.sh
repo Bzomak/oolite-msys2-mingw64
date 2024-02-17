@@ -1,11 +1,15 @@
 #! /usr/bin/bash -x
 
 ###############################
-
+#
 # Configure and build Oolite
-
+#
 # Usage: ./build.sh [debug|release|release-deployment|release-snapshot]
-
+#
+# The script expects to be run from the root of the oolite-msys2 repository.
+# It expects tools-make, libs-base, and SDL to be downloaded and installed.
+# It expects Oolite to be downloaded.
+#
 ###############################
 
 cd oolite || exit

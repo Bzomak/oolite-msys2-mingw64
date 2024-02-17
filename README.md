@@ -3,17 +3,23 @@ This repository sets up a developer environment in MSYS2 that is capable of buil
 
 :warning: This is **not yet functional** but is a work-in-progress.
 
+This is set up to be able to build Oolite both locally on your own computer, and remotely through the use of GitHub Actions.
+
+It will install all tools and dependencies either from the package manager or from source that are needed to build Oolite, and then configure them if necessary.
+
 ## Instructions for building on your own computer
 
-Download MSYS2 from https://www.msys2.org/ and install it.
+This script will download and install everything needed for a development environment for Oolite.
 
-Open MSYS2 Mingw64 and ensure that it is up-to-date by running `pacman -Syu` You may need to do this twice.
-
-Clone this repository into your home directory, and then run the oolite-from-fresh-msys2-mingw64.sh script. This script will then install all tools and dependencies, either from the package manager or from source, needed to build Oolite, and configure them if necessary. It will then attempt to build Oolite.
+- First download MSYS2 from https://www.msys2.org/ and install it.
+- Open MSYS2 Mingw64 and ensure that it is up-to-date by running `pacman -Syu`. You may need to do this twice.
+- Clone this repository. If you do this within MSYS2 then you may need to install git (`pacman -S git`)
+- `cd` into the repository's directory
+- Run the `oolite-from-fresh-msys2-mingw64.sh` script. This calls the build scripts for each dependency sequentially. It finishes by builing a release version of Oolite.
 
 ## GitHub Actions
 
-We also try to build all Oolite Windows targets using a GitHub Actions matrix strategy, splitting each dependency into its own build job to parallise building where possible.
+This builds all Oolite Windows targets using a GitHub Actions matrix strategy, splitting each dependency into its own build job to parallise building where possible. Each stage only downloads what it needs. The workflow finishes by creating installers for the successful build of Oolite, which can then be downloaded and installed onto your computer.
 
 ### Caching
 
@@ -41,16 +47,20 @@ As per GitHub's [usage limits](https://docs.github.com/en/actions/using-workflow
 
 Should the caches be removed, this will not be a problem - caching between builds is a useful speed-up, not a requirement.
 
+## Differences between the two build processes
+
+- The from-fresh script builds everything sequentially; the GitHub Actions workflow builds as much in parallel as possible.
+- The from-fresh script downloads everything that it needs to build Oolite and all its dependencies; the GitHub Actions workflow will only download what it needs within each separate build job.
+- The from-fresh script only builds the release version of Oolite; the GitHub Actions workflow builds all versions of Oolite, and creates installers for all three release versions.
+- Once the from-fresh script has finished, you will have a fully functional development environment for Oolite which you can work with; Once the GitHub Actions workflow has finished, you will only be able to download the installers and read the build logs.
+
 ## Roadmap
 
-I have currently set four key milestones for development of this project, into which I sort any issues and ideas for new features I have. While in theory one would steadily work through each milestone sequentially, in practice I work on whatever I feel excited by and piques my interest at that moment in time.
+I have currently set four key milestones for development of this project, into which I sort any issues and ideas for new features I have. While in theory one would steadily work through each milestone sequentially, in practice I work on whatever I feel excited by and piques my interest at that moment in time. These milestones are:
 
-1 - Functional Build - We can successfully build and run Oolite.
-
-2 - Stable Build - The infrastructure is robust enough that it could be considered usable by the Oolite maintainers.
-
-3 - Additional Features - Fancy features not necessary for the building of Oolite
-
-4 - Ideas for the Future - These are not related to building Oolite on MSYS2 with mingw64, but building Oolite on other platforms with other compilers.
+1. Functional Build - We can successfully build and run Oolite.
+2. Stable Build - The infrastructure is robust enough that it could be considered usable by the Oolite maintainers.
+3. Additional Features - Fancy features not necessary for the building of Oolite
+4. Ideas for the Future - These are not related to building Oolite on MSYS2 with mingw64, but building Oolite on other platforms with other compilers.
 
 As noted above, if this project is ultimately successful, then there are ambitions to expand this modular build methodology to work with compilers and on other platforms. However, development is slow, and this is a long way off...

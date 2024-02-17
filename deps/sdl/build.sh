@@ -1,9 +1,12 @@
 #! /usr/bin/bash -x
 
 ###############################
-
+#
 # Configure and build SDL
-
+#
+# The script expects to be run from the root of the oolite-msys2 repository.
+# It expects SDL to be downloaded.
+#
 ###############################
 
 # Apply patch from Oolite
