@@ -1,9 +1,14 @@
 #! /usr/bin/bash
 
 ###############################
-
+#
 # Copy the required dlls to the oolite.app folder
-
+#
+# Usage: ./copy-dlls.sh [application_name]
+#
+# The script expects to be called by oolite-config/build.sh, being run from the root of the oolite-msys2 repository.
+# It expects Oolite to have been built.
+#
 ###############################
 
 # Check if the required argument is provided
