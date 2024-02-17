@@ -1,4 +1,4 @@
-## Pull Request Template
+## Pull Request Template - Title
 
 ### Pull Request Type
 
@@ -16,6 +16,7 @@ Please provide a brief description of the changes made in this pull request.
 - [ ] Documentation has been updated to reflect the changes made in this pull request.
 - [ ] Code follows the project's coding conventions and style guidelines.
 - [ ] All automated tests pass successfully.
+- [ ] Updates to the build process have been applied to both the GHA workflow and the from-fresh bash script.
 
 ### Related Issues
 
