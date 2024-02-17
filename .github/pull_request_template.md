@@ -3,6 +3,7 @@
 ### Pull Request Type
 
 - [ ] Bug Fix
+- [ ] Documentation Update
 - [ ] Dependency Update
 - [ ] New Feature
 
