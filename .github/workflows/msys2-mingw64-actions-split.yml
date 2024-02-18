@@ -763,6 +763,7 @@ jobs:
         if: steps.early-exit.conclusion != 'success'
         run: |
           find ./oolite/Doc -name "*.odt" -exec soffice --headless --convert-to pdf:"writer_pdf_Export" --outdir oolite/Doc {} \;
+          mkdir -p pdfs
           cp ./oolite/Doc/*.pdf pdfs/
 
       - name: Delete pre-existing cache if building from fresh and it exists
