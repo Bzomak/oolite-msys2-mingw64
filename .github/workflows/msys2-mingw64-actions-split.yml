@@ -735,7 +735,7 @@ jobs:
         with:
           repository: OoliteProject/oolite
           path: oolite
-          sparse-checkout: oolite/Doc
+          sparse-checkout: Doc
 
       # This is for debugging only and helps developing the workflow.
       - name: show filesystem after installer
