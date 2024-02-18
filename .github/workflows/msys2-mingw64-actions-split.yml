@@ -29,7 +29,7 @@ jobs:
   build-oolite:
     name: Build Oolite
     runs-on: windows-latest
-    needs: [build-tools-make, build-libs-base, build-sdl]
+    needs: [build-tools-make, build-libs-base, build-sdl, generate-pdfs]
     defaults:
       run:
         shell: msys2 {0}
@@ -118,6 +118,24 @@ jobs:
           path: oolite
           submodules: recursive
 
+      - name: Retrieve PDFs cache
+        id: restore-pdfs
+        uses: actions/cache/restore@v4
+        with:
+          path: pdfs
+          key: cache-pdfs-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', 'oolite/Doc/*') }}
+          fail-on-cache-miss: true
+
+      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
+      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
+      - name: Fail if cached data for PDFs is missing
+        if: steps.restore-pdfs.outputs.cache-hit != 'true'
+        run: echo "Unable to restore pdf files from previous job" && false
+
+      - name: Add generated PDFs to Oolite
+        run: |
+          cp pdfs/*.pdf oolite/Doc/
+
       - name: Configure and build Oolite
         run: |
           bash ./oolite-config/build.sh ${{ matrix.build_type }}
@@ -126,6 +144,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: oolite
+          enableCrossOsArchive: 'true'
           key: cache-oolite-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.build_type }}
 
 ########################################
@@ -722,9 +741,6 @@ jobs:
   generate-pdfs:
     name: Generate PDFs
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash {0}
 
     steps:
       - name: Checkout this repository
@@ -737,11 +753,12 @@ jobs:
           path: oolite
           sparse-checkout: Doc
 
-      - name: Check for pre-existing Doc cache
+      - name: Check for pre-existing PDFs cache
         id: check-cache
         uses: actions/cache/restore@v4
         with:
           path: pdfs
+          enableCrossOsArchive: 'true'
           key: cache-doc-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/oolite/Doc/*') }}
           lookup-only: true
 
@@ -778,6 +795,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: pdfs
+          enableCrossOsArchive: 'true'
           key: cache-pdfs-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', 'oolite/Doc/*') }}
 
 ########################################
