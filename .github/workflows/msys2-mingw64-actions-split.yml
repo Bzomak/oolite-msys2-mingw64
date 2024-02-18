@@ -41,6 +41,10 @@ jobs:
       fail-fast: false
 
     steps:
+
+      - name: Set core.autocrlf to input value
+        run: git config --global core.autocrlf input
+
       - name: Checkout this repository
         uses: actions/checkout@v4
 
