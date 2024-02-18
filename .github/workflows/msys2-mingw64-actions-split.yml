@@ -796,7 +796,8 @@ jobs:
         with:
           path: pdfs
           enableCrossOsArchive: 'true'
-          key: cache-pdfs-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/oolite/Doc/*') }}
+          key: ${{ steps.check-cache.outputs.cache-primary-key }}
+#          key: cache-pdfs-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/oolite/Doc/*') }}
 
 ########################################
 ########################################
