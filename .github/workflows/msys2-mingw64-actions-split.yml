@@ -737,16 +737,11 @@ jobs:
           path: oolite
           sparse-checkout: Doc
 
-      # This is for debugging only and helps developing the workflow.
-      - name: show filesystem after installer
-        run: |
-          find . -not -path "./oolite/Mac-specific/*" -not -path "./oolite/deps/*" -not -path "./oolite/tests/*" -not -path "./oolite/.git/*"
-
       - name: Check for pre-existing Doc cache
         id: check-cache
         uses: actions/cache/restore@v4
         with:
-          path: oolite/Doc
+          path: pdfs
           key: cache-doc-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/oolite/Doc/*') }}
           lookup-only: true
 
@@ -768,7 +763,7 @@ jobs:
         if: steps.early-exit.conclusion != 'success'
         run: |
           find ./oolite/Doc -name "*.odt" -exec soffice --headless --convert-to pdf:"writer_pdf_Export" --outdir oolite/Doc {} \;
-          zip oolite-doc.zip ./oolite/Doc/*.pdf
+          cp ./oolite/Doc/*.pdf pdfs/
 
       - name: Delete pre-existing cache if building from fresh and it exists
         if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
@@ -781,7 +776,7 @@ jobs:
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
         with:
-          path: oolite/Doc
+          path: pdfs
           key: cache-pdfs-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', 'oolite/Doc/*') }}
 
 ########################################
