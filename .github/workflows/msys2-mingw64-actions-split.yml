@@ -735,7 +735,6 @@ jobs:
         with:
           repository: OoliteProject/oolite
           path: oolite
-          ref: main
           sparse-checkout: oolite/Doc
 
       - name: Check for pre-existing Doc cache
