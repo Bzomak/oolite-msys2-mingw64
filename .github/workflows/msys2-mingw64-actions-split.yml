@@ -737,6 +737,11 @@ jobs:
           path: oolite
           sparse-checkout: oolite/Doc
 
+      # This is for debugging only and helps developing the workflow.
+      - name: show filesystem after installer
+        run: |
+          find . -not -path "./oolite/Mac-specific/*" -not -path "./oolite/deps/*" -not -path "./oolite/tests/*" -not -path "./oolite/.git/*"
+
       - name: Check for pre-existing Doc cache
         id: check-cache
         uses: actions/cache/restore@v4
