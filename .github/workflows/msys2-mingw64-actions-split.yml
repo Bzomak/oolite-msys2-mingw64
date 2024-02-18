@@ -43,6 +43,7 @@ jobs:
     steps:
 
       - name: Set core.autocrlf to input value
+        shell: bash
         run: git config --global core.autocrlf input
 
       - name: Checkout this repository
