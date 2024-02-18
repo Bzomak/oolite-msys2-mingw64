@@ -755,6 +755,7 @@ jobs:
       - name: Install LibreOffice and Fonts 
         if: steps.early-exit.conclusion != 'success'
         run: |
+          sudo apt update
           echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
           sudo apt -y install libreoffice ttf-mscorefonts-installer
 
