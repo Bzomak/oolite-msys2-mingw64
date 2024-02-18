@@ -762,8 +762,8 @@ jobs:
       - name: Generate PDFs
         if: steps.early-exit.conclusion != 'success'
         run: |
-          find oolite/Doc -name "*.odt" -exec soffice --headless --convert-to pdf:"writer_pdf_Export" --outdir oolite/Doc {} \;
-          zip oolite-doc.zip oolite/Doc/*.pdf
+          find ./oolite/Doc -name "*.odt" -exec soffice --headless --convert-to pdf:"writer_pdf_Export" --outdir oolite/Doc {} \;
+          zip oolite-doc.zip ./oolite/Doc/*.pdf
 
       - name: Delete pre-existing cache if building from fresh and it exists
         if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
