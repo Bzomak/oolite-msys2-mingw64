@@ -710,3 +710,75 @@ jobs:
 ########################################
 ########################################
 ########################################
+
+# Generate the PDFs of the workflow files
+
+# Runs on ubuntu latest
+# Generates pdfs of the .odt files in oolite/Doc/ folder
+# Should try and sparse checkout only the Oolite/Doc folder to reduce the number of files to process
+# Should cache the generated pdfs and only regenerate them if the .odt files have changed
+# The cache key should include the hash of oolite/Doc/ and the hash of this workflow file
+
+  generate-pdfs:
+    name: Generate PDFs
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash {0}
+
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v4
+
+      - name: Checkout Oolite
+        uses: actions/checkout@v4
+        with:
+          repository: OoliteProject/oolite
+          path: oolite
+          ref: main
+          sparse-checkout: oolite/Doc
+
+      - name: Check for pre-existing Doc cache
+        id: check-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: oolite/Doc
+          key: cache-doc-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/oolite/Doc/*') }}
+          lookup-only: true
+
+      - name: Early exit if cache exists and not building from fresh
+        id: early-exit
+        if: ${{ inputs.from_fresh == false && steps.check-cache.outputs.cache-hit == 'true' }}
+        shell: bash
+        run: |
+          echo "Oolite Doc cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
+
+      - name: Install LibreOffice and Fonts 
+        if: steps.early-exit.conclusion != 'success'
+        run: |
+          echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+          sudo apt -y install libreoffice ttf-mscorefonts-installer
+
+      - name: Generate PDFs
+        if: steps.early-exit.conclusion != 'success'
+        run: |
+          find oolite/Doc -name "*.odt" -exec soffice --headless --convert-to pdf:"writer_pdf_Export" --outdir oolite/Doc {} \;
+          zip oolite-doc.zip oolite/Doc/*.pdf
+
+      - name: Delete pre-existing cache if building from fresh and it exists
+        if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
+        shell: bash
+        run: |
+          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
+          gh cache delete cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+
+      - name: Cache PDFs
+        if: steps.early-exit.conclusion != 'success'
+        uses: actions/cache/save@v4
+        with:
+          path: oolite/Doc
+          key: cache-pdfs-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', 'oolite/Doc/*') }}
+
+########################################
+########################################
+########################################
