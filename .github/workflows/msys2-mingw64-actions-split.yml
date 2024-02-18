@@ -41,7 +41,6 @@ jobs:
       fail-fast: false
 
     steps:
-
       - name: Set core.autocrlf to input value
         shell: bash
         run: git config --global core.autocrlf input
@@ -171,6 +170,10 @@ jobs:
       fail-fast: false
 
     steps:
+      - name: Set core.autocrlf to input value
+        shell: bash
+        run: git config --global core.autocrlf input
+
       - name: Checkout this repository
         uses: actions/checkout@v4
 
@@ -284,6 +287,10 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - name: Set core.autocrlf to input value
+        shell: bash
+        run: git config --global core.autocrlf input
+
       - name: Checkout this repository
         uses: actions/checkout@v4
 
@@ -359,6 +366,10 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - name: Set core.autocrlf to input value
+        shell: bash
+        run: git config --global core.autocrlf input
+
       - name: Checkout this repository
         uses: actions/checkout@v4
 
@@ -453,6 +464,10 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - name: Set core.autocrlf to input value
+        shell: bash
+        run: git config --global core.autocrlf input
+
       - name: Checkout this repository
         uses: actions/checkout@v4
 
@@ -530,6 +545,10 @@ jobs:
       LIBS_BASE_MSYS2_DEPS:
 
     steps:
+      - name: Set core.autocrlf to input value
+        shell: bash
+        run: git config --global core.autocrlf input
+
       - name: Checkout this repository
         uses: actions/checkout@v4
 
@@ -609,6 +628,10 @@ jobs:
       SDL_MSYS2_DEPS:
 
     steps:
+      - name: Set core.autocrlf to input value
+        shell: bash
+        run: git config --global core.autocrlf input
+
       - name: Checkout this repository
         uses: actions/checkout@v4
 
@@ -725,6 +748,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set core.autocrlf to input value
+        shell: bash
+        run: git config --global core.autocrlf input
+
       - name: Checkout this repository
         uses: actions/checkout@v4
 
@@ -748,6 +775,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set core.autocrlf to input value
+        shell: bash
+        run: git config --global core.autocrlf input
+
       - name: Checkout this repository
         uses: actions/checkout@v4
 
