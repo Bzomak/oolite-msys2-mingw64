@@ -121,6 +121,7 @@ jobs:
           repository: OoliteProject/oolite
           path: oolite
           submodules: recursive
+          persist-credentials: false
 
       - name: Retrieve PDFs cache
         id: restore-pdfs
@@ -788,6 +789,7 @@ jobs:
           repository: OoliteProject/oolite
           path: oolite
           sparse-checkout: Doc
+          persist-credentials: false
 
       - name: Check for pre-existing PDFs cache
         id: check-cache
@@ -824,7 +826,7 @@ jobs:
         shell: bash
         run: |
           echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          gh cache delete ${{ steps.check-cache.outputs.cache-primary-key }}
 
       - name: Cache PDFs
         if: steps.early-exit.conclusion != 'success'
