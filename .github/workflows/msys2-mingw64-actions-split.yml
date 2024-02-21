@@ -123,6 +123,14 @@ jobs:
           submodules: recursive
           persist-credentials: false
 
+      - name: Query autocrlf status
+        run: |
+          echo "Main repo"
+          git config core.autocrlf
+          cd oolite
+          echo "Oolite repo"
+          git config core.autocrlf
+
       - name: Retrieve PDFs cache
         id: restore-pdfs
         uses: actions/cache/restore@v4
