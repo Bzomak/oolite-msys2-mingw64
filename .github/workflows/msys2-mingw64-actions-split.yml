@@ -814,7 +814,8 @@ jobs:
         with:
           repository: OoliteProject/oolite
           path: oolite
-          sparse-checkout: Doc
+#          sparse-checkout: Doc
+          submodules: recursive
 
       - name: Check for pre-existing PDFs cache
         id: check-cache
