@@ -124,6 +124,7 @@ jobs:
           persist-credentials: false
 
       - name: Query autocrlf status
+        shell: bash
         run: |
           echo "Main repo"
           git config core.autocrlf
