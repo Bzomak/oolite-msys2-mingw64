@@ -123,7 +123,6 @@ jobs:
           repository: OoliteProject/oolite
           path: oolite
           submodules: recursive
-          persist-credentials: false
 
       - name: Query autocrlf status
         shell: bash
@@ -816,7 +815,6 @@ jobs:
           repository: OoliteProject/oolite
           path: oolite
           sparse-checkout: Doc
-          persist-credentials: false
 
       - name: Check for pre-existing PDFs cache
         id: check-cache
