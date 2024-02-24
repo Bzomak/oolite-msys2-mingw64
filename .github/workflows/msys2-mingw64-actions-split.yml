@@ -139,7 +139,7 @@ jobs:
         with:
           path: pdfs
           enableCrossOsArchive: 'true'
-          key: cache-pdfs-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml')}}-${{ hashFiles('**/oolite/Doc/*') }}
+          key: cache-pdfs-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml')}}-${{ hashFiles('**/oolite/Doc/*.odt') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -823,7 +823,7 @@ jobs:
         with:
           path: pdfs
           enableCrossOsArchive: 'true'
-          key: cache-pdfs-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml')}}-${{ hashFiles('**/oolite/Doc/*') }}
+          key: cache-pdfs-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml')}}-${{ hashFiles('**/oolite/Doc/*.odt') }}
           lookup-only: true
 
       - name: Early exit if cache exists and not building from fresh
