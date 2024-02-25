@@ -53,6 +53,7 @@ Should the caches be removed, this will not be a problem - caching between build
 - The from-fresh script downloads everything that it needs to build Oolite and all its dependencies; the GitHub Actions workflow will only download what it needs within each separate build job.
 - The from-fresh script only builds the release version of Oolite; the GitHub Actions workflow builds all versions of Oolite, and creates installers for all three release versions.
 - Once the from-fresh script has finished, you will have a fully functional development environment for Oolite which you can work with; Once the GitHub Actions workflow has finished, you will only be able to download the installers and read the build logs.
+- The from-fresh script does not generate the .pdf documentation from the .odt files; the GitHub Actions workflow generates these and they are included in the installed package.
 
 ## Roadmap
 
