@@ -739,7 +739,6 @@ jobs:
     name: Generate PDFs
     runs-on: ubuntu-latest
     needs: [check-oolite-ref]
-    if: ${{ github.event.inputs.oolite_ref != '' }}
 
     steps:
       - name: Checkout this repository
@@ -776,10 +775,10 @@ jobs:
   check-oolite-ref:
     name: Check Oolite ref is valid
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.oolite_ref != '' }}
 
     steps:
       - name: Check if provided ref exists in Oolite repository
+        if: ${{ inputs.oolite_ref != '' }}
         run: |
           git ls-remote --exit-code --heads https://github.com/OoliteProject/oolite.git ${{ inputs.oolite_ref }} && \
           echo "The reference '${{ inputs.oolite_ref }}' exists in the remote repository." || \
