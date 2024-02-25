@@ -700,7 +700,7 @@ jobs:
 
       - name: Run build script
         run: |
-          bash ./oolite-from-fresh-msys2-mingw64.sh
+          bash ./oolite-from-fresh-msys2-mingw64.sh -r ${{ inputs.oolite_ref }}
 
 ########################################
 ########################################

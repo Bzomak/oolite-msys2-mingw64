@@ -18,6 +18,54 @@
 #
 ###############################
 
+# Usage function
+usage() {
+    echo "Usage: $(basename "$0") [-b BUILD_TYPE] [-r GIT_REF]"
+    echo "Options:"
+    echo "  -b BUILD_TYPE   Specify build type (default: default)"
+    echo "  -r GIT_REF      Specify Git reference (default: master)"
+    exit 1
+}
+
+# Validate build type
+validate_build_type() {
+    local build_type=$1
+    case $build_type in
+        release|release-snapshot|release-deployment|debug)
+            ;;
+        *)
+            echo "Error: Invalid build type '$build_type'. Allowed values are release, release-snapshot, release-deployment, or debug." >&2
+            usage
+            ;;
+    esac
+}
+
+# Default values
+BUILD_TYPE="release"
+GIT_REF="master"
+
+# Parse command-line options
+while getopts ":b:r:" opt; do
+    case ${opt} in
+        b )
+            validate_build_type "$OPTARG"
+            BUILD_TYPE="$OPTARG"
+            ;;
+        r )
+            GIT_REF="$OPTARG"
+            ;;
+        \? )
+            echo "Invalid option: $OPTARG" >&2
+            usage
+            ;;
+        : )
+            echo "Invalid option: $OPTARG requires an argument" >&2
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND -1))
+
 # Install useful tools for building
 pacman -S --noconfirm git
 
@@ -76,10 +124,10 @@ read -r -a OOLITE_MSYS2_DEPS <<< "$(cat ./oolite-config/msys2-deps)"
 pacman -S --noconfirm --needed "${OOLITE_MSYS2_DEPS[@]}"
 
 # Clone Oolite repo and submodules
-git clone --recursive https://github.com/OoliteProject/oolite.git
+git clone --recursive https://github.com/OoliteProject/oolite.git --branch="$GIT_REF"
 
 # Now let's try to compile Oolite
-./oolite-config/build.sh release
+./oolite-config/build.sh "$BUILD_TYPE"
 
 ###############################
 ###############################
