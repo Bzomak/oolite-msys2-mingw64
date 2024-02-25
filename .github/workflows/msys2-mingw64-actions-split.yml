@@ -18,7 +18,7 @@ on:
         description: The version of Oolite to build
         required: false
         type: string
-        default: main
+        default: master
   pull_request:
   push:
     branches:
