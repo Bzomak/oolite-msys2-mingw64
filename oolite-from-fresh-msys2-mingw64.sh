@@ -41,12 +41,12 @@ validate_build_type() {
 }
 
 # Validate git ref
-validate_git_ref(
+validate_git_ref() {
     local git_ref=$1
     git ls-remote --exit-code --heads https://github.com/OoliteProject/oolite.git $git_ref && \
     echo "The reference '${{ inputs.oolite_ref }}' exists in the remote repository." || \
     { echo "The reference '${{ inputs.oolite_ref }}' does not exist in the remote repository." && exit 1; }
-)
+}
 
 # Default values
 BUILD_TYPE="release"
