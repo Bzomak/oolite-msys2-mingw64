@@ -263,6 +263,7 @@ jobs:
   build-tools-make:
     name: Build tools-make
     runs-on: windows-latest
+    needs: [check-oolite-ref]
     defaults:
       run:
         shell: msys2 {0}
@@ -432,6 +433,7 @@ jobs:
   build-sdl:
     name: Build SDL
     runs-on: windows-latest
+    needs: [check-oolite-ref]
     defaults:
       run:
         shell: msys2 {0}
@@ -736,6 +738,7 @@ jobs:
   generate-pdfs:
     name: Generate PDFs
     runs-on: ubuntu-latest
+    needs: [check-oolite-ref]
 
     steps:
       - name: Checkout this repository
@@ -772,10 +775,15 @@ jobs:
   check-oolite-ref:
     name: Check Oolite ref is valid
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.oolite_ref }}
 
     steps:
-      - name: Check if ref exists
+      - name: Check if provided ref exists in Oolite repository
         run: |
           git ls-remote --exit-code --heads https://github.com/OoliteProject/oolite.git ${{ inputs.oolite_ref }} && \
           echo "The reference '${{ inputs.oolite_ref }}' exists in the remote repository." || \
           { echo "The reference '${{ inputs.oolite_ref }}' does not exist in the remote repository." && exit 1; }
+
+########################################
+########################################
+########################################
