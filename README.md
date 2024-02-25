@@ -15,7 +15,7 @@ This script will download and install everything needed for a development enviro
 - Open MSYS2 Mingw64 and ensure that it is up-to-date by running `pacman -Syu`. You may need to do this twice.
 - Clone this repository. If you do this within MSYS2 then you may need to install git (`pacman -S git`)
 - `cd` into the repository's directory
-- Run the `oolite-from-fresh-msys2-mingw64.sh` script. This calls the build scripts for each dependency sequentially. It finishes by builing a release version of Oolite.
+- Run the `oolite-from-fresh-msys2-mingw64.sh` script. This calls the build scripts for each dependency sequentially. It finishes by building Oolite. By default, this is a release version of Oolite from the master branch of https://github.com/OoliteProject/oolite, but you can pass optional flags `-b` to change the build type and `-r` to provide an alternative git ref.
 
 ## GitHub Actions
 
@@ -51,7 +51,6 @@ Should the caches be removed, this will not be a problem - caching between build
 
 - The from-fresh script builds everything sequentially; the GitHub Actions workflow builds as much in parallel as possible.
 - The from-fresh script downloads everything that it needs to build Oolite and all its dependencies; the GitHub Actions workflow will only download what it needs within each separate build job.
-- The from-fresh script only builds the release version of Oolite; the GitHub Actions workflow builds all versions of Oolite, and creates installers for all three release versions.
 - Once the from-fresh script has finished, you will have a fully functional development environment for Oolite which you can work with; Once the GitHub Actions workflow has finished, you will only be able to download the installers and read the build logs.
 - The from-fresh script does not generate the .pdf documentation from the .odt files; the GitHub Actions workflow generates these and they are included in the installed package.
 
