@@ -22,7 +22,7 @@
 usage() {
     echo "Usage: $(basename "$0") [-b BUILD_TYPE] [-r GIT_REF]"
     echo "Options:"
-    echo "  -b BUILD_TYPE   Specify build type (default: default)"
+    echo "  -b BUILD_TYPE   Specify build type (default: release)"
     echo "  -r GIT_REF      Specify Git reference (default: master)"
     exit 1
 }

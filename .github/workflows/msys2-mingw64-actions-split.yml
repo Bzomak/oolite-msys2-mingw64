@@ -702,7 +702,11 @@ jobs:
 
       - name: Run build script
         run: |
-          bash ./oolite-from-fresh-msys2-mingw64.sh -r ${{ inputs.oolite_ref }}
+          if [${{ inputs.oolite_ref != '' }}] ; then
+            bash ./oolite-from-fresh-msys2-mingw64.sh -r ${{ inputs.oolite_ref }}
+          else
+            bash ./oolite-from-fresh-msys2-mingw64.sh
+          fi
 
 ########################################
 ########################################
@@ -777,7 +781,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check if provided ref exists in Oolite repository
+      - name: Check if provided ref exists in Oolite repository (skip if ref is not provided and use the latest commit from the master branch)
         if: ${{ inputs.oolite_ref != '' }}
         run: |
           git ls-remote --exit-code --heads https://github.com/OoliteProject/oolite.git ${{ inputs.oolite_ref }} && \
