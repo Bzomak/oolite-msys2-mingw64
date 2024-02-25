@@ -135,7 +135,7 @@ jobs:
   build-oolite-installers:
     name: Build Oolite installers
     runs-on: windows-latest
-    needs: [build-tools-make, build-libs-base, build-sdl, build-oolite]
+    needs: [build-tools-make, build-libs-base, build-sdl, build-oolite, generate-pdfs]
     defaults:
       run:
         shell: msys2 {0}
@@ -230,6 +230,12 @@ jobs:
       - name: Fail if cached data for Oolite is missing
         if: steps.restore-oolite.outputs.cache-hit != 'true'
         run: echo "Unable to restore Oolite files from previous job" && false
+
+      - name: Retrieve pdfs artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pdfs
+          path: oolite/Doc
 
       - name: Build installers
         run: |
@@ -706,6 +712,53 @@ jobs:
 
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
+
+########################################
+########################################
+########################################
+
+# Generate the PDFs of the Oolite documentation .odt files in the oolite/Doc/ folder
+
+# TODO
+# This currently runs every time the workflow is run.
+# Ideally we would cache the generated pdfs and only regenerate them if the .odt files have changed.
+# As it runs on ubuntu-latest we would set enableCrossOsArchive to true in the cache action.
+# The cache key should include the hash of oolite/Doc/ and the hash of this workflow file.
+# Unfortunately I cannot get the hash of either the oolite/Doc/ folder or the .odt files to match on both Ubuntu and Windows runners.
+# I suspect that the line endings are different on the two systems, but have failed to find a way to fix this.
+
+  generate-pdfs:
+    name: Generate PDFs
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout this repository
+        uses: actions/checkout@v4
+
+      - name: Checkout Oolite
+        uses: actions/checkout@v4
+        with:
+          repository: OoliteProject/oolite
+          path: oolite
+          sparse-checkout: Doc
+
+      - name: Install LibreOffice and Fonts 
+        run: |
+          sudo apt update
+          echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+          sudo apt -y install libreoffice ttf-mscorefonts-installer
+
+      - name: Generate PDFs
+        run: |
+          find ./oolite/Doc -name "*.odt" -exec soffice --headless --convert-to pdf:"writer_pdf_Export" --outdir oolite/Doc {} \;
+
+      - name: Store pdfs as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdfs
+          path: ./oolite/Doc/*.pdf
+
 
 ########################################
 ########################################
