@@ -40,9 +40,20 @@ validate_build_type() {
     esac
 }
 
+# Validate git ref
+validate_git_ref(
+    local git_ref=$1
+    git ls-remote --exit-code --heads https://github.com/OoliteProject/oolite.git $git_ref && \
+    echo "The reference '${{ inputs.oolite_ref }}' exists in the remote repository." || \
+    { echo "The reference '${{ inputs.oolite_ref }}' does not exist in the remote repository." && exit 1; }
+)
+
 # Default values
 BUILD_TYPE="release"
 GIT_REF="master"
+
+# Install git. It's not installed by default in MSYS2 MINGW64
+pacman -S --noconfirm git
 
 # Parse command-line options
 while getopts ":b:r:" opt; do
@@ -52,6 +63,7 @@ while getopts ":b:r:" opt; do
             BUILD_TYPE="$OPTARG"
             ;;
         r )
+            validate_git_ref "$OPTARG"
             GIT_REF="$OPTARG"
             ;;
         \? )
@@ -65,9 +77,6 @@ while getopts ":b:r:" opt; do
     esac
 done
 shift $((OPTIND -1))
-
-# Install useful tools for building
-pacman -S --noconfirm git
 
 ###############################
 
