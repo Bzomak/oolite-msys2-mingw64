@@ -778,4 +778,4 @@ jobs:
         run: |
           git ls-remote --exit-code --heads https://github.com/OoliteProject/oolite.git ${{ inputs.oolite_ref }} && \
           echo "The reference '${{ inputs.oolite_ref }}' exists in the remote repository." || \
-          { echo "The reference '${{ inputs.oolite_ref }}' does not exist in the remote repository." && false }
+          { echo "The reference '${{ inputs.oolite_ref }}' does not exist in the remote repository." && exit 1; }
