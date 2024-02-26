@@ -702,7 +702,8 @@ jobs:
 
       - name: Run build script
         run: |
-          if [${{ inputs.oolite_ref != '' }}] ; then
+          if [[ ${{ inputs.oolite_ref != '' }}]]
+          then
             bash ./oolite-from-fresh-msys2-mingw64.sh -r ${{ inputs.oolite_ref }}
           else
             bash ./oolite-from-fresh-msys2-mingw64.sh
