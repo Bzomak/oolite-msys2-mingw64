@@ -18,8 +18,77 @@
 #
 ###############################
 
-# Install useful tools for building
-pacman -S --noconfirm git
+# Usage function
+usage() {
+    echo "Usage: $(basename "$0") [-b BUILD_TYPE] [-r GIT_REF]"
+    echo "Options:"
+    echo "  -b BUILD_TYPE   Specify build type (default: release)"
+    echo "  -r GIT_REF      Specify Git reference (default: master)"
+    exit 1
+}
+
+# Validate build type
+validate_build_type() {
+    echo "Validating build type..."
+    local build_type=$1
+    case $build_type in
+        release|release-snapshot|release-deployment|debug)
+            ;;
+        *)
+            echo "Error: Invalid build type '$build_type'. Allowed values are release, release-snapshot, release-deployment, or debug." >&2
+            usage
+            ;;
+    esac
+}
+
+# Validate git ref
+validate_git_ref() {
+    echo "Validating git ref..."
+    local git_ref=$1
+    if git ls-remote --exit-code https://github.com/OoliteProject/oolite.git "$git_ref"
+    then
+        echo "The reference $git_ref exists in the remote repository."
+    else
+        echo "The reference $git_ref does not exist in the remote repository." >&2
+        usage
+    fi
+}
+
+# Default values
+BUILD_TYPE="release"
+GIT_REF="master"
+
+# Install git. It's not installed by default in MSYS2 MINGW64
+pacman -S --noconfirm --needed git
+
+# Parse command-line options
+echo "Parsing any command-line options..."
+while getopts ":b:r:" opt; do
+    case ${opt} in
+        b )
+            echo "Want to validate build type..."
+            validate_build_type "$OPTARG"
+            BUILD_TYPE="$OPTARG"
+            ;;
+        r )
+            echo "Want to validate git ref..."
+            validate_git_ref "$OPTARG"
+            GIT_REF="$OPTARG"
+            ;;
+        \? )
+            echo "Invalid option: $OPTARG" >&2
+            usage
+            ;;
+        : )
+            echo "Invalid option: $OPTARG requires an argument" >&2
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND -1))
+echo "Parsing command line options complete."
+echo "Build type set to: $BUILD_TYPE"
+echo "Oolite git ref set to: $GIT_REF"
 
 ###############################
 
@@ -76,10 +145,10 @@ read -r -a OOLITE_MSYS2_DEPS <<< "$(cat ./oolite-config/msys2-deps)"
 pacman -S --noconfirm --needed "${OOLITE_MSYS2_DEPS[@]}"
 
 # Clone Oolite repo and submodules
-git clone --recursive https://github.com/OoliteProject/oolite.git
+git clone --recursive https://github.com/OoliteProject/oolite.git --branch="$GIT_REF"
 
 # Now let's try to compile Oolite
-./oolite-config/build.sh release
+./oolite-config/build.sh "$BUILD_TYPE"
 
 ###############################
 ###############################
