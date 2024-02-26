@@ -59,7 +59,7 @@ BUILD_TYPE="release"
 GIT_REF="master"
 
 # Install git. It's not installed by default in MSYS2 MINGW64
-pacman -S --noconfirm git
+pacman -S --noconfirm --needed git
 
 # Parse command-line options
 echo "Parsing command-line options..."
