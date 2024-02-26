@@ -29,6 +29,7 @@ usage() {
 
 # Validate build type
 validate_build_type() {
+    echo "Validating build type..."
     local build_type=$1
     case $build_type in
         release|release-snapshot|release-deployment|debug)
@@ -42,6 +43,7 @@ validate_build_type() {
 
 # Validate git ref
 validate_git_ref() {
+    echo "Validating git ref..."
     local git_ref=$1
     if git ls-remote --exit-code https://github.com/OoliteProject/oolite.git "$git_ref"
     then
@@ -60,6 +62,7 @@ GIT_REF="master"
 pacman -S --noconfirm git
 
 # Parse command-line options
+echo "Parsing command-line options..."
 while getopts ":b:r:" opt; do
     case ${opt} in
         b )
@@ -81,6 +84,7 @@ while getopts ":b:r:" opt; do
     esac
 done
 shift $((OPTIND -1))
+echo "Command-line options parsed."
 
 ###############################
 
