@@ -784,9 +784,13 @@ jobs:
       - name: Check if provided ref exists in Oolite repository (skip if ref is not provided and use the latest commit from the master branch)
         if: ${{ inputs.oolite_ref != '' }}
         run: |
-          git ls-remote --exit-code --heads https://github.com/OoliteProject/oolite.git ${{ inputs.oolite_ref }} && \
-          echo "The reference '${{ inputs.oolite_ref }}' exists in the remote repository." || \
-          { echo "The reference '${{ inputs.oolite_ref }}' does not exist in the remote repository." && exit 1; }
+          if git ls-remote --exit-code --heads https://github.com/OoliteProject/oolite.git ${{ inputs.oolite_ref }}
+          then
+              echo "The reference ${{ inputs.oolite_ref }} exists in the remote repository."
+          else
+              echo "The reference ${{ inputs.oolite_ref }} does not exist in the remote repository." >&2
+              exit 1
+          fi
 
 ########################################
 ########################################

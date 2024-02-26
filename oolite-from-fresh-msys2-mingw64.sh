@@ -45,7 +45,7 @@ validate_git_ref() {
     local git_ref=$1
     if git ls-remote --exit-code --heads https://github.com/OoliteProject/oolite.git "$git_ref"
     then
-        echo "The reference '$git_ref' exists in the remote repository."
+        echo "The reference $git_ref exists in the remote repository."
     else
         echo "The reference $git_ref does not exist in the remote repository." >&2
         usage
