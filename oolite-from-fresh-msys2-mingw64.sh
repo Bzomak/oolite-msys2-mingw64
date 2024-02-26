@@ -62,7 +62,7 @@ GIT_REF="master"
 pacman -S --noconfirm --needed git
 
 # Parse command-line options
-echo "Parsing command-line options..."
+echo "Parsing any command-line options..."
 while getopts ":b:r:" opt; do
     case ${opt} in
         b )
@@ -86,9 +86,9 @@ while getopts ":b:r:" opt; do
     esac
 done
 shift $((OPTIND -1))
-echo "Command-line options parsed."
-echo "BUILD_TYPE: $BUILD_TYPE"
-echo "GIT_REF: $GIT_REF"
+echo "Parsing command line options complete."
+echo "Build type set to: $BUILD_TYPE"
+echo "Oolite git ref set to: $GIT_REF"
 
 ###############################
 

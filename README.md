@@ -15,7 +15,7 @@ This script will download and install everything needed for a development enviro
 - Open MSYS2 Mingw64 and ensure that it is up-to-date by running `pacman -Syu`. You may need to do this twice.
 - Clone this repository. If you do this within MSYS2 then you may need to install git (`pacman -S git`)
 - `cd` into the repository's directory
-- Run the `oolite-from-fresh-msys2-mingw64.sh` script. This calls the build scripts for each dependency sequentially. It finishes by building Oolite. By default, this is a release version of Oolite from the master branch of https://github.com/OoliteProject/oolite, but you can pass optional flags `-b` to change the build type and `-r` to provide an alternative git ref.
+- Run the `oolite-from-fresh-msys2-mingw64.sh` script. This calls the build scripts for each dependency sequentially. It finishes by building Oolite. By default, this is a release version of Oolite from the master branch of https://github.com/OoliteProject/oolite, but you can pass optional flags `-b` to change the build type and `-r` to provide an alternative git ref of either a different branch or a tag.
 
 ## GitHub Actions
 
