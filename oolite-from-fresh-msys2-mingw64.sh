@@ -43,7 +43,7 @@ validate_build_type() {
 # Validate git ref
 validate_git_ref() {
     local git_ref=$1
-    if git ls-remote --exit-code --heads https://github.com/OoliteProject/oolite.git "$git_ref"
+    if git ls-remote --exit-code https://github.com/OoliteProject/oolite.git "$git_ref"
     then
         echo "The reference $git_ref exists in the remote repository."
     else
