@@ -700,14 +700,15 @@ jobs:
           msystem: MINGW64
           update: true
 
-      - name: Run build script
+      - name: Run build script with provided Oolite ref
+        if: ${{ inputs.oolite_ref != '' }}
         run: |
-          if [[ ${{ inputs.oolite_ref != '' }}]]
-          then
-            bash ./oolite-from-fresh-msys2-mingw64.sh -r ${{ inputs.oolite_ref }}
-          else
-            bash ./oolite-from-fresh-msys2-mingw64.sh
-          fi
+          bash ./oolite-from-fresh-msys2-mingw64.sh -r ${{ inputs.oolite_ref }}
+
+      - name: Run build script with latest commit on Oolite master
+        if: ${{ inputs.oolite_ref == '' }}
+        run: |
+          bash ./oolite-from-fresh-msys2-mingw64.sh
 
 ########################################
 ########################################
