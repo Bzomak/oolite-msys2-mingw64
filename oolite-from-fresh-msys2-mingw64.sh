@@ -66,10 +66,12 @@ echo "Parsing command-line options..."
 while getopts ":b:r:" opt; do
     case ${opt} in
         b )
+            echo "Want to validate build type..."
             validate_build_type "$OPTARG"
             BUILD_TYPE="$OPTARG"
             ;;
         r )
+            echo "Want to validate git ref..."
             validate_git_ref "$OPTARG"
             GIT_REF="$OPTARG"
             ;;
