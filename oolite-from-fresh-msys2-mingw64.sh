@@ -87,6 +87,8 @@ while getopts ":b:r:" opt; do
 done
 shift $((OPTIND -1))
 echo "Command-line options parsed."
+echo "BUILD_TYPE: $BUILD_TYPE"
+echo "GIT_REF: $GIT_REF"
 
 ###############################
 
