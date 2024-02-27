@@ -689,6 +689,10 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
+    strategy:
+      matrix:
+        build_type: [debug, release, release-deployment, release-snapshot]
+      fail-fast: false
 
     steps:
       - name: Checkout this repository
@@ -703,12 +707,12 @@ jobs:
       - name: Run build script with provided Oolite ref
         if: ${{ inputs.oolite_ref != '' }}
         run: |
-          bash ./oolite-from-fresh-msys2-mingw64.sh -r ${{ inputs.oolite_ref }}
+          bash ./oolite-from-fresh-msys2-mingw64.sh -b ${{ matrix.build_type }} -r ${{ inputs.oolite_ref }}
 
       - name: Run build script with latest commit on Oolite master
         if: ${{ inputs.oolite_ref == '' }}
         run: |
-          bash ./oolite-from-fresh-msys2-mingw64.sh
+          bash ./oolite-from-fresh-msys2-mingw64.sh -b ${{ matrix.build_type }}
 
 ########################################
 ########################################
