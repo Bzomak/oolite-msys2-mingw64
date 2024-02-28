@@ -129,10 +129,10 @@ sed -i '1207 s/long/uintptr_t/' ./espeak-1.43.03-source/src/synthesize.cpp
 #    29 | #define usleep(x)       Sleep((x)/1000)
 #       |                                 ^
 # 
-sed -i '29 s/^/\/\//' ./espeak-1.43.03-source/src/speech.h
+#sed -i '29 s/^/\/\//' ./espeak-1.43.03-source/src/speech.h
 #sed -i '29 s/Sleep((x)/1000)/Sleep((DWORD)((x)/1000))/' ./espeak-1.43.03-source/src/speech.h
 #sed -i '19 s//#include windows.h/' ./espeak-1.43.03-source/src/event.cpp
-
+sed -i '29 s/Sleep((x)/1000)/nanosleep(x)/' ./espeak-1.43.03-source/src/speech.h
 ###############################
 
 # Build eSpeak
