@@ -130,7 +130,7 @@ sed -i '1207 s/long/uintptr_t/' ./espeak-1.43.03-source/src/synthesize.cpp
 #       |                                 ^
 # 
 
-sed -i '29 s/Sleep((x)/Sleep((DWORD)(x)/' ./espeak-1.43.03-source/src/speech.h
+sed -i '29 s/Sleep((x)/1000)/Sleep((DWORD)((x)/1000))/' ./espeak-1.43.03-source/src/speech.h
 
 ###############################
 
