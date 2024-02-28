@@ -21,6 +21,8 @@ mv ./espeak-1.43.03-source/src/portaudio19.h ./espeak-1.43.03-source/src/portaud
 # Copy the file speak_lib.h from <espeakSourceFolder>/platforms/windows/windows_dll/src to <espeakSourceFolder>/src.
 cp ./espeak-1.43.03-source/platforms/windows/windows_dll/src/speak_lib.h ./espeak-1.43.03-source/src/
 
+###############################
+
 # Fix compile errors
 
 # dictionary.cpp: In function 'void InitGroups(Translator*)':
@@ -110,6 +112,27 @@ sed -i '1138 s/long/uintptr_t/' ./espeak-1.43.03-source/src/synthesize.cpp
 sed -i '1139 s/long/uintptr_t/' ./espeak-1.43.03-source/src/synthesize.cpp
 sed -i '1175 s/long/uintptr_t/' ./espeak-1.43.03-source/src/synthesize.cpp
 sed -i '1207 s/long/uintptr_t/' ./espeak-1.43.03-source/src/synthesize.cpp
+
+# In file included from event.cpp:20:
+# speech.h:29:30: warning: 'cdecl' attribute only applies to function types [-Wattributes]
+#    29 | #define usleep(x)       Sleep((x)/1000)
+#       |                              ^
+# speech.h:29:30: warning: 'nothrow' attribute ignored [-Wattributes]
+# speech.h:29:30: error: 'int Sleep' redeclared as different kind of entity
+# In file included from D:/a/_temp/msys64/mingw64/include/winbase.h:35,
+#                  from D:/a/_temp/msys64/mingw64/include/windows.h:70,
+#                  from speech.h:27:
+# D:/a/_temp/msys64/mingw64/include/synchapi.h:127:26: note: previous declaration 'void Sleep(DWORD)'
+#   127 |   WINBASEAPI VOID WINAPI Sleep (DWORD dwMilliseconds);
+#       |                          ^~~~~
+# speech.h:29:33: error: expected primary-expression before ')' token
+#    29 | #define usleep(x)       Sleep((x)/1000)
+#       |                                 ^
+# 
+
+sed -i '29 s/Sleep((x)/Sleep((DWORD)(x)/' ./espeak-1.43.03-source/src/speech.h
+
+###############################
 
 # Build eSpeak
 cd espeak-1.43.03-source/src || exit
