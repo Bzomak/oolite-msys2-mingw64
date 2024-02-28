@@ -54,7 +54,7 @@ speak_SOURCES = speak.cpp compiledict.cpp dictionary.cpp intonation.cpp \
 	synthdata.cpp synthesize.cpp translate.cpp \
 	tr_languages.cpp voices.cpp wavegen.cpp phonemelist.cpp klatt.cpp
 
-libespeak_SOURCES = gettimeofday.c speak_lib.cpp compiledict.cpp dictionary.cpp intonation.cpp \
+libespeak_SOURCES = speak_lib.cpp compiledict.cpp dictionary.cpp intonation.cpp \
 	readclause.cpp setlengths.cpp numbers.cpp synth_mbrola.cpp \
 	synthdata.cpp synthesize.cpp translate.cpp \
 	tr_languages.cpp voices.cpp wavegen.cpp phonemelist.cpp \
