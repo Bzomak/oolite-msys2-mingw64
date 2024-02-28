@@ -117,7 +117,8 @@ install: #all
 	# Install espeak executable
 #	$(INSTALL) -m 755 $(BIN2_NAME) $(DESTDIR)$(BINDIR)
 	# Install shared library
-	$(INSTALL) -m 755 $(LIB_NAME).$(LIBTAG) $(DESTDIR)$(LIBDIR)
+#	$(INSTALL) -m 755 $(LIB_NAME).$(LIBTAG) $(DESTDIR)$(LIBDIR)
+	$(INSTALL) -m 755 $(LIB_NAME) $(DESTDIR)$(LIBDIR)
 	# Install static library
 #	$(INSTALL) -m 755 $(STATIC_LIB_NAME) $(DESTDIR)$(LIBDIR)
 #	$(LN_SF) $(LIB_NAME).$(LIBTAG) $(DESTDIR)$(LIBDIR)/$(LIB_NAME).$(LIB_VERSION)
