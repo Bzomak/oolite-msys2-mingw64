@@ -137,6 +137,8 @@ sed -i '1207 s/long/uintptr_t/' ./espeak-1.43.03-source/src/synthesize.cpp
 
 #cat ./espeak-1.43.03-source/src/speech.h
 
+sed -i '42 s/^/\/\//' ./espeak-1.43.03-source/src/speech.h
+sed -i '43 s/^/\/\//' ./espeak-1.43.03-source/src/speech.h
 
 #sed -i '409 s/NULL/reinterpret_cast<struct timezone*>(nullptr)/' ./espeak-1.43.03-source/src/event.cpp
 
