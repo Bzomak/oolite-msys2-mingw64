@@ -57,6 +57,7 @@ sed -i '33 s/-L$(WIN_DEPS_DIR)\/lib //' GNUMakefile
 # Copy the espeak-data folder
 sed -i '46 s/^/#/' Gnumakefile.postamble
 sed -i '48 s/^/#/' Gnumakefile.postamble
+sed -i '52 s/^/#/' Gnumakefile.postamble
 
 # Try to build
 # shellcheck source=/dev/null
