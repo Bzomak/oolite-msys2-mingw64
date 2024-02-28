@@ -54,9 +54,6 @@ sed -i '32 s/-I$(WIN_DEPS_DIR)\/include //' GNUMakefile
 # shellcheck disable=SC2016
 sed -i '33 s/-L$(WIN_DEPS_DIR)\/lib //' GNUMakefile
 
-# Change espeak=no in config.make - shall be removed once we can build espeak on MSYS2
-sed -i '17 s/yes/no/' config.make
-
 # Try to build
 # shellcheck source=/dev/null
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
