@@ -130,9 +130,9 @@ jobs:
         if: steps.restore-eSpeak.outputs.cache-hit != 'true'
         run: echo "Unable to restore eSpeak files from previous job" && false
 
-#      - name: Install eSpeak
-#        run: |
-#          bash ./deps/eSpeak/install.sh
+      - name: Install eSpeak
+        run: |
+          bash ./deps/eSpeak/install.sh
 
       - name: Checkout Oolite
         uses: actions/checkout@v4
@@ -255,9 +255,9 @@ jobs:
         if: steps.restore-eSpeak.outputs.cache-hit != 'true'
         run: echo "Unable to restore eSpeak files from previous job" && false
 
-#      - name: Install eSpeak
-#        run: |
-#          bash ./deps/eSpeak/install.sh
+      - name: Install eSpeak
+        run: |
+          bash ./deps/eSpeak/install.sh
 
       - name: Retrieve Oolite cache
         id: restore-oolite
