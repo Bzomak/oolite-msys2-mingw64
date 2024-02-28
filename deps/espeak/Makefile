@@ -107,7 +107,7 @@ distclean: clean
 	rm -f $(BIN2_NAME)
 	rm -f $(LIB_NAME)*
 
-install: all
+install: #all
 	# Create directories
 	rm -rf $(DESTDIR)$(DATADIR)
 	$(MKDIR) $(DESTDIR)$(BINDIR)
