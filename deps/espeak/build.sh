@@ -10,10 +10,10 @@
 ###############################
 
 # Copy edited files from Oolite
-cp ./deps/espeak/gettimeofday.c ./espeak-1.43.03-source/src/
+#cp ./deps/espeak/gettimeofday.c ./espeak-1.43.03-source/src/
 cp ./deps/espeak/Makefile ./espeak-1.43.03-source/src/
 cp ./deps/espeak/speak_lib.cpp ./espeak-1.43.03-source/src/
-cp ./deps/espeak/speech.h ./espeak-1.43.03-source/src/
+#cp ./deps/espeak/speech.h ./espeak-1.43.03-source/src/
 
 # Rename the file <espeakSourceFolder>/src/portaudio19.h to portaudio.h.
 mv ./espeak-1.43.03-source/src/portaudio19.h ./espeak-1.43.03-source/src/portaudio.h
@@ -131,11 +131,15 @@ sed -i '1207 s/long/uintptr_t/' ./espeak-1.43.03-source/src/synthesize.cpp
 # 
 #sed -i '29 s/^/\/\//' ./espeak-1.43.03-source/src/speech.h
 #sed -i '29 s|Sleep((x)/1000)|Sleep((DWORD)((x)/1000))|' ./espeak-1.43.03-source/src/speech.h
-sed -i '29 s|Sleep((x)/1000)|nanosleep(x)|' ./espeak-1.43.03-source/src/speech.h
+#sed -i '29 s|Sleep((x)/1000)|nanosleep(x)|' ./espeak-1.43.03-source/src/speech.h
 #sed -i '19 s//#include windows.h/' ./espeak-1.43.03-source/src/event.cpp
 #sed -i 's/^\(#define usleep(x)   Sleep(\)\(.*\)\/1000\)/\1(DWORD)(\2\/1000))/' ./espeak-1.43.03-source/src/speech.h
 
-cat ./espeak-1.43.03-source/src/speech.h
+#cat ./espeak-1.43.03-source/src/speech.h
+
+
+#sed -i '409 s/NULL/reinterpret_cast<struct timezone*>(nullptr)/' ./espeak-1.43.03-source/src/event.cpp
+
 ###############################
 
 # Build eSpeak
