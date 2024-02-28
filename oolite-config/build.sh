@@ -54,6 +54,10 @@ sed -i '32 s/-I$(WIN_DEPS_DIR)\/include //' GNUMakefile
 # shellcheck disable=SC2016
 sed -i '33 s/-L$(WIN_DEPS_DIR)\/lib //' GNUMakefile
 
+# Copy the espeak-data folder
+sed -i '46 s/^/#/' Gnumakefile.postamble
+sed -i '48 s/^/#/' Gnumakefile.postamble
+
 # Try to build
 # shellcheck source=/dev/null
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh
