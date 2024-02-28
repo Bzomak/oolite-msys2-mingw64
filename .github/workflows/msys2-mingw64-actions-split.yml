@@ -34,7 +34,7 @@ jobs:
   build-oolite:
     name: Build Oolite
     runs-on: windows-latest
-    needs: [build-tools-make, build-libs-base, build-sdl]
+    needs: [build-tools-make, build-libs-base, build-sdl, build-espeak]
     defaults:
       run:
         shell: msys2 {0}
@@ -115,6 +115,24 @@ jobs:
       - name: Install SDL
         run: |
           bash ./deps/sdl/install.sh
+
+      - name: Retrieve eSpeak cache
+        id: restore-espeak
+        uses: actions/cache/restore@v4
+        with:
+          path: espeak-1.43.03-source
+          key: cache-espeak-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/espeak/*') }}
+          fail-on-cache-miss: true
+
+      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
+      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
+      - name: Fail if cached data for eSpeak is missing
+        if: steps.restore-eSpeak.outputs.cache-hit != 'true'
+        run: echo "Unable to restore eSpeak files from previous job" && false
+
+      - name: Install eSpeak
+        run: |
+          bash ./deps/eSpeak/install.sh
 
       - name: Checkout Oolite
         uses: actions/checkout@v4
@@ -223,6 +241,24 @@ jobs:
         run: |
           bash ./deps/sdl/install.sh
           
+      - name: Retrieve eSpeak cache
+        id: restore-espeak
+        uses: actions/cache/restore@v4
+        with:
+          path: espeak-1.43.03-source
+          key: cache-espeak-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/espeak/*') }}
+          fail-on-cache-miss: true
+
+      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
+      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
+      - name: Fail if cached data for eSpeak is missing
+        if: steps.restore-eSpeak.outputs.cache-hit != 'true'
+        run: echo "Unable to restore eSpeak files from previous job" && false
+
+      - name: Install eSpeak
+        run: |
+          bash ./deps/eSpeak/install.sh
+
       - name: Retrieve Oolite cache
         id: restore-oolite
         uses: actions/cache/restore@v4
@@ -570,7 +606,7 @@ jobs:
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
         with:
-          path: espeak
+          path: espeak-1.43.03-source
           key: cache-espeak-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/espeak/*') }}
 
 ########################################
