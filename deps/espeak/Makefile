@@ -1,11 +1,12 @@
 # remove -fno-exceptions  if it causes problems with stdio library on some platforms (ARM)
 
-PREFIX=/usr
+#PREFIX=/usr
+PREFIX=/mingw64
 BINDIR=$(PREFIX)/bin
 INCDIR=$(PREFIX)/include/espeak
 LIBDIR=$(PREFIX)/lib
-#DATADIR=$(PREFIX)/share/espeak-data
-DATADIR=Resources
+DATADIR=$(PREFIX)/share/espeak-data
+#DATADIR=Resources
 
 
 RELEASE = 1.43
