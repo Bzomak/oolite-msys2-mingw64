@@ -21,6 +21,13 @@ mv ./espeak-1.43.03-source/src/portaudio19.h ./espeak-1.43.03-source/src/portaud
 # Copy the file speak_lib.h from <espeakSourceFolder>/platforms/windows/windows_dll/src to <espeakSourceFolder>/src.
 cp ./espeak-1.43.03-source/platforms/windows/windows_dll/src/speak_lib.h ./espeak-1.43.03-source/src/
 
+# Fix compile error
+# dictionary.cpp: In function 'void InitGroups(Translator*)':
+# dictionary.cpp:163:48: error: cast from 'char*' to 'long int' loses precision [-fpermissive]
+#   163 |                         pw = (unsigned int *)(((long)p+4) & ~3);  // advance to next word boundary
+#       |                                                ^~~~~~~
+sed -i '163 s/long/uintptr_t/' ./espeak-1.43.03-source/src/dictionary.cpp
+
 # Build eSpeak
 cd espeak-1.43.03-source/src || exit
 make -j "$(nproc)" libespeak.dll
