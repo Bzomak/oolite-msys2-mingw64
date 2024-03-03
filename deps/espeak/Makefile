@@ -120,12 +120,12 @@ install: #all
 	# Install espeak executable
 #	$(INSTALL) -m 755 $(BIN2_NAME) $(DESTDIR)$(BINDIR)
 	# Install shared library
-#	$(INSTALL) -m 755 $(LIB_NAME).$(LIBTAG) $(DESTDIR)$(LIBDIR)
-	$(INSTALL) -m 755 $(LIB_NAME) $(DESTDIR)$(LIBDIR)
+	$(INSTALL) -m 755 $(LIB_NAME).$(LIBTAG) $(DESTDIR)$(LIBDIR)
+#	$(INSTALL) -m 755 $(LIB_NAME) $(DESTDIR)$(LIBDIR)
 	# Install static library
-#	$(INSTALL) -m 755 $(STATIC_LIB_NAME) $(DESTDIR)$(LIBDIR)
-#	$(LN_SF) $(LIB_NAME).$(LIBTAG) $(DESTDIR)$(LIBDIR)/$(LIB_NAME).$(LIB_VERSION)
-#	$(LN_SF) $(LIB_NAME).$(LIB_VERSION) $(DESTDIR)$(LIBDIR)/$(LIB_NAME)
+	$(INSTALL) -m 755 $(STATIC_LIB_NAME) $(DESTDIR)$(LIBDIR)
+	$(LN_SF) $(LIB_NAME).$(LIBTAG) $(DESTDIR)$(LIBDIR)/$(LIB_NAME).$(LIB_VERSION)
+	$(LN_SF) $(LIB_NAME).$(LIB_VERSION) $(DESTDIR)$(LIBDIR)/$(LIB_NAME)
 	# Install development headers
 	$(INSTALL) -pm 644 speak_lib.h $(DESTDIR)$(INCDIR)
 	# Install data files
