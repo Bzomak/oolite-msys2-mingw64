@@ -146,4 +146,4 @@ sed -i '43 s/^/\/\//' ./espeak-1.43.03-source/src/speech.h
 
 # Build eSpeak
 cd espeak-1.43.03-source/src || exit
-make -j "$(nproc)" libespeak.dll
+make -j "$(nproc)" all
