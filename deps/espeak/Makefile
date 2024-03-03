@@ -38,7 +38,8 @@ USE_AUDIO=-DUSE_PULSEAUDIO
 else
 ifeq ($(AUDIO),portaudio)
 WAVE=wave.cpp
-LIB_AUDIO=-L/usr/local/lib -lportaudio.dll
+#LIB_AUDIO=-L/usr/local/lib -lportaudio.dll
+LIB_AUDIO=-L/mingw64/lib -lportaudio.dll
 USE_AUDIO=-DUSE_PORTAUDIO
 else
 ifeq ($(AUDIO),sada)
