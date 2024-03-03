@@ -92,37 +92,6 @@ echo "Oolite git ref set to: $GIT_REF"
 
 ###############################
 
-# Install build dependencies for GNUstep make
-read -r -a TOOLS_MAKE_MSYS2_DEPS <<< "$(cat ./deps/tools-make/msys2-deps)"
-pacman -S --noconfirm --needed "${TOOLS_MAKE_MSYS2_DEPS[@]}"
-
-# Clone tools-make repo
-TOOLS_MAKE_VERSION=$(cat ./deps/tools-make/version)
-git clone https://github.com/gnustep/tools-make.git --branch="$TOOLS_MAKE_VERSION"
-
-# Make and Install gmake
-./deps/tools-make/build.sh
-./deps/tools-make/install.sh
-
-###############################
-
-# Install build dependencies for GNUstep libs-base
-read -r -a LIBS_BASE_MSYS2_DEPS <<< "$(cat ./deps/libs-base/msys2-deps)"
-pacman -S --noconfirm --needed "${LIBS_BASE_MSYS2_DEPS[@]}"
-
-# Clone libs-base repo - Needs https://github.com/gnustep/libs-base/pull/295
-LIBS_BASE_VERSION=$(cat ./deps/libs-base/version)
-git clone https://github.com/gnustep/libs-base.git
-cd libs-base || exit 
-git checkout "$LIBS_BASE_VERSION"
-cd ..
-
-# Make and install libs-base
-./deps/libs-base/build.sh
-./deps/libs-base/install.sh
-
-###############################
-
 # Install build dependencies for SDL
 read -r -a SDL_MSYS2_DEPS <<< "$(cat ./deps/sdl/msys2-deps)"
 pacman -S --noconfirm --needed "${SDL_MSYS2_DEPS[@]}"
