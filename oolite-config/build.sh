@@ -59,6 +59,9 @@ sed -i '46 s/^/#/' Gnumakefile.postamble
 sed -i '48 s/^/#/' Gnumakefile.postamble
 sed -i '52 s/^/#/' Gnumakefile.postamble
 
+# Link to espeak and portaudio
+sed -i '45 s/$/ -lportaudio.dll/' GNUMakefile
+
 # Try to build
 # shellcheck source=/dev/null
 . /mingw64/share/GNUstep/Makefiles/GNUstep.sh

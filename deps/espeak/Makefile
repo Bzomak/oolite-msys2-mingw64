@@ -4,8 +4,7 @@
 PREFIX=/mingw64
 BINDIR=$(PREFIX)/bin
 INCDIR=$(PREFIX)/include/espeak
-#LIBDIR=$(PREFIX)/lib
-LIBDIR=$(PREFIX)/bin
+LIBDIR=$(PREFIX)/lib
 DATADIR=$(PREFIX)/share/espeak-data
 #DATADIR=Resources
 
