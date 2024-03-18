@@ -4,8 +4,7 @@
 PREFIX=/mingw64
 BINDIR=$(PREFIX)/bin
 INCDIR=$(PREFIX)/include/espeak
-#LIBDIR=$(PREFIX)/lib
-LIBDIR=$(PREFIX)/bin
+LIBDIR=$(PREFIX)/lib
 DATADIR=$(PREFIX)/share/espeak-data
 #DATADIR=Resources
 
@@ -126,6 +125,7 @@ install: all
 	# Install shared library
 #	$(INSTALL) -m 755 $(LIB_NAME).$(LIBTAG) $(DESTDIR)$(LIBDIR)
 	$(INSTALL) -m 755 $(LIB_NAME) $(DESTDIR)$(LIBDIR)
+	$(INSTALL) -m 755 $(LIB_NAME) $(DESTDIR)$(BINDIR)
 	# Install static library
 #	$(INSTALL) -m 755 $(STATIC_LIB_NAME) $(DESTDIR)$(LIBDIR)
 #	$(LN_SF) $(LIB_NAME).$(LIBTAG) $(DESTDIR)$(LIBDIR)/$(LIB_NAME).$(LIB_VERSION)
