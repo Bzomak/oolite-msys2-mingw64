@@ -79,7 +79,7 @@ CXXFLAGS=-O2
 
 #all: $(BIN_NAME) $(LIB_NAME) $(STATIC_LIB_NAME) $(BIN2_NAME)
 all: $(LIB_NAME) #$(STATIC_LIB_NAME) 
-	mv $(LIB_NAME) $(LIB_NAME).$(LIBTAG)
+#	mv $(LIB_NAME) $(LIB_NAME).$(LIBTAG)
 
 .cpp.o:
 	$(CXX) $(CXXFLAGS) $(USE_AUDIO) -D PATH_ESPEAK_DATA=\"$(DATADIR)\" -Wall -pedantic -I. -c -fno-exceptions  $<
@@ -98,7 +98,8 @@ x_%.o: %.cpp
 	-I. -D LIBRARY -c -fno-exceptions  $<  -o x_$*.o
 
 $(LIB_NAME): $(OBJS2)
-	$(CXX) -shared -out-implib=libespeak.dll.a $(SONAME_OPT)$(LIB_NAME).$(LIB_VERSION) -o $@ $(OBJS2) $(LIBS2)
+	$(CXX) -shared -out-implib=libespeak.dll.a $(SONAME_OPT)$(LIB_NAME) -o $@ $(OBJS2) $(LIBS2)
+#	$(CXX) -shared -out-implib=libespeak.dll.a $(SONAME_OPT)$(LIB_NAME).$(LIB_VERSION) -o $@ $(OBJS2) $(LIBS2)
 #	$(CXX) -shared $(SONAME_OPT)$(LIB_NAME).$(LIB_VERSION) -o $@ $(OBJS2) $(LIBS2)
 
 $(STATIC_LIB_NAME): $(OBJS2)
@@ -122,7 +123,8 @@ install: all
 	# Install espeak executable
 #	$(INSTALL) -m 755 $(BIN2_NAME) $(DESTDIR)$(BINDIR)
 	# Install shared library
-	$(INSTALL) -m 755 $(LIB_NAME).$(LIBTAG) $(DESTDIR)$(LIBDIR)
+#	$(INSTALL) -m 755 $(LIB_NAME).$(LIBTAG) $(DESTDIR)$(LIBDIR)
+	$(INSTALL) -m 755 $(LIB_NAME) $(DESTDIR)$(LIBDIR)
 	# Install static library
 #	$(INSTALL) -m 755 $(STATIC_LIB_NAME) $(DESTDIR)$(LIBDIR)
 #	$(LN_SF) $(LIB_NAME).$(LIBTAG) $(DESTDIR)$(LIBDIR)/$(LIB_NAME).$(LIB_VERSION)
