@@ -10,10 +10,8 @@
 ###############################
 
 # Copy edited files from Oolite
-#cp ./deps/espeak/gettimeofday.c ./espeak-1.43.03-source/src/
 cp ./deps/espeak/Makefile ./espeak-1.43.03-source/src/
 cp ./deps/espeak/speak_lib.cpp ./espeak-1.43.03-source/src/
-#cp ./deps/espeak/speech.h ./espeak-1.43.03-source/src/
 
 # Rename the file <espeakSourceFolder>/src/portaudio19.h to portaudio.h.
 mv ./espeak-1.43.03-source/src/portaudio19.h ./espeak-1.43.03-source/src/portaudio.h
@@ -113,34 +111,9 @@ sed -i '1139 s/long/uintptr_t/' ./espeak-1.43.03-source/src/synthesize.cpp
 sed -i '1175 s/long/uintptr_t/' ./espeak-1.43.03-source/src/synthesize.cpp
 sed -i '1207 s/long/uintptr_t/' ./espeak-1.43.03-source/src/synthesize.cpp
 
-# In file included from event.cpp:20:
-# speech.h:29:30: warning: 'cdecl' attribute only applies to function types [-Wattributes]
-#    29 | #define usleep(x)       Sleep((x)/1000)
-#       |                              ^
-# speech.h:29:30: warning: 'nothrow' attribute ignored [-Wattributes]
-# speech.h:29:30: error: 'int Sleep' redeclared as different kind of entity
-# In file included from D:/a/_temp/msys64/mingw64/include/winbase.h:35,
-#                  from D:/a/_temp/msys64/mingw64/include/windows.h:70,
-#                  from speech.h:27:
-# D:/a/_temp/msys64/mingw64/include/synchapi.h:127:26: note: previous declaration 'void Sleep(DWORD)'
-#   127 |   WINBASEAPI VOID WINAPI Sleep (DWORD dwMilliseconds);
-#       |                          ^~~~~
-# speech.h:29:33: error: expected primary-expression before ')' token
-#    29 | #define usleep(x)       Sleep((x)/1000)
-#       |                                 ^
-# 
-#sed -i '29 s/^/\/\//' ./espeak-1.43.03-source/src/speech.h
-#sed -i '29 s|Sleep((x)/1000)|Sleep((DWORD)((x)/1000))|' ./espeak-1.43.03-source/src/speech.h
-#sed -i '29 s|Sleep((x)/1000)|nanosleep(x)|' ./espeak-1.43.03-source/src/speech.h
-#sed -i '19 s//#include windows.h/' ./espeak-1.43.03-source/src/event.cpp
-#sed -i 's/^\(#define usleep(x)   Sleep(\)\(.*\)\/1000\)/\1(DWORD)(\2\/1000))/' ./espeak-1.43.03-source/src/speech.h
-
-#cat ./espeak-1.43.03-source/src/speech.h
 
 sed -i '42 s/^/\/\//' ./espeak-1.43.03-source/src/speech.h
 sed -i '43 s/^/\/\//' ./espeak-1.43.03-source/src/speech.h
-
-#sed -i '409 s/NULL/reinterpret_cast<struct timezone*>(nullptr)/' ./espeak-1.43.03-source/src/event.cpp
 
 ###############################
 
