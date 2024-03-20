@@ -19,6 +19,11 @@ on:
         required: false
         type: string
         default: master
+      oolite_repo:
+        description: The Oolite respository to build from
+        required: false
+        type: string
+        default: OoliteProject/oolite
   pull_request:
   push:
     branches:
