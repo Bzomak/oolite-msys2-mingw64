@@ -37,9 +37,9 @@ jobs:
   build-oolite:
     uses: ./.github/workflows/build-oolite.yml
     with:
-      run_tests: ${{ inputs.run_tests }}
-      from_fresh: ${{ inputs.from_fresh }}
-      oolite_ref: ${{ inputs.oolite_ref }}
+      run_tests: ${{ inputs.run_tests || false }}
+      from_fresh: ${{ inputs.from_fresh || false }}
+      oolite_ref: ${{ inputs.oolite_ref || 'master' }}
 
 ########################################
 ########################################
