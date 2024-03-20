@@ -1,0 +1,27 @@
+# Workflow to test the repository
+
+name: Test repository
+on:
+  workflow_call:
+jobs:
+
+########################################
+########################################
+########################################
+
+# Run Shellcheck to lint the scripts
+
+  shellcheck:
+    name: Run ShellCheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+
+########################################
+########################################
+########################################

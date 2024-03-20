@@ -2,7 +2,7 @@
 
 name: Build Oolite on MSYS2-MINGW64
 on: 
-  workflow_dispatch:
+  workflow_call:
     inputs:
       run_tests:
         description: Run build tests
@@ -19,10 +19,6 @@ on:
         required: false
         type: string
         default: master
-  pull_request:
-  push:
-    branches:
-      - main
 jobs:
 
 ########################################
@@ -821,23 +817,6 @@ jobs:
         if: ${{ inputs.oolite_ref == '' }}
         run: |
           bash ./oolite-from-fresh-msys2-mingw64.sh -b ${{ matrix.build_type }}
-
-########################################
-########################################
-########################################
-
-# Run Shellcheck to lint the scripts
-
-  shellcheck:
-    name: Run ShellCheck
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout this repository
-        uses: actions/checkout@v4
-
-      - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@master
 
 ########################################
 ########################################
