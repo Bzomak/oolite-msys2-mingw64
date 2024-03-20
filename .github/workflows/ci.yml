@@ -36,7 +36,6 @@ jobs:
 
   build-oolite:
     uses: ./.github/workflows/build-oolite.yml
-    needs: test-repo
     with:
       run_tests: ${{ inputs.run_tests }}
       from_fresh: ${{ inputs.from_fresh }}
