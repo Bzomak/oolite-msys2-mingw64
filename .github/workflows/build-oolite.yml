@@ -872,10 +872,10 @@ jobs:
   check-oolite-ref:
     name: Check Oolite ref is valid
     runs-on: ubuntu-latest
-    if: ${{ inputs.oolite_ref != 'master' }}
 
     steps:
-      - name: Check if provided ref exists in Oolite repository
+      - name: Check if provided ref exists in Oolite repository (skip if ref is not 'master' and use the latest commit from the master branch)
+        if: ${{ inputs.oolite_ref != 'master' }}
         run: |
           if git ls-remote --exit-code https://github.com/OoliteProject/oolite.git ${{ inputs.oolite_ref }}
           then
