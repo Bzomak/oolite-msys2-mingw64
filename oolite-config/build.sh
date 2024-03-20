@@ -54,8 +54,13 @@ sed -i '32 s/-I$(WIN_DEPS_DIR)\/include //' GNUMakefile
 # shellcheck disable=SC2016
 sed -i '33 s/-L$(WIN_DEPS_DIR)\/lib //' GNUMakefile
 
-# Change espeak=no in config.make - shall be removed once we can build espeak on MSYS2
-sed -i '17 s/yes/no/' config.make
+# Copy the espeak-data folder
+sed -i '46 s/^/#/' Gnumakefile.postamble
+sed -i '48 s/^/#/' Gnumakefile.postamble
+sed -i '52 s/^/#/' Gnumakefile.postamble
+
+# Link to espeak and portaudio
+sed -i '45 s/-lespeak.dll/-lespeak -lportaudio.dll/' GNUMakefile
 
 # Try to build
 # shellcheck source=/dev/null
