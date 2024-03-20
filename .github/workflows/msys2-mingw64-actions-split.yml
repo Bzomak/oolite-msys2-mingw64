@@ -139,10 +139,20 @@ jobs:
         run: |
           bash ./deps/eSpeak/install.sh
 
-      - name: Checkout Oolite
+      - name: Checkout official Oolite repository
         uses: actions/checkout@v4
+        if: ${{ inputs.oolite_repo == '' }}
         with:
           repository: OoliteProject/oolite
+          path: oolite
+          submodules: recursive
+          ref: ${{ inputs.oolite_ref }}
+
+      - name: Checkout forked Oolite repository
+        uses: actions/checkout@v4
+        if: ${{ inputs.oolite_repo != '' }}
+        with:
+          repository: ${{ inputs.oolite_repo }}
           path: oolite
           submodules: recursive
           ref: ${{ inputs.oolite_ref }}
@@ -867,13 +877,24 @@ jobs:
       - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: Checkout Oolite
+      - name: Checkout official Oolite repository
         uses: actions/checkout@v4
+        if: ${{ inputs.oolite_repo == '' }}
         with:
           repository: OoliteProject/oolite
           path: oolite
-          sparse-checkout: Doc
+          submodules: recursive
           ref: ${{ inputs.oolite_ref }}
+
+      - name: Checkout forked Oolite repository
+        uses: actions/checkout@v4
+        if: ${{ inputs.oolite_repo != '' }}
+        with:
+          repository: ${{ inputs.oolite_repo }}
+          path: oolite
+          submodules: recursive
+          ref: ${{ inputs.oolite_ref }}
+
 
       - name: Install LibreOffice and Fonts 
         run: |
@@ -896,18 +917,40 @@ jobs:
 ########################################
 
   check-oolite-ref:
-    name: Check Oolite ref is valid
+    name: Check Oolite ref and repo are valid
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check if provided ref exists in Oolite repository (skip if ref is not provided and use the latest commit from the master branch)
-        if: ${{ inputs.oolite_ref != '' }}
+      - name: Check if provided ref exists in provided Oolite repository (skip if ref and repo are not provided)
+        if: ${{ inputs.oolite_ref != '' && inputs.oolite_repo != '' }}
+        run: |
+          if git ls-remote --exit-code https://github.com/${{ inputs.oolite_repo }}.git ${{ inputs.oolite_ref }}
+          then
+              echo "The reference ${{ inputs.oolite_ref }} exists in the ${{ inputs.oolite_repo }} repository."
+          else
+              echo "The reference ${{ inputs.oolite_ref }} does not exist in the ${{ inputs.oolite_repo }} repository." >&2
+              exit 1
+          fi
+
+      - name: Check if provided ref exists in official Oolite repository (skip if ref is not provided)
+        if: ${{ inputs.oolite_ref != '' && inputs.oolite_repo == '' }}
         run: |
           if git ls-remote --exit-code https://github.com/OoliteProject/oolite.git ${{ inputs.oolite_ref }}
           then
-              echo "The reference ${{ inputs.oolite_ref }} exists in the remote repository."
+              echo "The reference ${{ inputs.oolite_ref }} exists in the official Oolite repository."
           else
-              echo "The reference ${{ inputs.oolite_ref }} does not exist in the remote repository." >&2
+              echo "The reference ${{ inputs.oolite_ref }} does not exist in the official Oolite repository." >&2
+              exit 1
+          fi
+
+      - name: Check if provided ref exists in provided Oolite repository (skip if repo is not provided)
+        if: ${{ inputs.oolite_ref == '' && inputs.oolite_repo != '' }}
+        run: |
+          if git ls-remote --exit-code https://github.com/${{ inputs.oolite_repo }}.git
+          then
+              echo "The ${{ inputs.oolite_repo }} repository exists."
+          else
+              echo "The ${{ inputs.oolite_repo }} repository does not exist." >&2
               exit 1
           fi
 
