@@ -1,0 +1,46 @@
+# Workflow to call on commits and PRs
+
+name: CI
+on: 
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: Run build tests
+        required: false
+        type: boolean
+        default: false
+      from_fresh:
+        description: Build all dependencies from scratch
+        required: false
+        type: boolean
+        default: false
+      oolite_ref:
+        description: The version of Oolite to build
+        required: false
+        type: string
+        default: master
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+
+########################################
+########################################
+########################################
+
+  test-repo:
+    uses: ./.github/workflows/test-repo.yml
+
+########################################
+
+  build-oolite:
+    uses: ./.github/workflows/build-oolite.yml
+    with:
+      run_tests: ${{ inputs.run_tests || false }}
+      from_fresh: ${{ inputs.from_fresh || false }}
+      oolite_ref: ${{ inputs.oolite_ref || 'master' }}
+
+########################################
+########################################
+########################################

@@ -2,27 +2,23 @@
 
 name: Build Oolite on MSYS2-MINGW64
 on: 
-  workflow_dispatch:
+  workflow_call:
     inputs:
       run_tests:
         description: Run build tests
-        required: false
+        required: true
         type: boolean
         default: false
       from_fresh:
         description: Build all dependencies from scratch
-        required: false
+        required: true
         type: boolean
         default: false
       oolite_ref:
         description: The version of Oolite to build
-        required: false
+        required: true
         type: string
         default: master
-  pull_request:
-  push:
-    branches:
-      - main
 jobs:
 
 ########################################
@@ -813,31 +809,14 @@ jobs:
           update: true
 
       - name: Run build script with provided Oolite ref
-        if: ${{ inputs.oolite_ref != '' }}
+        if: ${{ inputs.oolite_ref != 'master' }}
         run: |
           bash ./oolite-from-fresh-msys2-mingw64.sh -b ${{ matrix.build_type }} -r ${{ inputs.oolite_ref }}
 
       - name: Run build script with latest commit on Oolite master
-        if: ${{ inputs.oolite_ref == '' }}
+        if: ${{ inputs.oolite_ref == 'master' }}
         run: |
           bash ./oolite-from-fresh-msys2-mingw64.sh -b ${{ matrix.build_type }}
-
-########################################
-########################################
-########################################
-
-# Run Shellcheck to lint the scripts
-
-  shellcheck:
-    name: Run ShellCheck
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout this repository
-        uses: actions/checkout@v4
-
-      - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@master
 
 ########################################
 ########################################
@@ -895,8 +874,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check if provided ref exists in Oolite repository (skip if ref is not provided and use the latest commit from the master branch)
-        if: ${{ inputs.oolite_ref != '' }}
+      - name: Check if provided ref exists in Oolite repository (skip if ref is 'master' and use the latest commit from the master branch)
+        if: ${{ inputs.oolite_ref != 'master' }}
         run: |
           if git ls-remote --exit-code https://github.com/OoliteProject/oolite.git ${{ inputs.oolite_ref }}
           then
