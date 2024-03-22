@@ -1,0 +1,50 @@
+# Workflow to compile Oolite each day at 3:14 AM
+# Will only compile if there have been commits in the last 24 hours
+
+name: Schedule Oolite Build
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '14 3 * * *'
+jobs:
+
+########################################
+########################################
+########################################
+
+  check-recent-oolite-commits:
+    runs-on: ubuntu-latest
+    outputs:
+      has_commits: ${{ steps.query_commits.outputs.has_commits }}
+
+    steps:
+      - name: Install jq
+        run: |
+          sudo apt update
+          sudo apt-get install jq
+
+      - name: Query recent Oolite commits
+        id: query_commits
+        run: |
+          curl -s "https://api.github.com/repos/OoliteProject/oolite/commits?since=$(date -d '24 hours ago' --iso-8601=seconds)" > commits.json
+          if [ $(jq length commits.json) -gt 0 ]; then
+            echo "has_commits=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_commits=false" >> $GITHUB_OUTPUT
+          fi
+
+########################################
+
+  build-oolite:
+    needs: check-recent-oolite-commits
+    if: ${{ needs.check-recent-oolite-commits.outputs.has_commits == 'true' }}
+    uses: ./.github/workflows/build-oolite.yml
+    with:
+      run_tests: false
+      from_fresh: false
+      oolite_ref: master
+
+########################################
+########################################
+########################################
