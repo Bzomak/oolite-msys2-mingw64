@@ -63,7 +63,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -81,7 +81,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -99,7 +99,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -117,7 +117,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: espeak-1.43.03-source
-          key: cache-espeak-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/espeak/*') }}
+          key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -188,7 +188,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -206,7 +206,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -224,7 +224,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -242,7 +242,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: espeak-1.43.03-source
-          key: cache-espeak-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/espeak/*') }}
+          key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -319,7 +319,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
           lookup-only: true
 
       - name: Early exit if cache exists and not building from fresh
@@ -356,14 +356,14 @@ jobs:
         shell: bash
         run: |
           echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          gh cache delete cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
 
       - name: Cache tools-make build
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
 
 ########################################
 
@@ -394,7 +394,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           lookup-only: true
 
       - name: Early exit if cache exists and not building from fresh
@@ -419,7 +419,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -451,14 +451,14 @@ jobs:
         shell: bash
         run: |
           echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          gh cache delete cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
 
       - name: Cache libs-base build
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
 
 ########################################
 
@@ -489,7 +489,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
           lookup-only: true
 
       - name: Early exit if cache exists and not building from fresh
@@ -524,14 +524,15 @@ jobs:
         shell: bash
         run: |
           echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
+          gh cache delete cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
 
       - name: Cache SDL build
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
+
 ########################################
 
   build-espeak:
@@ -561,7 +562,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: espeak
-          key: cache-espeak-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/espeak/*') }}
+          key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
           lookup-only: true
 
       - name: Early exit if cache exists and not building from fresh
@@ -596,14 +597,14 @@ jobs:
         shell: bash
         run: |
           echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-espeak-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/espeak/*') }}
+          gh cache delete cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
 
       - name: Cache eSpeak build
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
         with:
           path: espeak-1.43.03-source
-          key: cache-espeak-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/espeak/*') }}
+          key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
 
 ########################################
 ########################################
@@ -645,7 +646,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -663,7 +664,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
@@ -724,7 +725,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
           fail-on-cache-miss: true
 
       # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
