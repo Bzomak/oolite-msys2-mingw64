@@ -19,11 +19,6 @@ jobs:
       has_commits: ${{ steps.query_commits.outputs.has_commits }}
 
     steps:
-      - name: Install jq
-        run: |
-          sudo apt update
-          sudo apt-get install jq
-
       - name: Query recent Oolite commits
         id: query_commits
         run: |
