@@ -80,17 +80,13 @@ jobs:
           install: |
             ${{ env.OOLITE_BUILD_MSYS2_DEPS }}
 
-      - name: Retrieve tools-make cache
-        id: restore-tools-make
-        uses: actions/cache/restore@v4
+      - name: Install built version of tools-make
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: tools-make
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
-          fail-on-cache-miss: true
-
-      - name: Install tools-make
-        run: |
-          bash ./deps/tools-make/install.sh
+          install_script: ./deps/tools-make/install.sh
 
       - name: Retrieve libs-base cache
         id: restore-libs-base
