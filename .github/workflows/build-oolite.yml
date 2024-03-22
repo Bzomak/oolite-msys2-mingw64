@@ -80,7 +80,7 @@ jobs:
           install: |
             ${{ env.OOLITE_BUILD_MSYS2_DEPS }}
 
-      - name: Install built version of tools-make
+      - name: Install built version of tools-make from cache
         uses: ./.github/actions/install-built-dependency
         with:
           name: tools-make
@@ -88,41 +88,29 @@ jobs:
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
           install_script: ./deps/tools-make/install.sh
 
-      - name: Retrieve libs-base cache
-        id: restore-libs-base
-        uses: actions/cache/restore@v4
+      - name: Install built version of libs-base from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: libs-base
           path: libs-base
           key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
-          fail-on-cache-miss: true
+          install_script: ./deps/libs-base/install.sh
 
-      - name: Install libs-base
-        run: |
-          bash ./deps/libs-base/install.sh
-
-      - name: Retrieve SDL cache
-        id: restore-sdl
-        uses: actions/cache/restore@v4
+      - name: Install built version of SDL from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: SDL
           path: SDL-1.2.13
           key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
-          fail-on-cache-miss: true
+          install_script: ./sdl/install.sh
 
-      - name: Install SDL
-        run: |
-          bash ./deps/sdl/install.sh
-
-      - name: Retrieve eSpeak cache
-        id: restore-espeak
-        uses: actions/cache/restore@v4
+      - name: Install built version of eSpeak from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: eSpeak
           path: espeak-1.43.03-source
           key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
-          fail-on-cache-miss: true
-
-      - name: Install eSpeak
-        run: |
-          bash ./deps/eSpeak/install.sh
+          install_script: ./eSpeak/install.sh
 
       - name: Checkout Oolite
         uses: actions/checkout@v4
