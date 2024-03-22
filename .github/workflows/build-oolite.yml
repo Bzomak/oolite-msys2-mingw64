@@ -287,19 +287,14 @@ jobs:
         run: |
           bash ./deps/tools-make/build.sh
 
-      - name: Delete pre-existing cache if building from fresh and it exists
-        if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
-        shell: bash
-        run: |
-          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
-
       - name: Cache tools-make build
         if: steps.early-exit.conclusion != 'success'
-        uses: actions/cache/save@v4
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: tools-make
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
+          delete_existing_cache: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
 
 ########################################
 
