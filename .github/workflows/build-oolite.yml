@@ -684,25 +684,13 @@ jobs:
       - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: List all caches
-        run: |
-          gh cache list
-
       - name: List Oolite caches created by this workflow run
         run: |
           gh cache list | grep cache-oolite-${{ github.run_id }}-${{ github.run_attempt }} | awk '{print $2}' > cache-list.txt
-          cat cache-list.txt
-
-      - name: Delete Oolite caches created by this workflow run
-        run: |
           foreach ($cache in Get-Content cache-list.txt) {
-            echo $cache
+            echo "Deleting cache $cache"
             gh cache delete $cache
           }
-
-      - name: List all remaining caches
-        run: |
-          gh cache list
 
 ########################################
 ########################################
