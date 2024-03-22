@@ -1,4 +1,26 @@
 # Workflow to compile Oolite and necessary dependencies
+# This is not run directly, but is called by other workflows.
+# It is designed to be run on a Windows runner and uses MSYS2-MINGW64 to compile Oolite.
+
+# The workflow is triggered by a workflow_call event.
+# The event has three required inputs:
+# - run_tests: A boolean to determine if the tests should be run on the built dependencies (if they exist).
+# - from_fresh: A boolean to determine whether to force the dependencies to be built from scratch and not use a cached version.
+# - oolite_ref: A string to specify the version of Oolite to build. This can be a branch or a tag. Commit hashes are not yet supported.
+
+# The workflow is split into several jobs:
+# - build-oolite: This job checks out the Oolite repository, checks out the specified ref, compiles Oolite, and caches the build.
+# - build-oolite-installers: This job uses the caches from the successful build-oolite job and compiles the Oolite installers.
+# - build-tools-make: This job checks out the tools-make repository, compiles tools-make, and caches the build.
+# - build-libs-base: This job checks out the libs-base repository, compiles libs-base, and caches the build.
+# - build-sdl: This job downloads and compiles SDL, and caches the build.
+# - build-espeak: This job downloads and compiles eSpeak, and caches the build.
+# - test-libs-base: This job uses the cache from the successful build-libs-base job and runs the tests on the built library.
+# - test-sdl: This job uses the cache from the successful build-sdl job and runs the tests on the built library
+# - clear-oolite-caches: This job deletes any caches created by the build-oolite job.
+# - build-oolite-from-fresh-msys2-mingw64: This job is a single script to build Oolite from scratch. It is used to test the from-fresh script.
+# - generate-pdfs: This job generates the PDFs of the Oolite documentation .odt files in the oolite/Doc/ folder.
+# - check-oolite-ref: This job checks if the provided ref exists in the Oolite repository. Commit hashes are not yet supported.
 
 name: Build Oolite on MSYS2-MINGW64
 on: 
@@ -63,14 +85,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
-
-      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
-      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Fail if cached data for tools-make is missing
-        if: steps.restore-tools-make.outputs.cache-hit != 'true'
-        run: echo "Unable to restore tools-make files from previous job" && false
 
       - name: Install tools-make
         run: |
@@ -81,14 +97,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
-
-      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
-      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Fail if cached data for libs-base is missing
-        if: steps.restore-libs-base.outputs.cache-hit != 'true'
-        run: echo "Unable to restore libs-base files from previous job" && false
 
       - name: Install libs-base
         run: |
@@ -99,14 +109,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
           fail-on-cache-miss: true
-
-      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
-      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Fail if cached data for SDL is missing
-        if: steps.restore-sdl.outputs.cache-hit != 'true'
-        run: echo "Unable to restore SDL files from previous job" && false
 
       - name: Install SDL
         run: |
@@ -117,14 +121,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: espeak-1.43.03-source
-          key: cache-espeak-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/espeak/*') }}
+          key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
           fail-on-cache-miss: true
-
-      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
-      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Fail if cached data for eSpeak is missing
-        if: steps.restore-eSpeak.outputs.cache-hit != 'true'
-        run: echo "Unable to restore eSpeak files from previous job" && false
 
       - name: Install eSpeak
         run: |
@@ -188,32 +186,20 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
 
-      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
-      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Fail if cached data for tools-make is missing
-        if: steps.restore-tools-make.outputs.cache-hit != 'true'
-        run: echo "Unable to restore tools-make files from previous job" && false
-    
       - name: Install tools-make
         run: |
           bash ./deps/tools-make/install.sh
-          
+
       - name: Retrieve libs-base cache
         id: restore-libs-base
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
-
-      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
-      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Fail if cached data for libs-base is missing
-        if: steps.restore-libs-base.outputs.cache-hit != 'true'
-        run: echo "Unable to restore libs-base files from previous job" && false
 
       - name: Install libs-base
         run: |
@@ -224,32 +210,20 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
           fail-on-cache-miss: true
-
-      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
-      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Fail if cached data for SDL is missing
-        if: steps.restore-sdl.outputs.cache-hit != 'true'
-        run: echo "Unable to restore SDL files from previous job" && false
 
       - name: Install SDL
         run: |
           bash ./deps/sdl/install.sh
-          
+
       - name: Retrieve eSpeak cache
         id: restore-espeak
         uses: actions/cache/restore@v4
         with:
           path: espeak-1.43.03-source
-          key: cache-espeak-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/espeak/*') }}
+          key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
           fail-on-cache-miss: true
-
-      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
-      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Fail if cached data for eSpeak is missing
-        if: steps.restore-eSpeak.outputs.cache-hit != 'true'
-        run: echo "Unable to restore eSpeak files from previous job" && false
 
       - name: Install eSpeak
         run: |
@@ -262,12 +236,6 @@ jobs:
           path: oolite
           key: cache-oolite-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.build_type }}
           fail-on-cache-miss: true
-
-      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
-      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Fail if cached data for Oolite is missing
-        if: steps.restore-oolite.outputs.cache-hit != 'true'
-        run: echo "Unable to restore Oolite files from previous job" && false
 
       - name: Retrieve pdfs artifact
         uses: actions/download-artifact@v4
@@ -319,7 +287,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
           lookup-only: true
 
       - name: Early exit if cache exists and not building from fresh
@@ -356,14 +324,14 @@ jobs:
         shell: bash
         run: |
           echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          gh cache delete cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
 
       - name: Cache tools-make build
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
 
 ########################################
 
@@ -394,7 +362,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           lookup-only: true
 
       - name: Early exit if cache exists and not building from fresh
@@ -419,14 +387,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
-
-      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
-      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Fail if cached data for tools-make is missing
-        if: steps.early-exit.conclusion != 'success' && steps.restore-tools-make.outputs.cache-hit != 'true'
-        run: echo "Unable to restore tools-make files from previous job" && false
 
       - name: Install tools-make
         if: steps.early-exit.conclusion != 'success'
@@ -451,14 +413,14 @@ jobs:
         shell: bash
         run: |
           echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          gh cache delete cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
 
       - name: Cache libs-base build
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
 
 ########################################
 
@@ -489,7 +451,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
           lookup-only: true
 
       - name: Early exit if cache exists and not building from fresh
@@ -524,14 +486,15 @@ jobs:
         shell: bash
         run: |
           echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
+          gh cache delete cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
 
       - name: Cache SDL build
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
+
 ########################################
 
   build-espeak:
@@ -561,7 +524,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: espeak
-          key: cache-espeak-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/espeak/*') }}
+          key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
           lookup-only: true
 
       - name: Early exit if cache exists and not building from fresh
@@ -596,14 +559,14 @@ jobs:
         shell: bash
         run: |
           echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-espeak-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/espeak/*') }}
+          gh cache delete cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
 
       - name: Cache eSpeak build
         if: steps.early-exit.conclusion != 'success'
         uses: actions/cache/save@v4
         with:
           path: espeak-1.43.03-source
-          key: cache-espeak-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/espeak/*') }}
+          key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
 
 ########################################
 ########################################
@@ -645,14 +608,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: tools-make
-          key: cache-tools-make-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/tools-make/*') }}
+          key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
-
-      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
-      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Fail if cached data for tools-make is missing
-        if: steps.restore-tools-make.outputs.cache-hit != 'true'
-        run: echo "Unable to restore tools-make files from previous job" && false
 
       - name: Install tools-make
         run: |
@@ -663,14 +620,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: libs-base
-          key: cache-libs-base-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
           fail-on-cache-miss: true
-
-      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
-      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Fail if cached data for libs-base is missing
-        if: steps.restore-libs-base.outputs.cache-hit != 'true'
-        run: echo "Unable to restore libs-base files from previous job" && false
 
       - name: Install libs-base
         run: |
@@ -724,14 +675,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: SDL-1.2.13
-          key: cache-sdl-${{ hashFiles('**/.github/workflows/msys2-mingw64-actions-split.yml', '**/deps/sdl/*') }}
+          key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
           fail-on-cache-miss: true
-
-      # NOTE: fail-on-cache-miss does not correctly fail the job. This is a workaround.
-      # There is an open bug report for it here: https://github.com/actions/cache/issues/1265
-      - name: Fail if cached data for SDL is missing
-        if: steps.restore-sdl.outputs.cache-hit != 'true'
-        run: echo "Unable to restore SDL files from previous job" && false
 
       - name: Install SDL
         run: |
@@ -747,7 +692,10 @@ jobs:
 ########################################
 ########################################
 
-# Clear unnecessary caches on GitHub
+# Clear unnecessary Oolite caches on GitHub
+
+# The Oolite caches are only intended to be used in the current workflow run.
+# We delete them after the workflow has completed to avoid unnecessary storage usage.
 
   clear-oolite-caches:
     name: Clear Oolite caches
@@ -761,25 +709,13 @@ jobs:
       - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: List all caches
-        run: |
-          gh cache list
-
       - name: List Oolite caches created by this workflow run
         run: |
           gh cache list | grep cache-oolite-${{ github.run_id }}-${{ github.run_attempt }} | awk '{print $2}' > cache-list.txt
-          cat cache-list.txt
-
-      - name: Delete Oolite caches created by this workflow run
-        run: |
           foreach ($cache in Get-Content cache-list.txt) {
-            echo $cache
+            echo "Deleting cache $cache"
             gh cache delete $cache
           }
-
-      - name: List all remaining caches
-        run: |
-          gh cache list
 
 ########################################
 ########################################
@@ -868,6 +804,14 @@ jobs:
 ########################################
 ########################################
 ########################################
+
+# Check if the provided ref exists in the Oolite repository
+
+# TODO
+# This uses git ls-remote to check if the provided ref exists in the Oolite repository.
+# Branches and tags are supported.
+# Commit hashes can not be detected by git ls-remote. We need to find an alternative way to check if a commit hash exists in the remote repository.
+# While actions/checkout@v4 supports checking out from a commit hash, we cannot use them until we have a way to confirm that it is a valid commit.
 
   check-oolite-ref:
     name: Check Oolite ref is valid

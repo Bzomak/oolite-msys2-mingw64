@@ -1,5 +1,11 @@
-# Workflow to compile Oolite each day at 3:14 AM
-# Will only compile if there have been commits in the last 24 hours
+# Workflow to schedule a daily Oolite build
+
+# The workflow is triggered by a cron schedule, and runs at 3:14 AM each day.
+# It will only compile Oolite if there have been commits to the master branch of OoliteProject/oolite in the last 24 hours.
+
+# The workflow is split into two jobs:
+# - check-recent-oolite-commits: This job queries the GitHub API for recent commits to the master branch of OoliteProject/oolite.
+# - build-oolite: This job compiles Oolite if the check-recent-oolite-commits job found that there have been commits in the last 24 hours.
 
 name: Schedule Oolite Build
 
@@ -13,28 +19,29 @@ jobs:
 ########################################
 ########################################
 
+# Query the GitHub API for recent commits to the master branch of OoliteProject/oolite.
+# If there have been commits in the last 24 hours, set an output variable has_commits to true.
+
   check-recent-oolite-commits:
     runs-on: ubuntu-latest
     outputs:
       has_commits: ${{ steps.query_commits.outputs.has_commits }}
 
     steps:
-      - name: Install jq
-        run: |
-          sudo apt update
-          sudo apt-get install jq
-
       - name: Query recent Oolite commits
         id: query_commits
         run: |
-          curl -s "https://api.github.com/repos/OoliteProject/oolite/commits?since=$(date -d '24 hours ago' --iso-8601=seconds)" > commits.json
-          if [ $(jq length commits.json) -gt 0 ]; then
+          curl -s "https://api.github.com/repos/OoliteProject/oolite/commits?since=$(date -d '24 hours ago' --iso-8601=seconds)&sha=master" > commits.json
+          if [ $(jq length "commits.json") -gt 0 ]; then
             echo "has_commits=true" >> $GITHUB_OUTPUT
           else
             echo "has_commits=false" >> $GITHUB_OUTPUT
           fi
 
 ########################################
+
+# If check-recent-oolite-commits found that there have been commits in the last 24 hours, run the build-oolite job.
+# This calls the build-oolite workflow with inputs to compile Oolite from the master branch, without running tests, and using pre-existing caches if available.
 
   build-oolite:
     needs: check-recent-oolite-commits
