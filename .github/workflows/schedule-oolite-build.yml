@@ -1,5 +1,11 @@
-# Workflow to compile Oolite each day at 3:14 AM
-# Will only compile if there have been commits in the last 24 hours
+# Workflow to schedule a daily Oolite build
+
+# The workflow is triggered by a cron schedule, and runs at 3:14 AM each day.
+# It will only compile Oolite if there have been commits to the master branch of OoliteProject/oolite in the last 24 hours.
+
+# The workflow is split into two jobs:
+# - check-recent-oolite-commits: This job queries the GitHub API for recent commits to OoliteProject/oolite.
+# - build-oolite: This job compiles Oolite if the check-recent-oolite-commits job found that there have been commits in the last 24 hours.
 
 name: Schedule Oolite Build
 
@@ -12,6 +18,9 @@ jobs:
 ########################################
 ########################################
 ########################################
+
+# Query the GitHub API for recent commits to OoliteProject/oolite.
+# If there have been commits in the last 24 hours, set an output variable has_commits to true.
 
   check-recent-oolite-commits:
     runs-on: ubuntu-latest
@@ -30,6 +39,9 @@ jobs:
           fi
 
 ########################################
+
+# If check-recent-oolite-commits found that there have been commits in the last 24 hours, run the build-oolite job.
+# This calls the build-oolite workflow with inputs to compile Oolite from the master branch, without running tests, and using pre-existing caches if available.
 
   build-oolite:
     needs: check-recent-oolite-commits

@@ -1,4 +1,13 @@
-# Workflow to test the repository
+# Workflow to test the oolite-msys2 repository
+# This is not run directly, but is called by other workflows.
+
+# This workflow is triggered by a workflow_call event
+
+# The workflow currently contains one job:
+# - shellcheck: Runs ShellCheck to check all the bash scripts
+
+# TODO
+# Add jobs to test the workflow actions.
 
 name: Test repository
 on:
