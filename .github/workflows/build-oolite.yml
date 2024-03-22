@@ -289,7 +289,7 @@ jobs:
 
       - name: Cache tools-make build
         if: steps.early-exit.conclusion != 'success'
-        uses: ./.github/actions/install-built-dependency
+        uses: ./.github/actions/cache-built-dependency
         with:
           name: tools-make
           path: tools-make
