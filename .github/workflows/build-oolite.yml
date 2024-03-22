@@ -349,19 +349,13 @@ jobs:
           install: |
             ${{ env.LIBS_BASE_MSYS2_DEPS }}
 
-      - name: Retrieve tools-make cache
-        if: steps.early-exit.conclusion != 'success'
-        id: restore-tools-make
-        uses: actions/cache/restore@v4
+      - name: Install built version of tools-make from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: tools-make
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
-          fail-on-cache-miss: true
-
-      - name: Install tools-make
-        if: steps.early-exit.conclusion != 'success'
-        run: |
-          bash ./deps/tools-make/install.sh
+          install_script: ./deps/tools-make/install.sh
 
       - name: Checkout libs-base
         if: steps.early-exit.conclusion != 'success'
@@ -571,29 +565,21 @@ jobs:
           install: |
             ${{ env.LIBS_BASE_MSYS2_DEPS }}
 
-      - name: Retrieve tools-make cache
-        id: restore-tools-make
-        uses: actions/cache/restore@v4
+      - name: Install built version of tools-make from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: tools-make
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
-          fail-on-cache-miss: true
+          install_script: ./deps/tools-make/install.sh
 
-      - name: Install tools-make
-        run: |
-          bash ./deps/tools-make/install.sh
-
-      - name: Retrieve libs-base cache
-        id: restore-libs-base
-        uses: actions/cache/restore@v4
+      - name: Install built version of libs-base from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: libs-base
           path: libs-base
           key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
-          fail-on-cache-miss: true
-
-      - name: Install libs-base
-        run: |
-          bash ./deps/libs-base/install.sh
+          install_script: ./deps/libs-base/install.sh
 
       - name: Test libs-base
         run: |
@@ -638,17 +624,13 @@ jobs:
           install: |
             ${{ env.SDL_MSYS2_DEPS }}
 
-      - name: Retrieve SDL cache
-        id: restore-sdl
-        uses: actions/cache/restore@v4
+      - name: Install built version of SDL from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: SDL
           path: SDL-1.2.13
           key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
-          fail-on-cache-miss: true
-
-      - name: Install SDL
-        run: |
-          bash ./deps/sdl/install.sh
+          install_script: ./sdl/install.sh
 
       - name: Build SDL tests
         run: |
