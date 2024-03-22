@@ -102,7 +102,7 @@ jobs:
           name: SDL
           path: SDL-1.2.13
           key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
-          install_script: ./sdl/install.sh
+          install_script: ./deps/sdl/install.sh
 
       - name: Install built version of eSpeak from cache
         uses: ./.github/actions/install-built-dependency
@@ -110,7 +110,7 @@ jobs:
           name: eSpeak
           path: espeak-1.43.03-source
           key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
-          install_script: ./eSpeak/install.sh
+          install_script: ./deps/eSpeak/install.sh
 
       - name: Checkout Oolite
         uses: actions/checkout@v4
@@ -187,7 +187,7 @@ jobs:
           name: SDL
           path: SDL-1.2.13
           key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
-          install_script: ./sdl/install.sh
+          install_script: ./deps/sdl/install.sh
 
       - name: Install built version of eSpeak from cache
         uses: ./.github/actions/install-built-dependency
@@ -195,7 +195,7 @@ jobs:
           name: eSpeak
           path: espeak-1.43.03-source
           key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
-          install_script: ./eSpeak/install.sh
+          install_script: ./deps/eSpeak/install.sh
 
       - name: Retrieve Oolite cache
         id: restore-oolite
@@ -625,7 +625,7 @@ jobs:
           name: SDL
           path: SDL-1.2.13
           key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
-          install_script: ./sdl/install.sh
+          install_script: ./deps/sdl/install.sh
 
       - name: Build SDL tests
         run: |
