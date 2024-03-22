@@ -27,6 +27,6 @@ runs:
           fail-on-cache-miss: true
 
       - name: Install ${{ inputs.name }}
-        shell: bash
+        shell: msys2 {0}
         run: |
           bash ${{ inputs.install_script }}
