@@ -1,0 +1,31 @@
+# A composite action to install a built dependency of Oolite
+
+name: 'Install built dependency'
+description: 'Install a built dependency of Oolite'
+inputs:
+  name:
+    description: 'Name of the built dependency'
+    required: true
+  path:
+    description: 'Path to the built dependency'
+    required: true
+  key:
+    description: 'Key to use for the built dependency'
+    required: true
+  install_script:
+    description: 'Script to run to install the built dependency'
+    required: true
+runs:
+  using: 'composite'
+
+  steps:
+      - name: Retrieve ${{ inputs.name }} cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ inputs.path }}
+          key: ${{ inputs.key }}
+          fail-on-cache-miss: true
+
+      - name: Install ${{ inputs.name }}
+        run: |
+          bash ${{ inputs.install_script }}
