@@ -365,19 +365,14 @@ jobs:
         run: |
           bash ./deps/libs-base/build.sh
 
-      - name: Delete pre-existing cache if building from fresh and it exists
-        if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
-        shell: bash
-        run: |
-          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
-
       - name: Cache libs-base build
         if: steps.early-exit.conclusion != 'success'
-        uses: actions/cache/save@v4
+        uses: ./.github/actions/cache-built-dependency
         with:
+          name: libs-base
           path: libs-base
           key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          delete_existing_cache: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
 
 ########################################
 
@@ -438,19 +433,14 @@ jobs:
         run: |
           bash ./deps/sdl/build.sh
 
-      - name: Delete pre-existing cache if building from fresh and it exists
-        if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
-        shell: bash
-        run: |
-          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
-
       - name: Cache SDL build
         if: steps.early-exit.conclusion != 'success'
-        uses: actions/cache/save@v4
+        uses: ./.github/actions/cache-built-dependency
         with:
+          name: SDL
           path: SDL-1.2.13
           key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
+          delete_existing_cache: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
 
 ########################################
 
@@ -511,19 +501,14 @@ jobs:
         run: |
           bash ./deps/espeak/build.sh
 
-      - name: Delete pre-existing cache if building from fresh and it exists
-        if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
-        shell: bash
-        run: |
-          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
-
       - name: Cache eSpeak build
         if: steps.early-exit.conclusion != 'success'
-        uses: actions/cache/save@v4
+        uses: ./.github/actions/cache-built-dependency
         with:
+          name: eSpeak
           path: espeak-1.43.03-source
           key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
+          delete_existing_cache: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
 
 ########################################
 ########################################
