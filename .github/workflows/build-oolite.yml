@@ -56,8 +56,6 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
-    env:
-      OOLITE_BUILD_MSYS2_DEPS:
     strategy:
       matrix:
         build_type: [debug, release, release-deployment, release-snapshot]
@@ -67,18 +65,10 @@ jobs:
       - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: Load dependency data into env
-        shell: bash
-        run: |
-          echo OOLITE_BUILD_MSYS2_DEPS=$(cat oolite-config/msys2-deps) >> $GITHUB_ENV
-
       - name: Set up msys2
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.OOLITE_BUILD_MSYS2_DEPS }}
+          deps_path: oolite-config/msys2-deps
 
       - name: Install built version of tools-make from cache
         uses: ./.github/actions/install-built-dependency
@@ -141,8 +131,6 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
-    env:
-      OOLITE_INSTALLER_BUILD_MSYS2_DEPS:
     strategy:
       matrix:
         build_type: [release, release-deployment, release-snapshot]
@@ -152,18 +140,10 @@ jobs:
       - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: Load dependency data into env
-        shell: bash
-        run: |
-          echo OOLITE_INSTALLER_BUILD_MSYS2_DEPS=$(cat oolite-installer-config/msys2-deps) >> $GITHUB_ENV
-
       - name: Set up msys2
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.OOLITE_INSTALLER_BUILD_MSYS2_DEPS }}
+          deps_path: oolite-installer-config/msys2-deps
 
       - name: Install built version of tools-make from cache
         uses: ./.github/actions/install-built-dependency
@@ -302,7 +282,6 @@ jobs:
         shell: msys2 {0}
     env:
       LIBS_BASE_VERSION:
-      LIBS_BASE_MSYS2_DEPS:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -313,7 +292,6 @@ jobs:
         shell: bash
         run: |
           echo LIBS_BASE_VERSION=$(cat deps/libs-base/version) >> $GITHUB_ENV
-          echo LIBS_BASE_MSYS2_DEPS=$(cat deps/libs-base/msys2-deps) >> $GITHUB_ENV
 
       - name: Check for pre-existing libs-base cache
         id: check-cache
@@ -332,12 +310,9 @@ jobs:
 
       - name: Set up msys2
         if: steps.early-exit.conclusion != 'success'
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.LIBS_BASE_MSYS2_DEPS }}
+          deps_path: deps/libs-base/msys2-deps
 
       - name: Install built version of tools-make from cache
         uses: ./.github/actions/install-built-dependency
@@ -380,7 +355,6 @@ jobs:
         shell: msys2 {0}
     env:
       SDL_VERSION:
-      SDL_MSYS2_DEPS:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -391,7 +365,6 @@ jobs:
         shell: bash
         run: |
           echo SDL_VERSION=$(cat deps/sdl/version) >> $GITHUB_ENV
-          echo SDL_MSYS2_DEPS=$(cat deps/sdl/msys2-deps) >> $GITHUB_ENV
 
       - name: Check for pre-existing SDL cache
         id: check-cache
@@ -410,12 +383,9 @@ jobs:
 
       - name: Set up msys2
         if: steps.early-exit.conclusion != 'success'
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.SDL_MSYS2_DEPS }}
+          deps_path: deps/sdl/msys2-deps
 
       - name: Download and extract SDL
         if: steps.early-exit.conclusion != 'success'
@@ -448,7 +418,6 @@ jobs:
         shell: msys2 {0}
     env:
       ESPEAK_VERSION:
-      ESPEAK_MSYS2_DEPS:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -459,7 +428,6 @@ jobs:
         shell: bash
         run: |
           echo ESPEAK_VERSION=$(cat deps/espeak/version) >> $GITHUB_ENV
-          echo ESPEAK_MSYS2_DEPS=$(cat deps/espeak/msys2-deps) >> $GITHUB_ENV
 
       - name: Check for pre-existing eSpeak cache
         id: check-cache
@@ -478,12 +446,9 @@ jobs:
 
       - name: Set up msys2
         if: steps.early-exit.conclusion != 'success'
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.ESPEAK_MSYS2_DEPS }}
+          deps_path: deps/espeak/msys2-deps
 
       - name: Download and extract eSpeak
         if: steps.early-exit.conclusion != 'success'
@@ -520,25 +485,15 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
-    env:
-      LIBS_BASE_MSYS2_DEPS:
 
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: Load dependency data into env
-        shell: bash
-        run: |
-          echo LIBS_BASE_MSYS2_DEPS=$(cat deps/libs-base/msys2-deps) >> $GITHUB_ENV
-
       - name: Set up msys2
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.LIBS_BASE_MSYS2_DEPS }}
+          deps_path: deps/libs-base/msys2-deps
 
       - name: Install built version of tools-make from cache
         uses: ./.github/actions/install-built-dependency
@@ -579,25 +534,15 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
-    env:
-      SDL_MSYS2_DEPS:
 
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: Load dependency data into env
-        shell: bash
-        run: |
-          echo SDL_MSYS2_DEPS=$(cat deps/sdl/msys2-deps) >> $GITHUB_ENV
-
       - name: Set up msys2
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.SDL_MSYS2_DEPS }}
+          deps_path: deps/sdl/msys2-deps
 
       - name: Install built version of SDL from cache
         uses: ./.github/actions/install-built-dependency
