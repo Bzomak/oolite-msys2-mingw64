@@ -1,0 +1,21 @@
+# A composite action to extract environment variables from a file
+
+name: Extract data string from file
+description: Extract data string from a file
+inputs:
+  path:
+    description: Path to the file containing the data
+    required: true
+outputs:
+  data:
+    description: Data string extracted from the file
+    value: ${{ steps.extract-data-string.outputs.data }}
+runs:
+  using: 'composite'
+
+  steps:
+      - name: Extract data string from ${{ inputs.path }}
+        id: extract-data-string
+        shell: bash
+        run: |
+          echo "data=$(cat ${{ inputs.path }})" >> $GITHUB_OUTPUT
