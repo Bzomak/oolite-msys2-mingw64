@@ -237,7 +237,6 @@ jobs:
         shell: msys2 {0}
     env:
       TOOLS_MAKE_VERSION:
-      TOOLS_MAKE_MSYS2_DEPS:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -248,7 +247,6 @@ jobs:
         shell: bash
         run: |
           echo TOOLS_MAKE_VERSION=$(cat deps/tools-make/version) >> $GITHUB_ENV
-          echo TOOLS_MAKE_MSYS2_DEPS=$(cat deps/tools-make/msys2-deps) >> $GITHUB_ENV
 
       - name: Check for pre-existing tools-make cache
         id: check-cache
@@ -267,12 +265,9 @@ jobs:
 
       - name: Set up msys2
         if: steps.early-exit.conclusion != 'success'
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.TOOLS_MAKE_MSYS2_DEPS }}
+          deps_path: deps/tools-make/msys2-deps
 
       - name: Checkout tools-make
         if: steps.early-exit.conclusion != 'success'
