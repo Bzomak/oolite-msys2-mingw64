@@ -1,19 +1,19 @@
 # A composite action to cache a built dependency of Oolite
 
-name: 'Cache built dependency'
-description: 'Cache a built dependency of Oolite'
+name: Cache built dependency
+description: Cache a built dependency of Oolite
 inputs:
   name:
-    description: 'Name of the built dependency'
+    description: Name of the built dependency
     required: true
   path:
-    description: 'Path to the built dependency'
+    description: Path to the built dependency
     required: true
   key:
-    description: 'Key to use for the built dependency'
+    description: Key to use for the built dependency
     required: true
   delete_existing_cache:
-    description: 'Delete existing cache if it exists'
+    description: Delete existing cache if it exists
     required: true
 runs:
   using: 'composite'

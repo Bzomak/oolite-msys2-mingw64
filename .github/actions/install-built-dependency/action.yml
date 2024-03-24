@@ -1,19 +1,19 @@
 # A composite action to install a built dependency of Oolite
 
-name: 'Install built dependency'
-description: 'Install a built dependency of Oolite'
+name: Install built dependency
+description: Install a built dependency of Oolite
 inputs:
   name:
-    description: 'Name of the built dependency'
+    description: Name of the built dependency
     required: true
   path:
-    description: 'Path to the built dependency'
+    description: Path to the built dependency
     required: true
   key:
-    description: 'Key to use for the built dependency'
+    description: Key to use for the built dependency
     required: true
   install_script:
-    description: 'Script to run to install the built dependency'
+    description: Script to run to install the built dependency
     required: true
 runs:
   using: 'composite'
