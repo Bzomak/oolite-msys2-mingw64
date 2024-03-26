@@ -263,7 +263,7 @@ jobs:
           name: tools-make
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
-          delete_existing_cache: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache_hit == 'true' }}
+          delete_existing_cache: ${{ inputs.from_fresh == true && steps.cache-status.outputs.cache_hit == 'true' }}
 
 ########################################
 
