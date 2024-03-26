@@ -34,3 +34,61 @@ jobs:
 ########################################
 ########################################
 ########################################
+
+# Test cache-built-dependency action
+
+# Need to check what happens if the path does not exist
+# Need to check what happens if the path is empty
+# Need to check what happens if the path is not a directory
+# Need to check what happens if the key is empty
+
+# Need to check what happens if we want to delete the cache
+# Need to check that the caching is successful
+
+########################################
+########################################
+########################################
+
+# Test early-exit-if-cache-exists action
+
+# Need to check all inputs
+# Need to check all outputs
+# Need to check early exit
+
+########################################
+########################################
+########################################
+
+# Test extract-data-string-from-file action
+
+# Need to check what happens if the path does not exist
+# Need to check what happens if the path is empty
+# Need to check what happens if the path is not a file
+# Need to check what happens if the string is empty
+
+########################################
+########################################
+########################################
+
+# Test install-built-dependency action
+
+# Need to check what happens if the path is empty
+# Need to check what happens if the cache cannot be found
+# Need to check what happens is the script cannot be found
+# Need to check what happens if the script fails
+
+########################################
+########################################
+########################################
+
+# Test start-msys2=with-deps action
+
+# Need to check what happens if the path is empty
+# Need to check what happens if the path cannot be found
+# Need to compare a clean install with one that has added dependencies
+# Need to check what happens with multiple dependencies
+# Need to check what happens with a group dependency
+
+########################################
+########################################
+########################################
