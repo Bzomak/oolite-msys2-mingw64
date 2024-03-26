@@ -1,0 +1,43 @@
+# A composite action to exit the job early if the dependency cache exists
+
+name: Early exit if cache exists
+description: Exit the job early if the dependency cache exists
+inputs:
+  name:
+    description: Name of the built dependency
+    required: true
+  path:
+    description: Path to the built dependency
+    required: true
+  key:
+    description: Key to use for the built dependency
+    required: true
+  from_fresh:
+    description: Build from scratch and overwrite any existing cache
+    required: true
+outputs:
+  cache_hit:
+    description: Whether the cache hit or not
+    value: ${{ steps.check-cache.outputs.cache-hit }}
+  early_exit:
+    description: Whether the job exited early or not
+    value: ${{ steps.early-exit.outputs.conclusion }}
+
+runs:
+  using: 'composite'
+
+  steps:
+      - name: Check for pre-existing ${{ inputs.name }} cache
+        id: check-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ inputs.path }}
+          key: ${{ inputs.key }}
+          lookup-only: true
+
+      - name: Early exit if cache exists and not building from fresh
+        id: early-exit
+        if: ${{ inputs.from_fresh == false && steps.check-cache.outputs.cache-hit == 'true' }}
+        shell: bash
+        run: |
+          echo "${{ inputs.name }} cache exists, exiting early" >> $GITHUB_STEP_SUMMARY

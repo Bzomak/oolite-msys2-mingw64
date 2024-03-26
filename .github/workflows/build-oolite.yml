@@ -228,29 +228,23 @@ jobs:
         run: |
           echo TOOLS_MAKE_VERSION=$(cat deps/tools-make/version) >> $GITHUB_ENV
 
-      - name: Check for pre-existing tools-make cache
-        id: check-cache
-        uses: actions/cache/restore@v4
+      - name: Check cache status
+        id: cache-status
+        uses: ./.github/actions/early-exit-if-cache-exists
         with:
+          name: tools-make
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
-          lookup-only: true
-
-      - name: Early exit if cache exists and not building from fresh
-        id: early-exit
-        if: ${{ inputs.from_fresh == false && steps.check-cache.outputs.cache-hit == 'true' }}
-        shell: bash
-        run: |
-          echo "tools-make cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
+          from_fresh: ${{ inputs.from_fresh }}
 
       - name: Set up msys2
-        if: steps.early-exit.conclusion != 'success'
+        if: steps.cache-status.outputs.early_exit != 'success'
         uses: ./.github/actions/start-msys2-with-deps
         with:
           deps_path: deps/tools-make/msys2-deps
 
       - name: Checkout tools-make
-        if: steps.early-exit.conclusion != 'success'
+        if: steps.cache-status.outputs.early_exit != 'success'
         uses: actions/checkout@v4
         with:
           repository: gnustep/tools-make
@@ -258,18 +252,18 @@ jobs:
           ref: ${{ env.TOOLS_MAKE_VERSION }}
 
       - name: Configure and build tools-make
-        if: steps.early-exit.conclusion != 'success'
+        if: steps.cache-status.outputs.early_exit != 'success'
         run: |
           bash ./deps/tools-make/build.sh
 
       - name: Cache tools-make build
-        if: steps.early-exit.conclusion != 'success'
+        if: steps.cache-status.outputs.early_exit != 'success'
         uses: ./.github/actions/cache-built-dependency
         with:
           name: tools-make
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
-          delete_existing_cache: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
+          delete_existing_cache: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache_hit == 'true' }}
 
 ########################################
 
