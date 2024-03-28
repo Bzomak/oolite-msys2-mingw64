@@ -18,4 +18,4 @@ runs:
         id: extract-data-string
         shell: bash
         run: |
-          echo "data=$(cat ${{ inputs.path }})" >> $GITHUB_OUTPUT
+          echo "data=$(cat "${{ inputs.path }}")" >> $GITHUB_OUTPUT
