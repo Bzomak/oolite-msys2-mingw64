@@ -1,7 +1,7 @@
 # Workflow to test the oolite-msys2 repository
-# This is not run directly, but is called by other workflows.
 
-# This workflow is triggered by a workflow_call event
+# This workflow is can be triggered by a workflow_call event when called by other workflows.
+# It can also be called by a workflow_dispatch event from GitHub.
 
 # The workflow currently contains one job:
 # - shellcheck: Runs ShellCheck to check all the bash scripts
@@ -12,6 +12,7 @@
 name: Test repository
 on:
   workflow_call:
+  workflow_dispatch:
 jobs:
 
 ########################################
@@ -60,6 +61,66 @@ jobs:
 ########################################
 
 # Test extract-data-string-from-file action
+
+  test-extract-data-string-from-file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v4
+
+      - name: Test extract-data-string-from-file
+        id: extract-data-single-word
+        uses: ./.github/actions/extract-data-string-from-file
+        with:
+          path: ./.github/actions/extract-data-string-from-file/test/single-word
+
+      - name: Check output
+        run: |
+          if [[ "${{ steps.extract-data-single-word.outputs.data }}" != "foo" ]]; then
+            echo "Extracted data is not 'foo'"
+            exit 1
+          fi
+
+      - name: Test extract-data-string-from-file
+        id: extract-data-multiple-words
+        uses: ./.github/actions/extract-data-string-from-file
+        with:
+          path: ./.github/actions/extract-data-string-from-file/test/multiple-words
+
+      - name: Check output
+        run: |
+          if [[ "${{ steps.extract-data-multiple-words.outputs.data }}" != "foo bar" ]]; then
+            echo "Extracted data is not 'foo bar'"
+            exit 1
+          fi
+
+      - name: Test extract-data-string-from-file
+        id: extract-data-multiple-lines
+        uses: ./.github/actions/extract-data-string-from-file
+        with:
+          path: ./.github/actions/extract-data-string-from-file/test/multiple-lines
+
+      - name: Check output
+        run: |
+          if [[ "${{ steps.extract-data-multiple-lines.outputs.data }}" != "foo bar" ]]; then
+            echo "Extracted data is not 'foo\nbar'"
+            exit 1
+          fi
+
+      - name: Test extract-data-string-from-file
+        id: extract-data-empty
+        uses: ./.github/actions/extract-data-string-from-file
+        with:
+          path: ./.github/actions/extract-data-string-from-file/test/empty
+
+      - name: Check output
+        run: |
+          if [[ "${{ steps.extract-data-empty.outputs.data }}" != "" ]]; then
+            echo "Extracted data is not ''"
+            exit 1
+          fi
+
+
 
 # Need to check what happens if the path does not exist
 # Need to check what happens if the path is empty
