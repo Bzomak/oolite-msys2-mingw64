@@ -102,7 +102,7 @@ jobs:
 
       - name: Check output
         run: |
-          if [[ "${{ steps.extract-data-multiple-lines.outputs.data }}" != "foo bar" ]]; then
+          if [[ "${{ steps.extract-data-multiple-lines.outputs.data }}" != "foo\nbar" ]]; then
             echo "Extracted data is not 'foo\nbar'"
             exit 1
           fi
