@@ -156,7 +156,7 @@ jobs:
         uses: ./.github/actions/extract-data-string-from-file
         continue-on-error: true
         with:
-          path: ./.github/actions/extract-data-string-from-file/test/non-existent-file
+          path: ./.github/actions/extract-data-string-from-file/test/
 
       - name: Result - Extracting from a directory
         run: |
