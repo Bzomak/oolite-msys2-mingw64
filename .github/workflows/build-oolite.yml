@@ -1,8 +1,8 @@
 # Workflow to compile Oolite and necessary dependencies
-# This is not run directly, but is called by other workflows.
 # It is designed to be run on a Windows runner and uses MSYS2-MINGW64 to compile Oolite.
 
-# The workflow is triggered by a workflow_call event.
+# This workflow is can be triggered by a workflow_call event when called by other workflows.
+# It can also be called by a workflow_dispatch event from GitHub.
 # The event has three required inputs:
 # - run_tests: A boolean to determine if the tests should be run on the built dependencies (if they exist).
 # - from_fresh: A boolean to determine whether to force the dependencies to be built from scratch and not use a cached version.
@@ -25,6 +25,23 @@
 name: Build Oolite on MSYS2-MINGW64
 on: 
   workflow_call:
+    inputs:
+      run_tests:
+        description: Run build tests
+        required: true
+        type: boolean
+        default: false
+      from_fresh:
+        description: Build all dependencies from scratch
+        required: true
+        type: boolean
+        default: false
+      oolite_ref:
+        description: The version of Oolite to build
+        required: true
+        type: string
+        default: master
+  workflow_dispatch:
     inputs:
       run_tests:
         description: Run build tests
