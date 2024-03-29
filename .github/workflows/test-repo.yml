@@ -78,7 +78,7 @@ jobs:
 
       - name: Result - Extracting a single word from a file
         run: |
-          echo "Extracted data is '${{ steps.extract-data-single-word.outputs.data }}'"
+          echo "Extracted data is: '${{ steps.extract-data-single-word.outputs.data }}'"
           if [[ "${{ steps.extract-data-single-word.outputs.data }}" != "foo" ]]; then
             echo "Extracted data is not 'foo'"
             exit 1
@@ -94,7 +94,7 @@ jobs:
 
       - name: Result - Extracting multiple words from a file
         run: |
-          echo "Extracted data is '${{ steps.extract-data-multiple-words.outputs.data }}'"
+          echo "Extracted data is: '${{ steps.extract-data-multiple-words.outputs.data }}'"
           if [[ "${{ steps.extract-data-multiple-words.outputs.data }}" != "foo bar" ]]; then
             echo "Extracted data is not 'foo bar'"
             exit 1
@@ -110,7 +110,7 @@ jobs:
 
       - name: Result - Extracting multiple lines from a file
         run: |
-          echo "Extracted data is ${{ steps.extract-data-multiple-lines.outputs.data }}"
+          echo "Extracted data is: '${{ steps.extract-data-multiple-lines.outputs.data }}'"
           if [[ "${{ steps.extract-data-multiple-lines.outputs.data }}" != $'foo\nbar' ]]; then
           echo "Extracted data is not $'foo\nbar'"
             exit 1
@@ -126,7 +126,7 @@ jobs:
 
       - name: Result - Extracting an empty file
         run: |
-          echo "Extracted data is '${{ steps.extract-data-empty.outputs.data }}'"
+          echo "Extracted data is: '${{ steps.extract-data-empty.outputs.data }}'"
           if [[ "${{ steps.extract-data-empty.outputs.data }}" != "" ]]; then
           echo "Extracted data is not ''"
             exit 1
@@ -134,12 +134,16 @@ jobs:
             echo "Test successful"
           fi
 
+      - name: Test - Extracting an empty file
+        id: extract-non-existing-file
+        uses: ./.github/actions/extract-data-string-from-file
+        with:
+          path: ./.github/actions/extract-data-string-from-file/test/non-existing-file
 
 
 # Need to check what happens if the path does not exist
 # Need to check what happens if the path is empty
 # Need to check what happens if the path is not a file
-# Need to check what happens if the string is empty
 
 ########################################
 ########################################
