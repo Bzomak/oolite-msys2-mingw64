@@ -13,14 +13,23 @@ outputs:
 runs:
   using: 'composite'
 
-  steps:
-      - name: Extract data string from ${{ inputs.path }}
-        id: extract-data-string
-        shell: bash
-        run: |
-          DATA=$(cat "${{ inputs.path }}")
-          {
-            echo "data<<EOF"
-            echo "$DATA"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
+steps:
+  - name: Validate and extract contents of ${{ inputs.path }} to $GITHUB_OUTPUT
+    id: extract-data-string
+    shell: bash
+    run: |
+      set -e
+      if [ -z "${{ inputs.path }}" ]; then
+        echo "Path is required"
+      elif [ ! -e "${{ inputs.path }}" ]; then
+        echo "Path does not exist"
+      elif [ -d "${{ inputs.path }}" ]; then
+        echo "Path is a directory"
+      else
+        DATA=$(cat "${{ inputs.path }}")
+        {
+          echo "data<<EOF"
+          echo "$DATA"
+          echo "EOF"
+        } >> $GITHUB_OUTPUT
+      fi
