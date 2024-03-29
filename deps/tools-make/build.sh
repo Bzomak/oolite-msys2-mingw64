@@ -10,5 +10,5 @@
 ###############################
 
 cd tools-make || exit
-./configure
+./configure --with-layout=standalone
 make -j "$(nproc)"

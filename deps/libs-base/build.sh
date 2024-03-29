@@ -10,9 +10,9 @@
 ###############################
 
 # shellcheck source=/dev/null
-. /mingw64/share/GNUstep/Makefiles/GNUstep.sh
+. /mingw64/standalone/Makefiles/GNUstep.sh
 cd libs-base || exit
 # Use OpenStep plist format
 sed -i '330 s/NSPropertyListXMLFormat_v1_0/NSPropertyListOpenStepFormat/' Source/NSUserDefaults.m
-./configure --disable-xslt --disable-tls
+./configure --disable-xslt --disable-tls --with-config-file=./GNUstep.conf --with-default-config=standalone.conf
 make -j "$(nproc)"

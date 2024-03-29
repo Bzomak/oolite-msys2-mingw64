@@ -64,7 +64,7 @@ sed -i '45 s/-lespeak.dll/-lespeak -lportaudio.dll/' GNUMakefile
 
 # Try to build
 # shellcheck source=/dev/null
-. /mingw64/share/GNUstep/Makefiles/GNUstep.sh
+. /mingw64/standalone/Makefiles/GNUstep.sh
 make -j "$(nproc)" -f Makefile "$1"
 
 # Need to copy the correct dlls to the oolite.app folder
