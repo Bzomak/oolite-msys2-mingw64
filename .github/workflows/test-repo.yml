@@ -141,6 +141,15 @@ jobs:
         with:
           path: ./.github/actions/extract-data-string-from-file/test/non-existent-file
 
+      - name: Result - Extracting from a non-existent file
+        run: |
+          echo "Action outcome is: '${{ steps.extract-non-existent-file.outcome }}'"
+          if [[ "${{ steps.extract-extract-non-existent-file }}" != "failure" ]]; then
+          echo "Action outcome is not 'failure'"
+            exit 1
+          else
+            echo "Test successful"
+          fi
 
 # Need to check what happens if the path does not exist
 # Need to check what happens if the path is empty
