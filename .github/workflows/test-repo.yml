@@ -151,9 +151,39 @@ jobs:
             echo "Test successful"
           fi
 
-# Need to check what happens if the path does not exist
-# Need to check what happens if the path is empty
-# Need to check what happens if the path is not a file
+      - name: Test - Extracting from a directory
+        id: extract-directory
+        uses: ./.github/actions/extract-data-string-from-file
+        continue-on-error: true
+        with:
+          path: ./.github/actions/extract-data-string-from-file/test/non-existent-file
+
+      - name: Result - Extracting from a directory
+        run: |
+          echo "Action outcome is: '${{ steps.extract-directory.outcome }}'"
+          if [[ "${{ steps.extract-directory.outcome }}" != "failure" ]]; then
+          echo "Action outcome is not 'failure'"
+            exit 1
+          else
+            echo "Test successful"
+          fi
+
+      - name: Test - Extracting from an empty path
+        id: extract-empty-path
+        uses: ./.github/actions/extract-data-string-from-file
+        continue-on-error: true
+        with:
+          path:
+
+      - name: Result - Extracting from an empty path
+        run: |
+          echo "Action outcome is: '${{ steps.extract-empty-path.outcome }}'"
+          if [[ "${{ steps.extract-empty-path.outcome }}" != "failure" ]]; then
+          echo "Action outcome is not 'failure'"
+            exit 1
+          else
+            echo "Test successful"
+          fi
 
 ########################################
 ########################################
