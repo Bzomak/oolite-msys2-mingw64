@@ -41,6 +41,23 @@ on:
         required: true
         type: string
         default: master
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: Run build tests
+        required: true
+        type: boolean
+        default: false
+      from_fresh:
+        description: Build all dependencies from scratch
+        required: true
+        type: boolean
+        default: false
+      oolite_ref:
+        description: The version of Oolite to build
+        required: true
+        type: string
+        default: master
 jobs:
 
 ########################################
