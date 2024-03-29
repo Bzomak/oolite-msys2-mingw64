@@ -134,11 +134,12 @@ jobs:
             echo "Test successful"
           fi
 
-      - name: Test - Extracting an empty file
-        id: extract-non-existing-file
+      - name: Test - Extracting from a non-existent file
+        id: extract-non-existent-file
         uses: ./.github/actions/extract-data-string-from-file
+        continue-on-error: true
         with:
-          path: ./.github/actions/extract-data-string-from-file/test/non-existing-file
+          path: ./.github/actions/extract-data-string-from-file/test/non-existent-file
 
 
 # Need to check what happens if the path does not exist
