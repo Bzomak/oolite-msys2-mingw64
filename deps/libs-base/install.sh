@@ -11,5 +11,5 @@
 
 cd libs-base || exit
 # shellcheck source=/dev/null
-. /mingw64/share/GNUstep/Makefiles/GNUstep.sh
+. /mingw64/standalone/Makefiles/GNUstep.sh
 make -j "$(nproc)" install
