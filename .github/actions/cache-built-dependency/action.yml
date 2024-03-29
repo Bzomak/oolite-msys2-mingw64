@@ -1,0 +1,33 @@
+# A composite action to cache a built dependency of Oolite
+
+name: Cache built dependency
+description: Cache a built dependency of Oolite
+inputs:
+  name:
+    description: Name of the built dependency
+    required: true
+  path:
+    description: Path to the built dependency
+    required: true
+  key:
+    description: Key to use for the built dependency
+    required: true
+  delete_existing_cache:
+    description: Delete existing cache if it exists
+    required: true
+runs:
+  using: 'composite'
+
+  steps:
+      - name: Delete existing ${{ inputs.name }} cache
+        if: ${{ inputs.delete_existing_cache == 'true' }}
+        shell: bash
+        run: |
+          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
+          gh cache delete ${{ inputs.key }}
+
+      - name: Cache ${{ inputs.name }} build
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ inputs.path }}
+          key: ${{ inputs.key }}

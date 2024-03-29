@@ -1,0 +1,24 @@
+# A composite action to set up MSYS2 with a set of required dependencies needed to build with
+
+name: Start MSYS2 with dependencies
+description: Start MSYS2 with dependencies
+inputs:
+  deps_path:
+    description: Path to the file containing the dependencies data
+    required: true
+runs:
+  using: 'composite'
+
+  steps:
+      - name: Extract dependencies from ${{ inputs.deps_path }}
+        id: extract-deps
+        uses: ./.github/actions/extract-data-string-from-file
+        with:
+          path: ${{ inputs.deps_path }}
+
+      - name: Start MSYS2 with dependencies
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: ${{ steps.extract-deps.outputs.data }}

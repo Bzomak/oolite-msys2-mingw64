@@ -56,8 +56,6 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
-    env:
-      OOLITE_BUILD_MSYS2_DEPS:
     strategy:
       matrix:
         build_type: [debug, release, release-deployment, release-snapshot]
@@ -67,66 +65,42 @@ jobs:
       - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: Load dependency data into env
-        shell: bash
-        run: |
-          echo OOLITE_BUILD_MSYS2_DEPS=$(cat oolite-config/msys2-deps) >> $GITHUB_ENV
-
       - name: Set up msys2
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.OOLITE_BUILD_MSYS2_DEPS }}
+          deps_path: oolite-config/msys2-deps
 
-      - name: Retrieve tools-make cache
-        id: restore-tools-make
-        uses: actions/cache/restore@v4
+      - name: Install built version of tools-make from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: tools-make
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
-          fail-on-cache-miss: true
+          install_script: ./deps/tools-make/install.sh
 
-      - name: Install tools-make
-        run: |
-          bash ./deps/tools-make/install.sh
-
-      - name: Retrieve libs-base cache
-        id: restore-libs-base
-        uses: actions/cache/restore@v4
+      - name: Install built version of libs-base from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: libs-base
           path: libs-base
           key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
-          fail-on-cache-miss: true
+          install_script: ./deps/libs-base/install.sh
 
-      - name: Install libs-base
-        run: |
-          bash ./deps/libs-base/install.sh
-
-      - name: Retrieve SDL cache
-        id: restore-sdl
-        uses: actions/cache/restore@v4
+      - name: Install built version of SDL from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: SDL
           path: SDL-1.2.13
           key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
-          fail-on-cache-miss: true
+          install_script: ./deps/sdl/install.sh
 
-      - name: Install SDL
-        run: |
-          bash ./deps/sdl/install.sh
-
-      - name: Retrieve eSpeak cache
-        id: restore-espeak
-        uses: actions/cache/restore@v4
+      - name: Install built version of eSpeak from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: eSpeak
           path: espeak-1.43.03-source
           key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
-          fail-on-cache-miss: true
-
-      - name: Install eSpeak
-        run: |
-          bash ./deps/eSpeak/install.sh
+          install_script: ./deps/eSpeak/install.sh
 
       - name: Checkout Oolite
         uses: actions/checkout@v4
@@ -157,8 +131,6 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
-    env:
-      OOLITE_INSTALLER_BUILD_MSYS2_DEPS:
     strategy:
       matrix:
         build_type: [release, release-deployment, release-snapshot]
@@ -168,66 +140,42 @@ jobs:
       - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: Load dependency data into env
-        shell: bash
-        run: |
-          echo OOLITE_INSTALLER_BUILD_MSYS2_DEPS=$(cat oolite-installer-config/msys2-deps) >> $GITHUB_ENV
-
       - name: Set up msys2
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.OOLITE_INSTALLER_BUILD_MSYS2_DEPS }}
+          deps_path: oolite-installer-config/msys2-deps
 
-      - name: Retrieve tools-make cache
-        id: restore-tools-make
-        uses: actions/cache/restore@v4
+      - name: Install built version of tools-make from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: tools-make
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
-          fail-on-cache-miss: true
+          install_script: ./deps/tools-make/install.sh
 
-      - name: Install tools-make
-        run: |
-          bash ./deps/tools-make/install.sh
-
-      - name: Retrieve libs-base cache
-        id: restore-libs-base
-        uses: actions/cache/restore@v4
+      - name: Install built version of libs-base from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: libs-base
           path: libs-base
           key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
-          fail-on-cache-miss: true
+          install_script: ./deps/libs-base/install.sh
 
-      - name: Install libs-base
-        run: |
-          bash ./deps/libs-base/install.sh
-
-      - name: Retrieve SDL cache
-        id: restore-sdl
-        uses: actions/cache/restore@v4
+      - name: Install built version of SDL from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: SDL
           path: SDL-1.2.13
           key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
-          fail-on-cache-miss: true
+          install_script: ./deps/sdl/install.sh
 
-      - name: Install SDL
-        run: |
-          bash ./deps/sdl/install.sh
-
-      - name: Retrieve eSpeak cache
-        id: restore-espeak
-        uses: actions/cache/restore@v4
+      - name: Install built version of eSpeak from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: eSpeak
           path: espeak-1.43.03-source
           key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
-          fail-on-cache-miss: true
-
-      - name: Install eSpeak
-        run: |
-          bash ./deps/eSpeak/install.sh
+          install_script: ./deps/eSpeak/install.sh
 
       - name: Retrieve Oolite cache
         id: restore-oolite
@@ -269,7 +217,6 @@ jobs:
         shell: msys2 {0}
     env:
       TOOLS_MAKE_VERSION:
-      TOOLS_MAKE_MSYS2_DEPS:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -280,34 +227,24 @@ jobs:
         shell: bash
         run: |
           echo TOOLS_MAKE_VERSION=$(cat deps/tools-make/version) >> $GITHUB_ENV
-          echo TOOLS_MAKE_MSYS2_DEPS=$(cat deps/tools-make/msys2-deps) >> $GITHUB_ENV
 
-      - name: Check for pre-existing tools-make cache
-        id: check-cache
-        uses: actions/cache/restore@v4
+      - name: Check cache status
+        id: cache-status
+        uses: ./.github/actions/early-exit-if-cache-exists
         with:
+          name: tools-make
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
-          lookup-only: true
-
-      - name: Early exit if cache exists and not building from fresh
-        id: early-exit
-        if: ${{ inputs.from_fresh == false && steps.check-cache.outputs.cache-hit == 'true' }}
-        shell: bash
-        run: |
-          echo "tools-make cache exists, exiting early" >> $GITHUB_STEP_SUMMARY
+          from_fresh: ${{ inputs.from_fresh }}
 
       - name: Set up msys2
-        if: steps.early-exit.conclusion != 'success'
-        uses: msys2/setup-msys2@v2
+        if: steps.cache-status.outputs.early_exit != 'success'
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.TOOLS_MAKE_MSYS2_DEPS }}
+          deps_path: deps/tools-make/msys2-deps
 
       - name: Checkout tools-make
-        if: steps.early-exit.conclusion != 'success'
+        if: steps.cache-status.outputs.early_exit != 'success'
         uses: actions/checkout@v4
         with:
           repository: gnustep/tools-make
@@ -315,23 +252,18 @@ jobs:
           ref: ${{ env.TOOLS_MAKE_VERSION }}
 
       - name: Configure and build tools-make
-        if: steps.early-exit.conclusion != 'success'
+        if: steps.cache-status.outputs.early_exit != 'success'
         run: |
           bash ./deps/tools-make/build.sh
 
-      - name: Delete pre-existing cache if building from fresh and it exists
-        if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
-        shell: bash
-        run: |
-          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
-
       - name: Cache tools-make build
-        if: steps.early-exit.conclusion != 'success'
-        uses: actions/cache/save@v4
+        if: steps.cache-status.outputs.early_exit != 'success'
+        uses: ./.github/actions/cache-built-dependency
         with:
+          name: tools-make
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
+          delete_existing_cache: ${{ inputs.from_fresh == true && steps.cache-status.outputs.cache_hit == 'true' }}
 
 ########################################
 
@@ -344,7 +276,6 @@ jobs:
         shell: msys2 {0}
     env:
       LIBS_BASE_VERSION:
-      LIBS_BASE_MSYS2_DEPS:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -355,7 +286,6 @@ jobs:
         shell: bash
         run: |
           echo LIBS_BASE_VERSION=$(cat deps/libs-base/version) >> $GITHUB_ENV
-          echo LIBS_BASE_MSYS2_DEPS=$(cat deps/libs-base/msys2-deps) >> $GITHUB_ENV
 
       - name: Check for pre-existing libs-base cache
         id: check-cache
@@ -374,26 +304,17 @@ jobs:
 
       - name: Set up msys2
         if: steps.early-exit.conclusion != 'success'
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.LIBS_BASE_MSYS2_DEPS }}
+          deps_path: deps/libs-base/msys2-deps
 
-      - name: Retrieve tools-make cache
-        if: steps.early-exit.conclusion != 'success'
-        id: restore-tools-make
-        uses: actions/cache/restore@v4
+      - name: Install built version of tools-make from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: tools-make
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
-          fail-on-cache-miss: true
-
-      - name: Install tools-make
-        if: steps.early-exit.conclusion != 'success'
-        run: |
-          bash ./deps/tools-make/install.sh
+          install_script: ./deps/tools-make/install.sh
 
       - name: Checkout libs-base
         if: steps.early-exit.conclusion != 'success'
@@ -408,19 +329,14 @@ jobs:
         run: |
           bash ./deps/libs-base/build.sh
 
-      - name: Delete pre-existing cache if building from fresh and it exists
-        if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
-        shell: bash
-        run: |
-          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
-
       - name: Cache libs-base build
         if: steps.early-exit.conclusion != 'success'
-        uses: actions/cache/save@v4
+        uses: ./.github/actions/cache-built-dependency
         with:
+          name: libs-base
           path: libs-base
           key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
+          delete_existing_cache: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
 
 ########################################
 
@@ -433,7 +349,6 @@ jobs:
         shell: msys2 {0}
     env:
       SDL_VERSION:
-      SDL_MSYS2_DEPS:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -444,7 +359,6 @@ jobs:
         shell: bash
         run: |
           echo SDL_VERSION=$(cat deps/sdl/version) >> $GITHUB_ENV
-          echo SDL_MSYS2_DEPS=$(cat deps/sdl/msys2-deps) >> $GITHUB_ENV
 
       - name: Check for pre-existing SDL cache
         id: check-cache
@@ -463,12 +377,9 @@ jobs:
 
       - name: Set up msys2
         if: steps.early-exit.conclusion != 'success'
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.SDL_MSYS2_DEPS }}
+          deps_path: deps/sdl/msys2-deps
 
       - name: Download and extract SDL
         if: steps.early-exit.conclusion != 'success'
@@ -481,19 +392,14 @@ jobs:
         run: |
           bash ./deps/sdl/build.sh
 
-      - name: Delete pre-existing cache if building from fresh and it exists
-        if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
-        shell: bash
-        run: |
-          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
-
       - name: Cache SDL build
         if: steps.early-exit.conclusion != 'success'
-        uses: actions/cache/save@v4
+        uses: ./.github/actions/cache-built-dependency
         with:
+          name: SDL
           path: SDL-1.2.13
           key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
+          delete_existing_cache: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
 
 ########################################
 
@@ -506,7 +412,6 @@ jobs:
         shell: msys2 {0}
     env:
       ESPEAK_VERSION:
-      ESPEAK_MSYS2_DEPS:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -517,7 +422,6 @@ jobs:
         shell: bash
         run: |
           echo ESPEAK_VERSION=$(cat deps/espeak/version) >> $GITHUB_ENV
-          echo ESPEAK_MSYS2_DEPS=$(cat deps/espeak/msys2-deps) >> $GITHUB_ENV
 
       - name: Check for pre-existing eSpeak cache
         id: check-cache
@@ -536,12 +440,9 @@ jobs:
 
       - name: Set up msys2
         if: steps.early-exit.conclusion != 'success'
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.ESPEAK_MSYS2_DEPS }}
+          deps_path: deps/espeak/msys2-deps
 
       - name: Download and extract eSpeak
         if: steps.early-exit.conclusion != 'success'
@@ -554,19 +455,14 @@ jobs:
         run: |
           bash ./deps/espeak/build.sh
 
-      - name: Delete pre-existing cache if building from fresh and it exists
-        if: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
-        shell: bash
-        run: |
-          echo "Deleting pre-existing cache" >> $GITHUB_STEP_SUMMARY
-          gh cache delete cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
-
       - name: Cache eSpeak build
         if: steps.early-exit.conclusion != 'success'
-        uses: actions/cache/save@v4
+        uses: ./.github/actions/cache-built-dependency
         with:
+          name: eSpeak
           path: espeak-1.43.03-source
           key: cache-espeak-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/espeak/*') }}
+          delete_existing_cache: ${{ inputs.from_fresh == true && steps.check-cache.outputs.cache-hit == 'true' }}
 
 ########################################
 ########################################
@@ -583,49 +479,31 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
-    env:
-      LIBS_BASE_MSYS2_DEPS:
 
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: Load dependency data into env
-        shell: bash
-        run: |
-          echo LIBS_BASE_MSYS2_DEPS=$(cat deps/libs-base/msys2-deps) >> $GITHUB_ENV
-
       - name: Set up msys2
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.LIBS_BASE_MSYS2_DEPS }}
+          deps_path: deps/libs-base/msys2-deps
 
-      - name: Retrieve tools-make cache
-        id: restore-tools-make
-        uses: actions/cache/restore@v4
+      - name: Install built version of tools-make from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: tools-make
           path: tools-make
           key: cache-tools-make-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/tools-make/*') }}
-          fail-on-cache-miss: true
+          install_script: ./deps/tools-make/install.sh
 
-      - name: Install tools-make
-        run: |
-          bash ./deps/tools-make/install.sh
-
-      - name: Retrieve libs-base cache
-        id: restore-libs-base
-        uses: actions/cache/restore@v4
+      - name: Install built version of libs-base from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: libs-base
           path: libs-base
           key: cache-libs-base-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/libs-base/*', '**/deps/tools-make/*') }}
-          fail-on-cache-miss: true
-
-      - name: Install libs-base
-        run: |
-          bash ./deps/libs-base/install.sh
+          install_script: ./deps/libs-base/install.sh
 
       - name: Test libs-base
         run: |
@@ -650,37 +528,23 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
-    env:
-      SDL_MSYS2_DEPS:
 
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: Load dependency data into env
-        shell: bash
-        run: |
-          echo SDL_MSYS2_DEPS=$(cat deps/sdl/msys2-deps) >> $GITHUB_ENV
-
       - name: Set up msys2
-        uses: msys2/setup-msys2@v2
+        uses: ./.github/actions/start-msys2-with-deps
         with:
-          msystem: MINGW64
-          update: true
-          install: |
-            ${{ env.SDL_MSYS2_DEPS }}
+          deps_path: deps/sdl/msys2-deps
 
-      - name: Retrieve SDL cache
-        id: restore-sdl
-        uses: actions/cache/restore@v4
+      - name: Install built version of SDL from cache
+        uses: ./.github/actions/install-built-dependency
         with:
+          name: SDL
           path: SDL-1.2.13
           key: cache-sdl-${{ hashFiles('**/.github/workflows/build-oolite.yml', '**/deps/sdl/*') }}
-          fail-on-cache-miss: true
-
-      - name: Install SDL
-        run: |
-          bash ./deps/sdl/install.sh
+          install_script: ./deps/sdl/install.sh
 
       - name: Build SDL tests
         run: |
