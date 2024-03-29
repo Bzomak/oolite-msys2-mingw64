@@ -63,65 +63,75 @@ jobs:
 # Test extract-data-string-from-file action
 
   test-extract-data-string-from-file:
+    name: Test extract-data-string-from-file action
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
 
-      - name: Test extract-data-string-from-file
+      - name: Test - Extracting a single word from a file
         id: extract-data-single-word
         uses: ./.github/actions/extract-data-string-from-file
         with:
           path: ./.github/actions/extract-data-string-from-file/test/single-word
 
-      - name: Check output
+      - name: Result - Extracting a single word from a file
         run: |
+          echo "Extracted data is '${{ steps.extract-data-single-word.outputs.data }}'"
           if [[ "${{ steps.extract-data-single-word.outputs.data }}" != "foo" ]]; then
             echo "Extracted data is not 'foo'"
-            echo "Extracted data is '${{ steps.extract-data-single-word.outputs.data }}'"
             exit 1
+          else
+            echo "Test successful"
           fi
 
-      - name: Test extract-data-string-from-file
+      - name: Test - Extracting multiple words from a file
         id: extract-data-multiple-words
         uses: ./.github/actions/extract-data-string-from-file
         with:
           path: ./.github/actions/extract-data-string-from-file/test/multiple-words
 
-      - name: Check output
+      - name: Result - Extracting multiple words from a file
         run: |
+          echo "Extracted data is '${{ steps.extract-data-multiple-words.outputs.data }}'"
           if [[ "${{ steps.extract-data-multiple-words.outputs.data }}" != "foo bar" ]]; then
             echo "Extracted data is not 'foo bar'"
-            echo "Extracted data is '${{ steps.extract-data-multiple-words.outputs.data }}'"
             exit 1
+          else
+            echo "Test successful"
           fi
 
-      - name: Test extract-data-string-from-file
+      - name: Test - Extracting multiple lines from a file
         id: extract-data-multiple-lines
         uses: ./.github/actions/extract-data-string-from-file
         with:
           path: ./.github/actions/extract-data-string-from-file/test/multiple-lines
 
-      - name: Check output
+      - name: Result - Extracting multiple lines from a file
         run: |
-          if [[ "${{ steps.extract-data-multiple-lines.outputs.data }}" != $'foo\nbar' ]]; then
           echo "Extracted data is ${{ steps.extract-data-multiple-lines.outputs.data }}"
+          if [[ "${{ steps.extract-data-multiple-lines.outputs.data }}" != $'foo\nbar' ]]; then
           echo "Extracted data is not $'foo\nbar'"
             exit 1
+          else
+            echo "Test successful"
           fi
 
-      - name: Test extract-data-string-from-file
+      - name: Test - Extracting an empty file
         id: extract-data-empty
         uses: ./.github/actions/extract-data-string-from-file
         with:
           path: ./.github/actions/extract-data-string-from-file/test/empty
 
-      - name: Check output
+      - name: Result - Extracting an empty file
         run: |
-          if [[ "${{ steps.extract-data-empty.outputs.data }}" != "" ]]; then
           echo "Extracted data is '${{ steps.extract-data-empty.outputs.data }}'"
+          if [[ "${{ steps.extract-data-empty.outputs.data }}" != "" ]]; then
           echo "Extracted data is not ''"
             exit 1
+          else
+            echo "Test successful"
           fi
 
 
