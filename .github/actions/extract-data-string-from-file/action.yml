@@ -18,13 +18,12 @@ runs:
       id: extract-data-string
       shell: bash
       run: |
-        set -e
         if [ -z "${{ inputs.path }}" ]; then
-          echo "Path is required"
+          echo "Path is required" && exit 1
         elif [ ! -e "${{ inputs.path }}" ]; then
-          echo "Path does not exist"
+          echo "Path does not exist" && exit 1
         elif [ -d "${{ inputs.path }}" ]; then
-          echo "Path is a directory"
+          echo "Path is a directory" && exit 1
         else
           DATA=$(cat "${{ inputs.path }}")
           {
