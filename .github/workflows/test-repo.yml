@@ -92,7 +92,7 @@ jobs:
         run: |
           if [[ "${{ steps.extract-data-multiple-words.outputs.data }}" != "foo bar" ]]; then
             echo "Extracted data is not 'foo bar'"
-            echo "Extracted data is '${{ steps.extract-data-single-word.outputs.data }}'"
+            echo "Extracted data is '${{ steps.extract-data-multiple-words.outputs.data }}'"
             exit 1
           fi
 
@@ -104,11 +104,9 @@ jobs:
 
       - name: Check output
         run: |
-          if [[ "${{ steps.extract-data-multiple-lines.outputs.data }}" != "foo \
-          bar" ]]; then
-          echo "Extracted data is ${{ steps.extract-data-single-word.outputs.data }}"
-          echo "Extracted data is not 'foo \
-            > bar'"
+          if [[ "${{ steps.extract-data-multiple-lines.outputs.data }}" != $'foo\nbar' ]]; then
+          echo "Extracted data is ${{ steps.extract-data-multiple-lines.outputs.data }}"
+          echo "Extracted data is not $'foo\nbar'"
             exit 1
           fi
 
@@ -121,7 +119,7 @@ jobs:
       - name: Check output
         run: |
           if [[ "${{ steps.extract-data-empty.outputs.data }}" != "" ]]; then
-          echo "Extracted data is '${{ steps.extract-data-single-word.outputs.data }}'"
+          echo "Extracted data is '${{ steps.extract-data-empty.outputs.data }}'"
           echo "Extracted data is not ''"
             exit 1
           fi
