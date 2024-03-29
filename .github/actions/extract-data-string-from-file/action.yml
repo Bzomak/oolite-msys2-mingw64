@@ -21,6 +21,6 @@ runs:
           DATA=$(cat "${{ inputs.path }}")
           {
             echo "data<<EOF"
-            $DATA
+            echo "$DATA"
             echo "EOF"
           } >> $GITHUB_OUTPUT
