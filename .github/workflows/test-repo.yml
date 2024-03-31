@@ -65,6 +65,9 @@ jobs:
   test-extract-data-string-from-file:
     name: Test extract-data-string-from-file action
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - name: Checkout this repository
@@ -210,6 +213,9 @@ jobs:
           FAILURE_COUNT=0
           TEST_SUMMARY=""
 
+          import: SUCCESS_COUNT, FAILURE_COUNT from ./.github/actions/extract-data-string-from-file
+          SUCCESS_COUNT=0
+          FAILURE_COUNT=0
           if [[ "${{ steps.extract-data-single-word-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
             TEST_SUMMARY += "Extracting a single word from a file: ✔️\n"
