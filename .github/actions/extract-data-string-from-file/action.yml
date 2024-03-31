@@ -21,23 +21,4 @@ runs:
       id: extract-data-string
       shell: bash
       run: |
-        if [ -z "${{ inputs.path }}" ]; then
-          ERROR_MESSAGE="Path is required"
-          echo "::error::$ERROR_MESSAGE"
-          echo "error=$ERROR_MESSAGE" >> $GITHUB_OUTPUT
-        elif [ ! -e "${{ inputs.path }}" ]; then
-          ERROR_MESSAGE="Path does not exist"
-          echo "::error::$ERROR_MESSAGE"
-          echo "error=$ERROR_MESSAGE" >> $GITHUB_OUTPUT
-        elif [ -d "${{ inputs.path }}" ]; then
-          ERROR_MESSAGE="Path is a directory"
-          echo "::error::$ERROR_MESSAGE"
-          echo "error=$ERROR_MESSAGE" >> $GITHUB_OUTPUT
-        else
-          DATA=$(cat "${{ inputs.path }}")
-          {
-            echo "data<<EOF"
-            echo "$DATA"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
-        fi
+        bash ./.github/actions/extract-data-string-from-file/extract-data-string.sh
