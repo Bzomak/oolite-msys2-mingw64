@@ -78,6 +78,7 @@ jobs:
           path: ./.github/actions/extract-data-string-from-file/test/single-word
 
       - name: Result - Extracting a single word from a file
+        id: extract-data-single-word-result
         if: always()
         run: |
           echo "Extracted data is: '${{ steps.extract-data-single-word.outputs.data }}'"
@@ -96,6 +97,7 @@ jobs:
           path: ./.github/actions/extract-data-string-from-file/test/multiple-words
 
       - name: Result - Extracting multiple words from a file
+        id: extract-data-multiple-words-result
         if: always()
         run: |
           echo "Extracted data is: '${{ steps.extract-data-multiple-words.outputs.data }}'"
@@ -114,6 +116,7 @@ jobs:
           path: ./.github/actions/extract-data-string-from-file/test/multiple-lines
 
       - name: Result - Extracting multiple lines from a file
+        id: extract-data-multiple-lines-result
         if: always()
         run: |
           echo "Extracted data is: '${{ steps.extract-data-multiple-lines.outputs.data }}'"
@@ -132,6 +135,7 @@ jobs:
           path: ./.github/actions/extract-data-string-from-file/test/empty
 
       - name: Result - Extracting an empty file
+        id: extract-data-empty-result
         if: always()
         run: |
           echo "Extracted data is: '${{ steps.extract-data-empty.outputs.data }}'"
@@ -150,6 +154,7 @@ jobs:
           path: ./.github/actions/extract-data-string-from-file/test/non-existent-file
 
       - name: Result - Extracting from a non-existent file
+        id: extract-non-existent-file-result
         if: always()
         run: |
           echo "Action error is: '${{ steps.extract-non-existent-file.outputs.error }}'"
@@ -168,6 +173,7 @@ jobs:
           path: ./.github/actions/extract-data-string-from-file/test/
 
       - name: Result - Extracting from a directory
+        id: extract-directory-result
         if: always()
         run: |
           echo "Action error is: '${{ steps.extract-directory.outputs.error }}'"
@@ -186,6 +192,7 @@ jobs:
           path:
 
       - name: Result - Extracting from an empty path
+        id: extract-empty-path-result
         if: always()
         run: |
           echo "Action error is: '${{ steps.extract-empty-path.outputs.error }}'"
@@ -195,6 +202,20 @@ jobs:
           else
             echo "Test successful"
           fi
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "#extract-data-string-from-file Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Extracting a single word from a file: ${{ steps.extract-data-single-word-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "Extracting multiple words from a file: ${{ steps.extract-data-multiple-words-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "Extracting multiple lines from a file: ${{ steps.extract-data-multiple-lines-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "Extracting an empty file: ${{ steps.extract-data-empty-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "Extracting from a non-existent file: ${{ steps.extract-non-existent-file-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "Extracting from a directory: ${{ steps.extract-directory-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "Extracting from an empty path: ${{ steps.extract-empty-path-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+
 
 ########################################
 ########################################
