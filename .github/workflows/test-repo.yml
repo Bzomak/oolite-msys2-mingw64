@@ -209,54 +209,55 @@ jobs:
           SUCCESS_COUNT=0
           FAILURE_COUNT=0
           TEST_SUMMARY=""
+
           if [[ "${{ steps.extract-data-single-word-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting a single word from a file: ✔️"
+            echo "Extracting a single word from a file: ✔️" >> $TEST_SUMMARY
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting a single word from a file: ❌"
+            echo "Extracting a single word from a file: ❌" >> $TEST_SUMMARY
           fi
           if [[ "${{ steps.extract-data-multiple-words-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting multiple words from a file: ✔️"
+            echo "Extracting multiple words from a file: ✔️" >> $TEST_SUMMARY
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting multiple words from a file: ❌"
+            echo "Extracting multiple words from a file: ❌" >> $TEST_SUMMARY
           fi
           if [[ "${{ steps.extract-data-multiple-lines-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting multiple lines from a file: ✔️"
+            echo "Extracting multiple lines from a file: ✔️" >> $TEST_SUMMARY
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting multiple lines from a file: ❌"
+            echo "Extracting multiple lines from a file: ❌" >> $TEST_SUMMARY
           fi
           if [[ "${{ steps.extract-data-empty-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting an empty file: ✔️"
+            echo "Extracting an empty file: ✔️" >> $TEST_SUMMARY
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting an empty file: ❌"
+            echo "Extracting an empty file: ❌" >> $TEST_SUMMARY
           fi
           if [[ "${{ steps.extract-non-existent-file-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting from a non-existent file: ✔️"
+            echo "Extracting from a non-existent file: ✔️" >> $TEST_SUMMARY
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting from a non-existent file: ❌"
+            echo "Extracting from a non-existent file: ❌" >> $TEST_SUMMARY
           fi
           if [[ "${{ steps.extract-directory-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting from a directory: ✔️"
+            echo "Extracting from a directory: ✔️" >> $TEST_SUMMARY
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting from a directory: ❌"
+            echo "Extracting from a directory: ❌" >> $TEST_SUMMARY
           fi
           if [[ "${{ steps.extract-empty-path-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting from an empty path: ✔️"
+            echo "Extracting from an empty path: ✔️" >> $TEST_SUMMARY
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY="${TEST_SUMMARY}\n- Extracting from an empty path: ❌"
+            echo "Extracting from an empty path: ❌" >> $TEST_SUMMARY
           fi
 
           echo "## extract-data-string-from-file Test Results" >> $GITHUB_STEP_SUMMARY
@@ -264,13 +265,6 @@ jobs:
           echo "### Passed ✔️: $SUCCESS_COUNT | Failed ❌: $FAILURE_COUNT" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "$TEST_SUMMARY" >> $GITHUB_STEP_SUMMARY
-#          echo "- Extracting a single word from a file: ${{ steps.extract-data-single-word-result.outcome }}" >> $GITHUB_STEP_SUMMARY
-#          echo "- Extracting multiple words from a file: ${{ steps.extract-data-multiple-words-result.outcome }}" >> $GITHUB_STEP_SUMMARY
-#          echo "- Extracting multiple lines from a file: ${{ steps.extract-data-multiple-lines-result.outcome }}" >> $GITHUB_STEP_SUMMARY
-#          echo "- Extracting an empty file: ${{ steps.extract-data-empty-result.outcome }}" >> $GITHUB_STEP_SUMMARY
-#          echo "- Extracting from a non-existent file: ${{ steps.extract-non-existent-file-result.outcome }}" >> $GITHUB_STEP_SUMMARY
-#          echo "- Extracting from a directory: ${{ steps.extract-directory-result.outcome }}" >> $GITHUB_STEP_SUMMARY
-#          echo "- Extracting from an empty path: ${{ steps.extract-empty-path-result.outcome }}" >> $GITHUB_STEP_SUMMARY
 
 
 ########################################
