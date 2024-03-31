@@ -22,7 +22,8 @@ fi
 for ((i=1; i<=$#; i+=2)); do
     # Use indirect parameter expansion to get the value of the argument
     name="${!i}"
-    result="${!((i+1))}"
+    next_index=$((i+1))
+    result="${!next_index}"
 
     # Validate the name and result
     if [[ -z "$name" ]]; then

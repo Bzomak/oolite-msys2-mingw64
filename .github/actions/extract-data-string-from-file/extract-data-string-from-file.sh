@@ -27,9 +27,9 @@ else
     else
         DATA=$(cat "$input_path")
         {
-        echo "data<<EOF"
-        echo "$DATA"
-        echo "EOF"
+            echo "data<<EOF"
+            echo "$DATA"
+            echo "EOF"
         } >> "$GITHUB_OUTPUT"
     fi
 fi
