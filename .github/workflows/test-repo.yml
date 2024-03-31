@@ -215,52 +215,52 @@ jobs:
 
           if [[ "${{ steps.extract-data-single-word-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY+="Extracting a single word from a file: ✔️\n"
+            TEST_SUMMARY+="Extracting a single word from a file: ✔️  "
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY+="Extracting a single word from a file: ❌\n"
+            TEST_SUMMARY+="Extracting a single word from a file: ❌  "
           fi
           if [[ "${{ steps.extract-data-multiple-words-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY+="Extracting multiple words from a file: ✔️\n"
+            TEST_SUMMARY+="Extracting multiple words from a file: ✔️  "
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY+="Extracting multiple words from a file: ❌\n"
+            TEST_SUMMARY+="Extracting multiple words from a file: ❌  "
           fi
           if [[ "${{ steps.extract-data-multiple-lines-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY+="Extracting multiple lines from a file: ✔️\n"
+            TEST_SUMMARY+="Extracting multiple lines from a file: ✔️  "
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY+="Extracting multiple lines from a file: ❌\n"
+            TEST_SUMMARY+="Extracting multiple lines from a file: ❌  "
           fi
           if [[ "${{ steps.extract-data-empty-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY+="Extracting an empty file: ✔️\n"
+            TEST_SUMMARY+="Extracting an empty file: ✔️  "
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY+="Extracting an empty file: ❌\n"
+            TEST_SUMMARY+="Extracting an empty file: ❌  "
           fi
           if [[ "${{ steps.extract-non-existent-file-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY+="Extracting from a non-existent file: ✔️\n"
+            TEST_SUMMARY+="Extracting from a non-existent file: ✔️  "
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY+="Extracting from a non-existent file: ❌\n"
+            TEST_SUMMARY+="Extracting from a non-existent file: ❌  "
           fi
           if [[ "${{ steps.extract-directory-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY+="Extracting from a directory: ✔️\n"
+            TEST_SUMMARY+="Extracting from a directory: ✔️  "
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY+="Extracting from a directory: ❌\n"
+            TEST_SUMMARY+="Extracting from a directory: ❌  "
           fi
           if [[ "${{ steps.extract-empty-path-result.outcome }}" == "success" ]]; then
             SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-            TEST_SUMMARY+="Extracting from an empty path: ✔️\n"
+            TEST_SUMMARY+="Extracting from an empty path: ✔️  "
           else
             FAILURE_COUNT=$((FAILURE_COUNT+1))
-            TEST_SUMMARY+="Extracting from an empty path: ❌\n"
+            TEST_SUMMARY+="Extracting from an empty path: ❌  "
           fi
 
           echo "## extract-data-string-from-file Test Results" >> $GITHUB_STEP_SUMMARY
