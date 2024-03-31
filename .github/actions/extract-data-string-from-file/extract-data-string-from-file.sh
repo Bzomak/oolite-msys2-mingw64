@@ -8,20 +8,17 @@
 #
 ###############################
 
-# Check if the required argument is provided
+# Check if the required argument is provided and store it in a named variable
 if [ $# -ne 1 ]; then
-    echo "Usage: $0 <input_path>"
-    exit 1
-fi
-
-# Store the path provided as argument
-input_path=$1
-
-if [ -z "$input_path" ]; then
     ERROR_MESSAGE="Path is required"
     echo "::error::$ERROR_MESSAGE"
     echo "error=$ERROR_MESSAGE" >> "$GITHUB_OUTPUT"
-elif [ ! -e "$input_path" ]; then
+else
+    input_path=$1
+fi
+
+# Check if the path provided is valid and if so extract the data string
+if [ ! -e "$input_path" ]; then
     ERROR_MESSAGE="Path does not exist"
     echo "::error::$ERROR_MESSAGE"
     echo "error=$ERROR_MESSAGE" >> "$GITHUB_OUTPUT"
