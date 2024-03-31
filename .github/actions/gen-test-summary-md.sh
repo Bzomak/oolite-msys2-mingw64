@@ -12,60 +12,41 @@ SUCCESS_COUNT=0
 FAILURE_COUNT=0
 TEST_SUMMARY=""
 
-echo "$@"
-
-exit 
-
-if [[ "${{ steps.extract-data-single-word-result.outcome }}" == "success" ]]; then
-SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-TEST_SUMMARY+="✔️ Extracting a single word from a file<br>"
-else
-FAILURE_COUNT=$((FAILURE_COUNT+1))
-TEST_SUMMARY+="❌ Extracting a single word from a file<br>"
-fi
-if [[ "${{ steps.extract-data-multiple-words-result.outcome }}" == "success" ]]; then
-SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-TEST_SUMMARY+="✔️ Extracting multiple words from a file<br>"
-else
-FAILURE_COUNT=$((FAILURE_COUNT+1))
-TEST_SUMMARY+="❌ Extracting multiple words from a file<br>"
-fi
-if [[ "${{ steps.extract-data-multiple-lines-result.outcome }}" == "success" ]]; then
-SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-TEST_SUMMARY+="✔️ Extracting multiple lines from a file<br>"
-else
-FAILURE_COUNT=$((FAILURE_COUNT+1))
-TEST_SUMMARY+="❌ Extracting multiple lines from a file<br>"
-fi
-if [[ "${{ steps.extract-data-empty-result.outcome }}" == "success" ]]; then
-SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-TEST_SUMMARY+="✔️ Extracting an empty file<br>"
-else
-FAILURE_COUNT=$((FAILURE_COUNT+1))
-TEST_SUMMARY+="❌ Extracting an empty file<br>"
-fi
-if [[ "${{ steps.extract-non-existent-file-result.outcome }}" == "success" ]]; then
-SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-TEST_SUMMARY+="✔️ Extracting from a non-existent file<br>"
-else
-FAILURE_COUNT=$((FAILURE_COUNT+1))
-TEST_SUMMARY+="❌ Extracting from a non-existent file<br>"
-fi
-if [[ "${{ steps.extract-directory-result.outcome }}" == "success" ]]; then
-SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-TEST_SUMMARY+="✔️ Extracting from a directory<br>"
-else
-FAILURE_COUNT=$((FAILURE_COUNT+1))
-TEST_SUMMARY+="❌ Extracting from a directory<br>"
-fi
-if [[ "${{ steps.extract-empty-path-result.outcome }}" == "success" ]]; then
-SUCCESS_COUNT=$((SUCCESS_COUNT+1))
-TEST_SUMMARY+="✔️ Extracting from an empty path<br>"
-else
-FAILURE_COUNT=$((FAILURE_COUNT+1))
-TEST_SUMMARY+="❌ Extracting from an empty path<br>"
+# Check that the number of arguments is even (pairs of name and result)
+if (( $# % 2 != 0 )); then
+    echo "Error: Arguments must come in pairs of name and result"
+    exit 1
 fi
 
+# Iterate over arguments two at a time
+for ((i=1; i<=$#; i+=2)); do
+    # Use indirect parameter expansion to get the value of the argument
+    name="${!i}"
+    result="${!((i+1))}"
+
+    # Validate the name and result
+    if [[ -z "$name" ]]; then
+        echo "Error: Name at position $i is empty"
+        exit 1
+    fi
+    if [[ -z "$result" ]]; then
+        echo "Error: Result at position $((i+1)) is empty"
+        exit 1
+    fi
+
+    # Now you can use $name and $result in your script
+    echo "Name: $name, Result: $result"
+
+    if [[ $result == "success" ]]; then
+        SUCCESS_COUNT=$((SUCCESS_COUNT+1))
+        TEST_SUMMARY+="✔️ $name<br>"
+    else
+        FAILURE_COUNT=$((FAILURE_COUNT+1))
+        TEST_SUMMARY+="❌ $name<br>"
+    fi
+done
+
+# Generate the summary markdown
 echo "## extract-data-string-from-file Test Results" >> "$GITHUB_STEP_SUMMARY"
 echo "" >> "$GITHUB_STEP_SUMMARY"
 echo "### Passed ✔️: $SUCCESS_COUNT | Failed ❌: $FAILURE_COUNT" >> "$GITHUB_STEP_SUMMARY"

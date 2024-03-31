@@ -210,20 +210,20 @@ jobs:
         if: always()
         run: |
           bash ./.github/actions/gen-test-summary-md.sh \
-            ${{ steps.extract-data-single-word-result.outcome }} \
             "Extracting a single word from a file" \
-            ${{ steps.extract-data-multiple-words-result.outcome }} \
+            ${{ steps.extract-data-single-word-result.outcome }} \
             "Extracting multiple words from a file" \
-            ${{ steps.extract-data-multiple-lines-result.outcome }} \
+            ${{ steps.extract-data-multiple-words-result.outcome }} \
             "Extracting multiple lines from a file" \
-            ${{ steps.extract-data-empty-result.outcome }} \
+            ${{ steps.extract-data-multiple-lines-result.outcome }} \
             "Extracting an empty file" \
-             ${{ steps.extract-non-existent-file-result.outcome }} \
+            ${{ steps.extract-data-empty-result.outcome }} \
             "Extracting from a non-existent file" \
-             ${{ steps.extract-directory-result.outcome }} \
+            ${{ steps.extract-non-existent-file-result.outcome }} \
             "Extracting from a directory" \
-            ${{ steps.extract-empty-path-result.outcome }} \
+            ${{ steps.extract-directory-result.outcome }} \
             "Extracting from an empty path"
+            ${{ steps.extract-empty-path-result.outcome }} \
 
 
 ########################################
