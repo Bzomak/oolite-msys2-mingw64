@@ -206,15 +206,15 @@ jobs:
       - name: Summary
         if: always()
         run: |
-          echo "#extract-data-string-from-file Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "# extract-data-string-from-file Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Extracting a single word from a file: ${{ steps.extract-data-single-word-result.outcome }}" >> $GITHUB_STEP_SUMMARY
-          echo "Extracting multiple words from a file: ${{ steps.extract-data-multiple-words-result.outcome }}" >> $GITHUB_STEP_SUMMARY
-          echo "Extracting multiple lines from a file: ${{ steps.extract-data-multiple-lines-result.outcome }}" >> $GITHUB_STEP_SUMMARY
-          echo "Extracting an empty file: ${{ steps.extract-data-empty-result.outcome }}" >> $GITHUB_STEP_SUMMARY
-          echo "Extracting from a non-existent file: ${{ steps.extract-non-existent-file-result.outcome }}" >> $GITHUB_STEP_SUMMARY
-          echo "Extracting from a directory: ${{ steps.extract-directory-result.outcome }}" >> $GITHUB_STEP_SUMMARY
-          echo "Extracting from an empty path: ${{ steps.extract-empty-path-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Extracting a single word from a file: ${{ steps.extract-data-single-word-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Extracting multiple words from a file: ${{ steps.extract-data-multiple-words-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Extracting multiple lines from a file: ${{ steps.extract-data-multiple-lines-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Extracting an empty file: ${{ steps.extract-data-empty-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Extracting from a non-existent file: ${{ steps.extract-non-existent-file-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Extracting from a directory: ${{ steps.extract-directory-result.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Extracting from an empty path: ${{ steps.extract-empty-path-result.outcome }}" >> $GITHUB_STEP_SUMMARY
 
 
 ########################################
