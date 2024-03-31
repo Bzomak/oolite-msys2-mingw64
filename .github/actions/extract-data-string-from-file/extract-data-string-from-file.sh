@@ -15,22 +15,21 @@ if [ $# -ne 1 ]; then
     echo "error=$ERROR_MESSAGE" >> "$GITHUB_OUTPUT"
 else
     input_path=$1
-fi
-
-# Check if the path provided is valid and if so extract the data string
-if [ ! -e "$input_path" ]; then
-    ERROR_MESSAGE="Path does not exist"
-    echo "::error::$ERROR_MESSAGE"
-    echo "error=$ERROR_MESSAGE" >> "$GITHUB_OUTPUT"
-elif [ -d "$input_path" ]; then
-    ERROR_MESSAGE="Path is a directory"
-    echo "::error::$ERROR_MESSAGE"
-    echo "error=$ERROR_MESSAGE" >> "$GITHUB_OUTPUT"
-else
-    DATA=$(cat "$input_path")
-    {
-    echo "data<<EOF"
-    echo "$DATA"
-    echo "EOF"
-    } >> "$GITHUB_OUTPUT"
+    # Check if the path provided is valid and if so extract the data string
+    if [ ! -e "$input_path" ]; then
+        ERROR_MESSAGE="Path does not exist"
+        echo "::error::$ERROR_MESSAGE"
+        echo "error=$ERROR_MESSAGE" >> "$GITHUB_OUTPUT"
+    elif [ -d "$input_path" ]; then
+        ERROR_MESSAGE="Path is a directory"
+        echo "::error::$ERROR_MESSAGE"
+        echo "error=$ERROR_MESSAGE" >> "$GITHUB_OUTPUT"
+    else
+        DATA=$(cat "$input_path")
+        {
+        echo "data<<EOF"
+        echo "$DATA"
+        echo "EOF"
+        } >> "$GITHUB_OUTPUT"
+    fi
 fi
