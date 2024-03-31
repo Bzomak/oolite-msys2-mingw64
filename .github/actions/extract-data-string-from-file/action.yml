@@ -21,4 +21,4 @@ runs:
       id: extract-data-string
       shell: bash
       run: |
-        bash ./.github/actions/extract-data-string-from-file/extract-data-string.sh
+        bash ./.github/actions/extract-data-string-from-file/extract-data-string-from-file.sh
