@@ -171,7 +171,7 @@ jobs:
         if: always()
         run: |
           echo "Action error is: '${{ steps.extract-directory.outputs.error }}'"
-          if [[ "${{ steps.extract-directory.outputs }}" != "Path is a directory" ]]; then
+          if [[ "${{ steps.extract-directory.outputs.error }}" != "Path is a directory" ]]; then
           echo "Action error is not 'Path is a directory'"
             exit 1
           else
@@ -189,7 +189,7 @@ jobs:
         if: always()
         run: |
           echo "Action error is: '${{ steps.extract-empty-path.outputs.error }}'"
-          if [[ "${{ steps.extract-empty-path.outputs }}" != "Path is required" ]]; then
+          if [[ "${{ steps.extract-empty-path.outputs.error }}" != "Path is required" ]]; then
           echo "Action error is not 'Path is required'"
             exit 1
           else
