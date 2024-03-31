@@ -210,6 +210,7 @@ jobs:
         if: always()
         run: |
           bash ./.github/actions/gen-test-summary-md.sh \
+            "extract-data-string-from-file"
             "Extracting a single word from a file" \
             ${{ steps.extract-data-single-word-result.outcome }} \
             "Extracting multiple words from a file" \

@@ -12,6 +12,10 @@ SUCCESS_COUNT=0
 FAILURE_COUNT=0
 TEST_SUMMARY=""
 
+# Extract the title from the arguments
+title="$1"
+shift  # This removes the first argument
+
 # Check that the number of arguments is even (pairs of name and result)
 if (( $# % 2 != 0 )); then
     echo "Error: Arguments must come in pairs of name and result"
@@ -49,7 +53,7 @@ done
 
 # Generate the summary markdown
 {
-    echo "## extract-data-string-from-file Test Results"
+    echo "## $title Test Results"
     echo ""
     echo "### Passed ✔️: $SUCCESS_COUNT | Failed ❌: $FAILURE_COUNT"
     echo ""
