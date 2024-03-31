@@ -10,6 +10,9 @@ outputs:
   data:
     description: Data string extracted from the file
     value: ${{ steps.extract-data-string.outputs.data }}
+  error:
+    description: Error message if any
+    value: ${{ steps.extract-data-string.outputs.error }}
 runs:
   using: 'composite'
 
@@ -19,11 +22,17 @@ runs:
       shell: bash
       run: |
         if [ -z "${{ inputs.path }}" ]; then
-          echo "::error::Path is required" && exit 1
+          ERROR_MESSAGE="Path is required"
+          echo "::error::$ERROR_MESSAGE"
+          echo "error=$ERROR_MESSAGE" >> $GITHUB_OUTPUT
         elif [ ! -e "${{ inputs.path }}" ]; then
-          echo "::error::Path does not exist" && exit 1
+          ERROR_MESSAGE="Path does not exist"
+          echo "::error::$ERROR_MESSAGE"
+          echo "error=$ERROR_MESSAGE" >> $GITHUB_OUTPUT
         elif [ -d "${{ inputs.path }}" ]; then
-          echo "::error::Path is a directory" && exit 1
+          ERROR_MESSAGE="Path is a directory"
+          echo "::error::$ERROR_MESSAGE"
+          echo "error=$ERROR_MESSAGE" >> $GITHUB_OUTPUT
         else
           DATA=$(cat "${{ inputs.path }}")
           {
