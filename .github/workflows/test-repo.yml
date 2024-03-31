@@ -149,6 +149,25 @@ jobs:
             echo "Test successful"
           fi
 
+      - name: Test - Extracting a file with spaces
+        id: extract-data-spaces
+        if: always()
+        uses: ./.github/actions/extract-data-string-from-file
+        with:
+          path: ./.github/actions/extract-data-string-from-file/test/spaces
+
+      - name: Result - Extracting a file with spaces
+        id: extract-data-spaces-result
+        if: always()
+        run: |
+          echo "Extracted data is: '${{ steps.extract-data-empty.outputs.data }}'"
+          if [[ "${{ steps.extract-data-empty.outputs.data }}" != "" ]]; then
+            echo "Extracted data is not ''"
+            exit 1
+          else
+            echo "Test successful"
+          fi
+
       - name: Test - Extracting from a non-existent file
         id: extract-non-existent-file
         if: always()
@@ -206,6 +225,25 @@ jobs:
             echo "Test successful"
           fi
 
+      - name: Test - Extracting from a path with spaces
+        id: extract-path-with-spaces
+        if: always()
+        uses: ./.github/actions/extract-data-string-from-file
+        with:
+          path: '  '
+
+      - name: Result - Extracting from a path with spaces
+        id: extract-path-with-spaces-result
+        if: always()
+        run: |
+          echo "Action error is: '${{ steps.extract-empty-path.outputs.error }}'"
+          if [[ "${{ steps.extract-empty-path.outputs.error }}" != "Path is required" ]]; then
+            echo "Action error is not 'Path is required'"
+            exit 1
+          else
+            echo "Test successful"
+          fi
+
       - name: Summary
         if: always()
         run: |
@@ -219,13 +257,16 @@ jobs:
             ${{ steps.extract-data-multiple-lines-result.outcome }} \
             "Extracting an empty file" \
             ${{ steps.extract-data-empty-result.outcome }} \
+            "Extracting a file with spaces" \
+            ${{ steps.extract-data-spaces-result.outcome }} \
             "Extracting from a non-existent file" \
             ${{ steps.extract-non-existent-file-result.outcome }} \
             "Extracting from a directory" \
             ${{ steps.extract-directory-result.outcome }} \
             "Extracting from an empty path" \
             ${{ steps.extract-empty-path-result.outcome }} \
-
+            "Extracting from a path with spaces" \
+            ${{ steps.extract-path-with-spaces-result.outcome }}
 
 ########################################
 ########################################
