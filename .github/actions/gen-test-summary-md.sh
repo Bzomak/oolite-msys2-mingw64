@@ -48,9 +48,11 @@ for ((i=1; i<=$#; i+=2)); do
 done
 
 # Generate the summary markdown
-echo "## extract-data-string-from-file Test Results" >> "$GITHUB_STEP_SUMMARY"
-echo "" >> "$GITHUB_STEP_SUMMARY"
-echo "### Passed ✔️: $SUCCESS_COUNT | Failed ❌: $FAILURE_COUNT" >> "$GITHUB_STEP_SUMMARY"
-echo "" >> "$GITHUB_STEP_SUMMARY"
-echo "#### Tests:" >> "$GITHUB_STEP_SUMMARY"
-echo "$TEST_SUMMARY" >> "$GITHUB_STEP_SUMMARY"
+{
+    echo "## extract-data-string-from-file Test Results"
+    echo ""
+    echo "### Passed ✔️: $SUCCESS_COUNT | Failed ❌: $FAILURE_COUNT"
+    echo ""
+    echo "#### Tests:"
+    echo "$TEST_SUMMARY"
+} >> "$GITHUB_STEP_SUMMARY"
