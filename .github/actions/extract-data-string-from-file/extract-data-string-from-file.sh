@@ -13,6 +13,7 @@ if [ $# -ne 1 ]; then
     ERROR_MESSAGE="Path is required"
     echo "::error::$ERROR_MESSAGE"
     echo "error=$ERROR_MESSAGE" >> "$GITHUB_OUTPUT"
+    exit 1
 else
     input_path=$1
     # Check if the path provided is valid and if so extract the data string
@@ -20,10 +21,12 @@ else
         ERROR_MESSAGE="Path does not exist"
         echo "::error::$ERROR_MESSAGE"
         echo "error=$ERROR_MESSAGE" >> "$GITHUB_OUTPUT"
+        exit 1
     elif [ -d "$input_path" ]; then
         ERROR_MESSAGE="Path is a directory"
         echo "::error::$ERROR_MESSAGE"
         echo "error=$ERROR_MESSAGE" >> "$GITHUB_OUTPUT"
+        exit 1
     else
         DATA=$(cat "$input_path")
         {
