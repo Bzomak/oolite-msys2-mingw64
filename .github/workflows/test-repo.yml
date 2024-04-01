@@ -171,6 +171,7 @@ jobs:
       - name: Test - Extracting from a non-existent file
         id: extract-non-existent-file
         if: always()
+        continue-on-error: true
         uses: ./.github/actions/extract-data-string-from-file
         with:
           path: ./.github/actions/extract-data-string-from-file/test/non-existent-file
@@ -190,6 +191,7 @@ jobs:
       - name: Test - Extracting from a directory
         id: extract-directory
         if: always()
+        continue-on-error: true
         uses: ./.github/actions/extract-data-string-from-file
         with:
           path: ./.github/actions/extract-data-string-from-file/test/
@@ -209,6 +211,7 @@ jobs:
       - name: Test - Extracting from an empty path
         id: extract-empty-path
         if: always()
+        continue-on-error: true
         uses: ./.github/actions/extract-data-string-from-file
         with:
           path:
@@ -228,6 +231,7 @@ jobs:
       - name: Test - Extracting from a path with spaces
         id: extract-path-with-spaces
         if: always()
+        continue-on-error: true
         uses: ./.github/actions/extract-data-string-from-file
         with:
           path: '  '
